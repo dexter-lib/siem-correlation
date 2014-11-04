@@ -7,7 +7,7 @@
  *   @internal www.captech.net.cn
  *   author:    zhangpeng
  *   mail:      zhangpeng@captech.net.cn,developer.zhang.peng@gmail.com
- *   Created:   Jul 5, 2012
+ *   Created:   Jul 5, 2014
  *   Revision:  1.0.0
  *   Compiler:  gcc/g++
  *   Company:   Captech Co., Ltd.
@@ -16,10 +16,9 @@
  * =====================================================================================
  */
 
-#include <iostream>
-using namespace std;
+#include <Poco/Logger.h>
 
-int main() {
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
+int main()
+{
 	return 0;
 }
