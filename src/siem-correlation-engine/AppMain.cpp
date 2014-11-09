@@ -16,9 +16,13 @@
  * =====================================================================================
  */
 
-#include <Poco/Logger.h>
+#include <Poco/AutoPtr.h>
+
+#include "SIEMServer.h"
 
 int main(int argc, char **argv)
 {
+	Poco::AutoPtr<SIEM::CSIEMServer> server(new SIEM::CSIEMServer());
+	server->run(argc, argv);
 	return 0;
 }
