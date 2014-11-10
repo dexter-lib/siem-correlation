@@ -27,8 +27,9 @@ protected:
     void handleOption(const std::string& name, const std::string& value);
     void displayHelp();
     void printProperties(const std::string& base);
-    int main(const std::vector<std::string>& args);
+    int  main(const std::vector<std::string>& args);
 private:
+    bool m_bHelpRequest;
 };
 
 } /* namespace SIEM */
