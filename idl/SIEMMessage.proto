@@ -1,0 +1,61 @@
+option optimize_for = LITE_RUNTIME;
+package SIEM;
+message SIEMMessage
+{
+
+    enum SIEMProtocolType
+    {
+        SIEM_PROTOCOL_NONE         = -1;
+        SIEM_PROTOCOL_ICMP         = 1;
+        SIEM_PROTOCOL_TCP          = 6;
+        SIEM_PROTOCOL_UDP          = 17;
+        SIEM_PROTOCOL_ARP_EVENT    = 134;
+        SIEM_PROTOCOL_OS_EVENT     = 135;
+        SIEM_PROTOCOL_SERVER_EVENT = 136;
+    }
+
+    enum SIEMEventType
+    {
+        SIEM_EVENT_NONE             = -1;
+        SIEM_EVENT_DETECTOR         = 1;
+        SIEM_EVENT_MONITOR          = 2;
+        SIEM_EVENT_BACKLOG          = 3;
+    }
+
+    message SIEMEvent
+    {
+        required uint32   plugin_id_uint32                                 = 1;
+        required uint32   plugin_sid_uint32                                = 2;
+        required uint32   data_uint32                                      = 3;
+        required uint32   fdata_uint32                                     = 4;
+        required SIEM.SIEMMessage.SIEMEventType    event_type_enum            = 5;
+        required uint32   src_ipv4_uint32                                  = 6;
+        required uint32   dst_ipv4_uint32                                  = 7;
+        required uint32   device_ipv4_uint32                               = 8;
+        required string   interface_str                                    = 9;
+        required string   log_str                                          = 10;
+        required string   event_id_str                                     = 11;
+        optional SIEM.SIEMMessage.SIEMProtocolType protocol_type_enum         = 12;
+        optional uint32   src_port_uint32                                  = 13;
+        optional uint32   dst_port_uint32                                  = 14;
+        optional uint32   snort_sid_uint32                                 = 15;
+        optional uint32   snort_cid_uint32                                 = 16;
+        optional uint32   priority_uint32                                  = 17;
+        optional uint32   occurrences_uint32                               = 18;
+        optional string   ctx_str                                          = 19;
+        optional string   username_str                                     = 20;
+        optional string   password_str                                     = 21;
+        optional string   filename_str                                     = 22;
+        optional string   userdata1_str                                    = 23;
+        optional string   userdata2_str                                    = 24;
+        optional string   userdata3_str                                    = 25;
+        optional string   userdata4_str                                    = 26;
+        optional string   userdata5_str                                    = 27;
+        optional string   userdata6_str                                    = 28;
+        optional string   userdata7_str                                    = 29;
+        optional string   userdata8_str                                    = 30;
+        optional string   userdata9_str                                    = 31;
+        optional string   sensor_id_str                                    = 32;
+        optional string   binary_data_str                                  = 33;
+    }
+}

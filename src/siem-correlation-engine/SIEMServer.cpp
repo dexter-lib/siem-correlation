@@ -145,7 +145,7 @@ void CSIEMServer::initialize(Application& self)
 
         if(toSyslog)
         {
-            AutoPtr<Channel> syslogChannel(new SyslogChannel("pp", \
+            AutoPtr<Channel> syslogChannel(new SyslogChannel("SIEM", \
                     SyslogChannel::SYSLOG_PID, \
                     SyslogChannel::SYSLOG_LOCAL4));
             splitterChannel->addChannel(syslogChannel);
@@ -204,6 +204,7 @@ void CSIEMServer::defineOptions(OptionSet& options)
 {
 
 }
+
 void CSIEMServer::handleOption(const std::string& name, const std::string& value)
 {
     ServerApplication::handleOption(name, value);
@@ -213,10 +214,12 @@ void CSIEMServer::handleOption(const std::string& name, const std::string& value
         m_bHelpRequest = true;
     }
 }
+
 void CSIEMServer::displayHelp()
 {
 
 }
+
 void CSIEMServer::printProperties(const std::string& base)
 {
     AbstractConfiguration::Keys keys;
@@ -236,7 +239,7 @@ void CSIEMServer::printProperties(const std::string& base)
     {
         string strFullKeys = base;
         if(!strFullKeys.empty())
-            strFullKeys += ".";
+            strFullKeys.append(".");
         for(AbstractConfiguration::Keys::iterator iter = keys.begin();\
             iter != keys.end(); iter ++)
         {
