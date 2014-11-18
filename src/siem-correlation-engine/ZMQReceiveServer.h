@@ -32,10 +32,10 @@ public:
 public:
     bool Start();
     bool Initialize();
-    bool Handle(char * pszMsg);
+    bool Handle(char * pszMsg, size_t size);
 private:
     static void *ThreadFunc(void *p);
-private:
+public:
     uint64_t     m_nHwm;
     std::string  m_strIPC;
     uint32_t     m_nTimeout;
