@@ -1,6 +1,6 @@
 option optimize_for = LITE_RUNTIME;
 package SIEM;
-message SIEMMessage
+message SIEMPbMessage
 {
 
     enum SIEMProtocolType
@@ -28,14 +28,14 @@ message SIEMMessage
         required uint32   plugin_sid_uint32                                = 2;
         required uint32   data_uint32                                      = 3;
         required uint32   fdata_uint32                                     = 4;
-        required SIEM.SIEMMessage.SIEMEventType    event_type_enum            = 5;
+        required SIEM.SIEMPbMessage.SIEMEventType    event_type_enum       = 5;
         required uint32   src_ipv4_uint32                                  = 6;
         required uint32   dst_ipv4_uint32                                  = 7;
         required uint32   device_ipv4_uint32                               = 8;
         required string   interface_str                                    = 9;
         required string   log_str                                          = 10;
         required string   event_id_str                                     = 11;
-        optional SIEM.SIEMMessage.SIEMProtocolType protocol_type_enum         = 12;
+        optional SIEM.SIEMPbMessage.SIEMProtocolType protocol_type_enum    = 12;
         optional uint32   src_port_uint32                                  = 13;
         optional uint32   dst_port_uint32                                  = 14;
         optional uint32   snort_sid_uint32                                 = 15;
