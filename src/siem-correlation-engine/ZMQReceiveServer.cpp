@@ -109,9 +109,9 @@ bool CZMQReceiveServer::Initialize()
 
     logger.debug("Read zmq config from config file");
 
-    m_nHwm     = config.getInt("sqlevent.zmq.hwm", 200000);
-    m_nTimeout = config.getInt("sqlevent.zmq.timeout", 2000000);
-    m_strIPC   = config.getString("sqlevent.zmq.bind", "ipc:///tmp/siem-correlation");
+    m_nHwm     = config.getInt("siemevent.zmq.hwm", 200000);
+    m_nTimeout = config.getInt("siemevent.zmq.timeout", 2000000);
+    m_strIPC   = config.getString("siemevent.zmq.bind", "ipc:///tmp/siem-correlation");
 
     logger.debug(Poco::format("Hwm is %u, timeout is %u ipc address is %s", m_nHwm, m_nTimeout, m_strIPC.c_str()));
     return true;
