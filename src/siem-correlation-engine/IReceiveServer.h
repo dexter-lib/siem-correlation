@@ -28,8 +28,8 @@ namespace SIEM
 class IReceiveServer : public boost::noncopyable
 {
 public:
-    IReceiveServer();
-    virtual ~IReceiveServer();
+    IReceiveServer(){}
+    virtual ~IReceiveServer(){}
 public:
     bool virtual Start()         = 0;
     bool virtual Initialize()    = 0;

@@ -21,7 +21,7 @@ typedef struct stRingCache
 
 typedef boost::shared_ptr<RingCache> RingCachePtr;
 
-class CThriftReceiveServer : virtual public ::SIEM::thrift::SIEMThriftIf, public SIEM::IReceiveServer
+class CThriftReceiveServer : virtual public ::SIEM::thrift::SIEMThriftIf, virtual public SIEM::IReceiveServer
 {
 public:
     CThriftReceiveServer();
@@ -42,4 +42,4 @@ public:
 
 };
 }
-#endif THRIFTRECEIVESERVER_H_
+#endif //THRIFTRECEIVESERVER_H_

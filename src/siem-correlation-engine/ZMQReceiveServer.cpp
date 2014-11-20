@@ -19,6 +19,7 @@
 #include "ZMQReceiveServer.h"
 
 #include <Poco/Util/LayeredConfiguration.h>
+#include <Poco/Util/Application.h>
 #include <Poco/Logger.h>
 
 #include <zmq/zmq.hpp>
@@ -33,66 +34,66 @@ namespace SIEM
 
 void * CZMQReceiveServer::ThreadFunc(void *p)
 {
-	Poco::Logger & logger = Poco::Util::Application::instance().logger();
-	logger.debug("Begin zmq receive thread");
-	if(p == NULL)
-	{
-		logger.error("Input is NULL");
-		exit(1);
-	}
+    Poco::Logger & logger = Poco::Util::Application::instance().logger();
+    logger.debug("Begin zmq receive thread");
+    if(p == NULL)
+    {
+        logger.error("Input is NULL");
+        exit(1);
+    }
 
-	CZMQReceiveServer *pZmqServer = (CZMQReceiveServer *) p;
+    CZMQReceiveServer *pZmqServer = (CZMQReceiveServer *) p;
 
-	try
-	{
-		int linger = 0;
-		zmq::context_t context(1);
-		zmq::socket_t  poller(context, ZMQ_PULL);
+    try
+    {
+        int linger = 0;
+        zmq::context_t context(1);
+        zmq::socket_t  poller(context, ZMQ_PULL);
 
-		poller.setsockopt(ZMQ_HWM, &pZmqServer->m_nHwm, sizeof(uint64_t));
-		poller.setsockopt(ZMQ_LINGER, &linger, sizeof(int));
+        poller.setsockopt(ZMQ_HWM, &pZmqServer->m_nHwm, sizeof(uint64_t));
+        poller.setsockopt(ZMQ_LINGER, &linger, sizeof(int));
 
-		poller.bind(pZmqServer->m_strIPC.c_str());
+        poller.bind(pZmqServer->m_strIPC.c_str());
 
-		zmq::message_t message;
-		zmq::pollitem_t item = {poller, 0, ZMQ_POLLIN, 0};
+        zmq::message_t message;
+        zmq::pollitem_t item = {poller, 0, ZMQ_POLLIN, 0};
 
-		while(true)
-		{
-			pthread_testcancel();
+        while(true)
+        {
+            pthread_testcancel();
 
-			zmq_poll(&item, 1, pZmqServer->m_nTimeout);
-			if(item.revents & ZMQ_POLLIN)
-			{
-				logger.debug("Recive data");
+            zmq_poll(&item, 1, pZmqServer->m_nTimeout);
+            if(item.revents & ZMQ_POLLIN)
+            {
+                logger.debug("Recive data");
 
-				poller.recv(&message);
-				Handle((char *)message.data(), message.size());
-			}
-			else
-			{
-				logger.debug("No recvive data");
-			}
-		}
+                poller.recv(&message);
+                pZmqServer->Handle((char *)message.data(), message.size());
+            }
+            else
+            {
+                logger.debug("No recvive data");
+            }
+        }
 
-		poller.close();
-	}
-	catch (zmq::error_t& e)
-	{
-		logger.error(e.what(), __FILE__, __LINE__);
-	}
-	catch(...)
-	{
-		logger.error("Unknown error", __FILE__, __LINE__);
-	}
+        poller.close();
+    }
+    catch (zmq::error_t& e)
+    {
+        logger.error(e.what(), __FILE__, __LINE__);
+    }
+    catch(...)
+    {
+        logger.error("Unknown error", __FILE__, __LINE__);
+    }
 
 
-	return (void *)NULL;
+    return (void *)NULL;
 }
 
 bool CZMQReceiveServer::Handle(char * pszMsg, size_t size)
 {
-	return true;
+    return true;
 }
 
 bool CZMQReceiveServer::Start()

@@ -2,7 +2,7 @@
 // You should copy it to another filename to avoid overwriting it.
 
 #include "SIEMThrift.h"
-#include "IReceiveServer.h"
+#include "ThriftReceiveServer.h"
 
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TNonblockingServer.h>
@@ -16,6 +16,7 @@
 
 #include <Poco/Logger.h>
 #include <Poco/Util/LayeredConfiguration.h>
+#include <Poco/Util/Application.h>
 
 #include <pthread.h>
 
