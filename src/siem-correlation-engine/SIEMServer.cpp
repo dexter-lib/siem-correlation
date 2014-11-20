@@ -110,7 +110,7 @@ void CSIEMServer::initialize(Application& self)
     ServerApplication::initialize(self);
     ServerApplication::loadConfiguration();
     {
-        //加载properties配置文件
+        //load config properties
         Poco::Path appPath(config().getString("application.path"));
         std::string szCnfPath = appPath.makeParent().makeParent().toString();
         szCnfPath += appPath.separator();
@@ -126,10 +126,10 @@ void CSIEMServer::initialize(Application& self)
         }
     }
 
-    //加载日志配置
+    //load log config
     {
         string strDefaultFormat = "[%Y-%m-%d %H:%M:%S.%c][PID:%P,TID:%T,LV:%q][%U:%u]%t";
-        //在properties 配置文件中读取
+        //read from properties
         std::string format = config().getString("logger.format", strDefaultFormat);
         std::string level  = config().getString("logger.level", "error");
         bool toConsole     = config().getBool("logger.to.console", true);
@@ -184,13 +184,13 @@ void CSIEMServer::initialize(Application& self)
 
 int CSIEMServer::main(const std::vector<std::string>& args)
 {
-    //显示帮助文档
+    //show help document
     if(m_bHelpRequest)
     {
         displayHelp();
         return Application::EXIT_OK;
     }
-    //信号处理
+    //handle signal
     setupSignal();
     return 0;
 }

@@ -16,7 +16,6 @@ class SIEMThriftIf {
  public:
   virtual ~SIEMThriftIf() {}
   virtual bool Recv(const std::string& strEvent) = 0;
-  virtual bool Handle(const SIEMThriftEvent& tEvent) = 0;
 };
 
 class SIEMThriftIfFactory {
@@ -47,10 +46,6 @@ class SIEMThriftNull : virtual public SIEMThriftIf {
  public:
   virtual ~SIEMThriftNull() {}
   bool Recv(const std::string& /* strEvent */) {
-    bool _return = false;
-    return _return;
-  }
-  bool Handle(const SIEMThriftEvent& /* tEvent */) {
     bool _return = false;
     return _return;
   }
@@ -164,114 +159,6 @@ class SIEMThrift_Recv_presult {
 
 };
 
-typedef struct _SIEMThrift_Handle_args__isset {
-  _SIEMThrift_Handle_args__isset() : tEvent(false) {}
-  bool tEvent;
-} _SIEMThrift_Handle_args__isset;
-
-class SIEMThrift_Handle_args {
- public:
-
-  SIEMThrift_Handle_args() {
-  }
-
-  virtual ~SIEMThrift_Handle_args() throw() {}
-
-  SIEMThriftEvent tEvent;
-
-  _SIEMThrift_Handle_args__isset __isset;
-
-  void __set_tEvent(const SIEMThriftEvent& val) {
-    tEvent = val;
-  }
-
-  bool operator == (const SIEMThrift_Handle_args & rhs) const
-  {
-    if (!(tEvent == rhs.tEvent))
-      return false;
-    return true;
-  }
-  bool operator != (const SIEMThrift_Handle_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const SIEMThrift_Handle_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class SIEMThrift_Handle_pargs {
- public:
-
-
-  virtual ~SIEMThrift_Handle_pargs() throw() {}
-
-  const SIEMThriftEvent* tEvent;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _SIEMThrift_Handle_result__isset {
-  _SIEMThrift_Handle_result__isset() : success(false) {}
-  bool success;
-} _SIEMThrift_Handle_result__isset;
-
-class SIEMThrift_Handle_result {
- public:
-
-  SIEMThrift_Handle_result() : success(0) {
-  }
-
-  virtual ~SIEMThrift_Handle_result() throw() {}
-
-  bool success;
-
-  _SIEMThrift_Handle_result__isset __isset;
-
-  void __set_success(const bool val) {
-    success = val;
-  }
-
-  bool operator == (const SIEMThrift_Handle_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const SIEMThrift_Handle_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const SIEMThrift_Handle_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _SIEMThrift_Handle_presult__isset {
-  _SIEMThrift_Handle_presult__isset() : success(false) {}
-  bool success;
-} _SIEMThrift_Handle_presult__isset;
-
-class SIEMThrift_Handle_presult {
- public:
-
-
-  virtual ~SIEMThrift_Handle_presult() throw() {}
-
-  bool* success;
-
-  _SIEMThrift_Handle_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
 class SIEMThriftClient : virtual public SIEMThriftIf {
  public:
   SIEMThriftClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) :
@@ -295,9 +182,6 @@ class SIEMThriftClient : virtual public SIEMThriftIf {
   bool Recv(const std::string& strEvent);
   void send_Recv(const std::string& strEvent);
   bool recv_Recv();
-  bool Handle(const SIEMThriftEvent& tEvent);
-  void send_Handle(const SIEMThriftEvent& tEvent);
-  bool recv_Handle();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -314,12 +198,10 @@ class SIEMThriftProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
   void process_Recv(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_Handle(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   SIEMThriftProcessor(boost::shared_ptr<SIEMThriftIf> iface) :
     iface_(iface) {
     processMap_["Recv"] = &SIEMThriftProcessor::process_Recv;
-    processMap_["Handle"] = &SIEMThriftProcessor::process_Handle;
   }
 
   virtual ~SIEMThriftProcessor() {}
@@ -355,15 +237,6 @@ class SIEMThriftMultiface : virtual public SIEMThriftIf {
       ifaces_[i]->Recv(strEvent);
     }
     return ifaces_[i]->Recv(strEvent);
-  }
-
-  bool Handle(const SIEMThriftEvent& tEvent) {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->Handle(tEvent);
-    }
-    return ifaces_[i]->Handle(tEvent);
   }
 
 };

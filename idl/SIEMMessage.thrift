@@ -59,5 +59,4 @@ struct SIEMThriftEvent
 service SIEMThrift
 {
 	bool Recv(1:string strEvent);
-	bool Handle(1:SIEMThriftEvent tEvent);
 }

@@ -34,44 +34,44 @@ namespace SIEM
 
 bool CThriftReceiveServer::Recv(const std::string& strEvent)
 {
-	return true;
+    return true;
 }
 bool CThriftReceiveServer::Handle(const SIEMThriftEvent& tEvent)
 {
-	return true;
+    return true;
 }
 bool CThriftReceiveServer::Start()
 {
-	if(pthread_create(&m_ThreadID, NULL, ThreadFunc, this))
-	{
-		return false;
-	}
-	return true;
+    if(pthread_create(&m_ThreadID, NULL, ThreadFunc, this))
+    {
+        return false;
+    }
+    return true;
 }
 
 void* CThriftReceiveServer::ThreadFunc(void *p)
 {
-	Poco::Logger & logger = Poco::Util::Application::instance().logger();
-	logger.debug("Begin Thrift receive thread");
+    Poco::Logger & logger = Poco::Util::Application::instance().logger();
+    logger.debug("Begin Thrift receive thread");
 
-	if(p == NULL)
-	{
-		logger.error("Input is NULL");
-		exit(1);
-	}
+    if(p == NULL)
+    {
+        logger.error("Input is NULL");
+        exit(1);
+    }
 
-	CThriftReceiveServer *pTs = (CThriftReceiveServer *)p;
+    CThriftReceiveServer *pTs = (CThriftReceiveServer *)p;
 
-	//start Thrift server
-	shared_ptr<CThriftReceiveServer> handler(new CThriftReceiveServer());
-	shared_ptr<TProcessor> processor(new SIEMThriftProcessor(handler));
-	shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
-	shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(20);
-	shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
-	threadManager->threadFactory(threadFactory);
-	threadManager->start();
-	TNonblockingServer server(processor, protocolFactory, pTs->m_nPort, threadManager);
-	server.serve();
+    //start Thrift server
+    shared_ptr<CThriftReceiveServer> handler(new CThriftReceiveServer());
+    shared_ptr<TProcessor> processor(new SIEMThriftProcessor(handler));
+    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+    shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(20);
+    shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
+    threadManager->threadFactory(threadFactory);
+    threadManager->start();
+    TNonblockingServer server(processor, protocolFactory, pTs->m_nPort, threadManager);
+    server.serve();
 
 	return (void *)0;
 }
@@ -90,7 +90,6 @@ bool CThriftReceiveServer::Initialize()
     m_nCacheNum  = config.getInt   ("siemevent.thrift.cache.num", 2048);
 
     m_RingCachePtr->vctCache.resize(m_nCacheNum);
-
 
     logger.debug(Poco::format("Thrift bind address is %s, \
     		thread number is %u port is %u cache number is %u",\
