@@ -22,6 +22,9 @@
 #include <signal.h>
 #include <stdio.h>
 
+#include "ZMQReceiveServer.h"
+#include "ThriftReceiveServer.h"
+
 namespace SIEM
 {
 
@@ -136,6 +139,9 @@ void CSIEMServer::initialize(Application& self)
         bool toFile        = config().getBool("logger.to.file", true);
         bool toSyslog      = config().getBool("logger.to.syslog", false);
 
+        m_bUseZMQServer    = config().getBool("siemevent.zmq.server");
+        m_bUseThriftServer = config().getBool("siemevent.thrift.server");
+
         AutoPtr<SplitterChannel> splitterChannel(new SplitterChannel());
         if (toConsole)
         {
@@ -164,7 +170,7 @@ void CSIEMServer::initialize(Application& self)
             else
             {
                Poco::Path appPath(config().getString("application.path"));
-               logFilePath = appPath.toString() + defaultPath;
+               logFilePath = appPath.toString() + ".log";
             }
 
             std::string rotation = config().getString("logger.to.file.rotation", "daily");
@@ -192,6 +198,31 @@ int CSIEMServer::main(const std::vector<std::string>& args)
     }
     //handle signal
     setupSignal();
+
+    if(m_bUseZMQServer)
+    {
+        m_pZMQServer = new CZMQReceiveServer();
+        m_pZMQServer->Initialize();
+        m_pZMQServer->Start();
+    }
+
+    if(m_bUseThriftServer)
+    {
+        m_pThriftServer = new CThriftReceiveServer();
+        m_pThriftServer->Initialize();
+        m_pThriftServer->Start();
+    }
+
+    if(m_bUseZMQServer)
+    {
+        m_pZMQServer->Join();
+    }
+
+    if(m_bUseThriftServer)
+    {
+        m_pThriftServer->Join();
+    }
+
     return 0;
 }
 
@@ -250,7 +281,11 @@ void CSIEMServer::printProperties(const std::string& base)
 }
 
 CSIEMServer::CSIEMServer()
-:m_bHelpRequest(false)
+:m_bHelpRequest(false),
+ m_bUseZMQServer(false),
+ m_bUseThriftServer(false),
+ m_pZMQServer(NULL),
+ m_pThriftServer(NULL)
 {
 
 }

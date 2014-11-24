@@ -27,6 +27,8 @@
 #include <stdint.h>
 #include <pthread.h>
 
+#include <iostream>
+
 
 
 namespace SIEM
@@ -50,7 +52,7 @@ void * CZMQReceiveServer::ThreadFunc(void *p)
         zmq::context_t context(1);
         zmq::socket_t  poller(context, ZMQ_PULL);
 
-        poller.setsockopt(ZMQ_HWM, &pZmqServer->m_nHwm, sizeof(uint64_t));
+        poller.setsockopt(ZMQ_HWM, &(pZmqServer->m_nHwm), sizeof(uint64_t));
         poller.setsockopt(ZMQ_LINGER, &linger, sizeof(int));
 
         poller.bind(pZmqServer->m_strIPC.c_str());
@@ -110,11 +112,11 @@ bool CZMQReceiveServer::Initialize()
 
     logger.debug("Read zmq config from config file");
 
-    m_nHwm     = config.getInt("siemevent.zmq.hwm", 200000);
+    m_nHwm     = config.getInt("siemevent.zmq.hwm", 100000);
     m_nTimeout = config.getInt("siemevent.zmq.timeout", 2000000);
     m_strIPC   = config.getString("siemevent.zmq.bind", "ipc:///tmp/siem-correlation");
 
-    logger.debug(Poco::format("Hwm is %u, timeout is %u ipc address is %s", m_nHwm, m_nTimeout, m_strIPC.c_str()));
+    logger.debug(Poco::format("Hwm is %lu, timeout is %u ipc address is %s", m_nHwm, m_nTimeout, m_strIPC));
     return true;
 }
 

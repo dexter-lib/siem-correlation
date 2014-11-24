@@ -67,7 +67,7 @@ void* CThriftReceiveServer::ThreadFunc(void *p)
     shared_ptr<CThriftReceiveServer> handler(new CThriftReceiveServer());
     shared_ptr<TProcessor> processor(new SIEMThriftProcessor(handler));
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
-    shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(20);
+    shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(pTs->m_nThreadNum);
     shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
     threadManager->threadFactory(threadFactory);
     threadManager->start();
@@ -92,9 +92,8 @@ bool CThriftReceiveServer::Initialize()
 
     m_RingCachePtr->vctCache.resize(m_nCacheNum);
 
-    logger.debug(Poco::format("Thrift bind address is %s, \
-    		thread number is %u port is %u cache number is %u",\
-			m_strBind.c_str(), m_nThreadNum, m_nPort, m_nCacheNum));
+    logger.debug(Poco::format("Thrift bind address is %s, thread number is %hu port is %hu cache number is %u",\
+			m_strBind, m_nThreadNum, m_nPort, m_nCacheNum));
 	return true;
 }
 

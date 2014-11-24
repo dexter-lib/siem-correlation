@@ -10,6 +10,8 @@
 
 #include <Poco/Util/ServerApplication.h>
 
+#include "IReceiveServer.h"
+
 namespace SIEM
 {
 
@@ -30,6 +32,10 @@ protected:
     int  main(const std::vector<std::string>& args);
 private:
     bool m_bHelpRequest;
+    bool m_bUseZMQServer;
+    bool m_bUseThriftServer;
+    IReceiveServer *m_pZMQServer;
+    IReceiveServer *m_pThriftServer;
 };
 
 } /* namespace SIEM */
