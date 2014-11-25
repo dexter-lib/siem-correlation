@@ -3,6 +3,8 @@
 
 #include "SIEMThrift.h"
 #include "ThriftReceiveServer.h"
+#include "SIEMUtil.hpp"
+#include "SIEMMessage_types.h"
 
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TNonblockingServer.h>
@@ -35,22 +37,54 @@ namespace SIEM
 
 bool CThriftReceiveServer::Recv(const std::string& strEvent)
 {
+    Poco::Logger & logger = Poco::Util::Application::instance().logger();
+
+    if(strEvent.empty()) return false;
+
+    int nJudge = 0;
+
+JUDGE_WRITE:
+
+    if(m_CachePtr->nWrite - m_CachePtr->nRead < m_nCacheNum)
+    {
+        m_CachePtr->Cache[m_CachePtr->nWrite % m_nCacheNum].assign(strEvent);
+        m_CachePtr->nWrite ++;
+    }
+    else if(nJudge < 4)//judge 4 times
+    {
+        logger.debug("buffer is full");
+        sleep(5);
+        nJudge ++;
+        goto JUDGE_WRITE;
+    }
+    else
+    {
+        logger.error("buffer always full return false");
+        return false;
+    }
     return true;
 }
+
 bool CThriftReceiveServer::Handle(const SIEMThriftEvent& tEvent)
 {
     return true;
 }
+
 bool CThriftReceiveServer::Start()
 {
-    if(pthread_create(&m_ThreadID, NULL, ThreadFunc, this))
+    if(pthread_create(&m_ThreadID, NULL, ThreadThrift, this))
+    {
+        return false;
+    }
+
+    if(pthread_create(&m_pthHandleID, NULL, ThreadHandle, this))
     {
         return false;
     }
     return true;
 }
 
-void* CThriftReceiveServer::ThreadFunc(void *p)
+void* CThriftReceiveServer::ThreadThrift(void *p)
 {
     Poco::Logger & logger = Poco::Util::Application::instance().logger();
     logger.debug("Begin Thrift receive thread");
@@ -77,6 +111,38 @@ void* CThriftReceiveServer::ThreadFunc(void *p)
 	return (void *)0;
 }
 
+void * CThriftReceiveServer::ThreadHandle(void *p)
+{
+    Poco::Logger & logger = Poco::Util::Application::instance().logger();
+    logger.debug("Begin Thrift receive thread");
+
+    if(p == NULL)
+    {
+        logger.error("Input is NULL");
+        exit(1);
+    }
+
+    CThriftReceiveServer *pServer = (CThriftReceiveServer *) p;
+
+    while(true)
+    {
+        if(pServer->m_CachePtr->nWrite == 0 || pServer->m_CachePtr->nRead >= pServer->m_CachePtr->nWrite)
+        {
+            logger.debug("Read > Write");
+            sleep(5);
+        }
+        else
+        {
+            SIEMThriftEvent e;
+            SIEM::Util::StringToThrift(pServer->m_CachePtr->Cache[pServer->m_CachePtr->nRead % pServer->m_nCacheNum], &e);
+            pServer->m_CachePtr->nRead ++;
+            pServer->Handle(e);
+        }
+    }
+
+    return (void *)0;
+}
+
 bool CThriftReceiveServer::Initialize()
 {
     //Read zmq config items from config file.
@@ -90,10 +156,11 @@ bool CThriftReceiveServer::Initialize()
     m_nPort      = config.getInt   ("siemevent.thrift.port", 9999);
     m_nCacheNum  = config.getInt   ("siemevent.thrift.cache.num", 2048);
 
-    m_RingCachePtr->vctCache.resize(m_nCacheNum);
+    m_CachePtr->Cache.resize(m_nCacheNum);
 
     logger.debug(Poco::format("Thrift bind address is %s, thread number is %hu port is %hu cache number is %u",\
 			m_strBind, m_nThreadNum, m_nPort, m_nCacheNum));
+
 	return true;
 }
 
@@ -102,7 +169,8 @@ CThriftReceiveServer::CThriftReceiveServer()
  m_nPort(9999),
  m_nThreadNum(10),
  m_nCacheNum(2048),
- m_RingCachePtr(new RingCache)
+ m_CachePtr(new stCacheItem<std::string>()),
+ m_pthHandleID(0)
 {
 }
 

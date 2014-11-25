@@ -6,20 +6,12 @@
 #include <vector>
 
 #include "IReceiveServer.h"
+#include "SIEMPublic.h"
 
 namespace SIEM
 {
 
-typedef struct stRingCache
-{
-    uint64_t                 nRead;
-    uint64_t                 nWrite;
-    std::vector<std::string> vctCache;
-    stRingCache():nRead(0), nWrite(0)
-    {}
-} RingCache;
-
-typedef boost::shared_ptr<RingCache> RingCachePtr;
+typedef boost::shared_ptr<stCacheItem<std::string> > RingCachePtr;
 
 class CThriftReceiveServer : virtual public ::SIEM::thrift::SIEMThriftIf, virtual public SIEM::IReceiveServer
 {
@@ -32,13 +24,16 @@ public:
     bool Start();
     bool Initialize();
 private:
-    static void *ThreadFunc(void *p);
+    static void *ThreadThrift(void *p);
+    static void *ThreadHandle(void *p);
 public:
     std::string  m_strBind;
     uint16_t     m_nPort;
     uint8_t      m_nThreadNum;
     uint32_t     m_nCacheNum;
-    RingCachePtr m_RingCachePtr;
+    RingCachePtr m_CachePtr;
+private:
+    pthread_t    m_pthHandleID;
 
 };
 }

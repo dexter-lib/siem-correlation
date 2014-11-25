@@ -17,6 +17,7 @@
  */
 
 #include "ZMQReceiveServer.h"
+#include "SIEMMessage.pb.h"
 
 #include <Poco/Util/LayeredConfiguration.h>
 #include <Poco/Util/Application.h>
@@ -88,13 +89,15 @@ void * CZMQReceiveServer::ThreadFunc(void *p)
     {
         logger.error("Unknown error", __FILE__, __LINE__);
     }
-
-
     return (void *)NULL;
 }
 
 bool CZMQReceiveServer::Handle(char * pszMsg, size_t size)
 {
+    SIEMPbMessage msg;
+    msg.ParseFromArray(pszMsg, size);
+
+
     return true;
 }
 
