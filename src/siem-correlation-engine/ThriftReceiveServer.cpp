@@ -53,13 +53,13 @@ JUDGE_WRITE:
     else if(nJudge < 4)//judge 4 times
     {
         logger.debug("buffer is full");
-        sleep(5);
+        sleep(2);
         nJudge ++;
         goto JUDGE_WRITE;
     }
     else
     {
-        logger.error("buffer always full return false");
+        logger.error("buffer always full, return false");
         return false;
     }
     return true;
@@ -72,7 +72,7 @@ bool CThriftReceiveServer::Handle(const SIEMThriftEvent& tEvent)
 
 bool CThriftReceiveServer::Start()
 {
-    if(pthread_create(&m_ThreadID, NULL, ThreadThrift, this))
+    if(pthread_create(&m_pthServerID, NULL, ThreadThrift, this))
     {
         return false;
     }
@@ -124,21 +124,32 @@ void * CThriftReceiveServer::ThreadHandle(void *p)
 
     CThriftReceiveServer *pServer = (CThriftReceiveServer *) p;
 
+#ifndef CACHE_PTR
+#define CACHE_PTR (pServer->m_CachePtr)
+
     while(true)
     {
-        if(pServer->m_CachePtr->nWrite == 0 || pServer->m_CachePtr->nRead >= pServer->m_CachePtr->nWrite)
+        if(CACHE_PTR->nWrite == 0)
         {
-            logger.debug("Read > Write");
-            sleep(5);
+            logger.debug("Thrift no receive data");
+            sleep(2);
+        }
+        else if(CACHE_PTR->nRead >= CACHE_PTR->nWrite)
+        {
+            logger.debug("Read >= Write");
+            sleep(1);
         }
         else
         {
             SIEMThriftEvent e;
-            SIEM::Util::StringToThrift(pServer->m_CachePtr->Cache[pServer->m_CachePtr->nRead % pServer->m_nCacheNum], &e);
-            pServer->m_CachePtr->nRead ++;
+            SIEM::Util::StringToThrift(CACHE_PTR->Cache[CACHE_PTR->nRead % pServer->m_nCacheNum], &e);
+            CACHE_PTR->nRead ++;
             pServer->Handle(e);
         }
     }
+
+#undef CACHE_PTR
+#endif
 
     return (void *)0;
 }

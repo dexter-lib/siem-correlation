@@ -35,7 +35,7 @@
 namespace SIEM
 {
 
-void * CZMQReceiveServer::ThreadFunc(void *p)
+void * CZMQReceiveServer::ThreadZMQ(void *p)
 {
     Poco::Logger & logger = Poco::Util::Application::instance().logger();
     logger.debug("Begin zmq receive thread");
@@ -75,7 +75,7 @@ void * CZMQReceiveServer::ThreadFunc(void *p)
             }
             else
             {
-                logger.debug("No recvive data");
+                logger.debug("ZMQ No recvive data");
             }
         }
 
@@ -103,7 +103,7 @@ bool CZMQReceiveServer::Handle(char * pszMsg, size_t size)
 
 bool CZMQReceiveServer::Start()
 {
-    pthread_create(&m_ThreadID, NULL, ThreadFunc, (void *)this);
+    pthread_create(&m_pthServerID, NULL, ThreadZMQ, (void *)this);
     return true;
 }
 

@@ -37,13 +37,13 @@ public:
     inline bool Stop();
     inline bool Join();
 protected:
-    pthread_t m_ThreadID;
+    pthread_t m_pthServerID;
 };
 
 inline bool IReceiveServer::Join()
 {
     void *pRet;
-    if(pthread_join(m_ThreadID, &pRet))
+    if(pthread_join(m_pthServerID, &pRet))
     {
         return false;
     }
@@ -52,7 +52,7 @@ inline bool IReceiveServer::Join()
 
 inline bool IReceiveServer::Stop()
 {
-    if(pthread_cancel(m_ThreadID))
+    if(pthread_cancel(m_pthServerID))
     {
         return false;
     }

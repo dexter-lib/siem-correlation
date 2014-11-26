@@ -39,6 +39,63 @@ struct stCacheItem
     {}
 };
 
+typedef enum stProtocolType {
+  SIEM_PROTOCOL_NONE = -1,
+  SIEM_PROTOCOL_ICMP = 1,
+  SIEM_PROTOCOL_TCP = 6,
+  SIEM_PROTOCOL_UDP = 17,
+  SIEM_PROTOCOL_ARP_EVENT = 134,
+  SIEM_PROTOCOL_OS_EVENT = 135,
+  SIEM_PROTOCOL_SERVER_EVENT = 136
+} SIEM_PROTOCOL_TYPE;
+
+typedef enum stSIEMEventType {
+  SIEM_EVENT_NONE = -1,
+  SIEM_EVENT_DETECTOR = 1,
+  SIEM_EVENT_MONITOR = 2,
+  SIEM_EVENT_BACKLOG = 3
+} SIEM_EVENT_TYPE;
+
+typedef struct stEvent
+{
+    SIEM_EVENT_TYPE enEventType;
+    SIEM_PROTOCOL_TYPE enEventProtoType;
+    time_t tmDate;
+    time_t tmFDate;
+    u_int32_t nPluginID;
+    u_int32_t nPluginSID;
+    u_int32_t nSnortSID;
+    u_int32_t nSnortCID;
+    u_int32_t nSensor;
+    std::string strInterface;
+    std::string strUsername;
+    std::string strPassword;
+    std::string strFilename;
+    std::string strUserdata1;
+    std::string strUserdata2;
+    std::string strUserdata3;
+    std::string strUserdata4;
+    std::string strUserdata5;
+    std::string strUserdata6;
+    std::string strUserdata7;
+    std::string strUserdata8;
+    std::string strUserdata9;
+    std::string strCtx;
+    std::string strSensorID;
+    std::string strEventID;
+    std::string strTimezone;
+    std::string strBinaryData;
+    u_int32_t nPrority;
+    u_int32_t nDeviceIP;
+    u_int32_t nSrcIP;
+    u_int32_t nDstIP;
+    u_int32_t nOccurrence;
+    u_int16_t nSrcPort;
+    u_int16_t nDstPort;
+    std::string strLog;
+} Event;
+
+
 
 } /* namespace SIEM */
 #endif /* SIEMPUBLIC_H_ */

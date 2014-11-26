@@ -38,7 +38,7 @@ public:
     bool Initialize();
     bool Handle(char * pszMsg, size_t size);
 private:
-    static void *ThreadFunc(void *p);
+    static void *ThreadZMQ(void *p);
 public:
     uint64_t     m_nHwm;
     std::string  m_strIPC;
