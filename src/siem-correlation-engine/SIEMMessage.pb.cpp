@@ -16,7 +16,7 @@ namespace SIEM {
 
 void protobuf_ShutdownFile_SIEMMessage_2eproto() {
   delete SIEMPbMessage::default_instance_;
-  delete SIEMPbMessage_SIEMEvent::default_instance_;
+  delete SIEMPbMessage_SIEMPbEvent::default_instance_;
 }
 
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
@@ -32,9 +32,9 @@ void protobuf_AddDesc_SIEMMessage_2eproto() {
 
 #endif
   SIEMPbMessage::default_instance_ = new SIEMPbMessage();
-  SIEMPbMessage_SIEMEvent::default_instance_ = new SIEMPbMessage_SIEMEvent();
+  SIEMPbMessage_SIEMPbEvent::default_instance_ = new SIEMPbMessage_SIEMPbEvent();
   SIEMPbMessage::default_instance_->InitAsDefaultInstance();
-  SIEMPbMessage_SIEMEvent::default_instance_->InitAsDefaultInstance();
+  SIEMPbMessage_SIEMPbEvent::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_SIEMMessage_2eproto);
 }
 
@@ -104,56 +104,56 @@ const SIEMPbMessage_SIEMEventType SIEMPbMessage::SIEMEventType_MAX;
 const int SIEMPbMessage::SIEMEventType_ARRAYSIZE;
 #endif  // _MSC_VER
 #ifndef _MSC_VER
-const int SIEMPbMessage_SIEMEvent::kPluginIdUint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kPluginSidUint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kDataUint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kFdataUint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kEventTypeEnumFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kSrcIpv4Uint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kDstIpv4Uint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kDeviceIpv4Uint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kInterfaceStrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kLogStrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kEventIdStrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kProtocolTypeEnumFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kSrcPortUint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kDstPortUint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kSnortSidUint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kSnortCidUint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kPriorityUint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kOccurrencesUint32FieldNumber;
-const int SIEMPbMessage_SIEMEvent::kCtxStrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kUsernameStrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kPasswordStrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kFilenameStrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kUserdata1StrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kUserdata2StrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kUserdata3StrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kUserdata4StrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kUserdata5StrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kUserdata6StrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kUserdata7StrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kUserdata8StrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kUserdata9StrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kSensorIdStrFieldNumber;
-const int SIEMPbMessage_SIEMEvent::kBinaryDataStrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kPluginIdUint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kPluginSidUint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kDataUint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kFdataUint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kEventTypeEnumFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kSrcIpv4Uint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kDstIpv4Uint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kDeviceIpv4Uint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kInterfaceStrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kLogStrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kEventIdStrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kProtocolTypeEnumFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kSrcPortUint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kDstPortUint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kSnortSidUint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kSnortCidUint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kPriorityUint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kOccurrencesUint32FieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kCtxStrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kUsernameStrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kPasswordStrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kFilenameStrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kUserdata1StrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kUserdata2StrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kUserdata3StrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kUserdata4StrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kUserdata5StrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kUserdata6StrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kUserdata7StrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kUserdata8StrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kUserdata9StrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kSensorIdStrFieldNumber;
+const int SIEMPbMessage_SIEMPbEvent::kBinaryDataStrFieldNumber;
 #endif  // !_MSC_VER
 
-SIEMPbMessage_SIEMEvent::SIEMPbMessage_SIEMEvent()
+SIEMPbMessage_SIEMPbEvent::SIEMPbMessage_SIEMPbEvent()
   : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
-void SIEMPbMessage_SIEMEvent::InitAsDefaultInstance() {
+void SIEMPbMessage_SIEMPbEvent::InitAsDefaultInstance() {
 }
 
-SIEMPbMessage_SIEMEvent::SIEMPbMessage_SIEMEvent(const SIEMPbMessage_SIEMEvent& from)
+SIEMPbMessage_SIEMPbEvent::SIEMPbMessage_SIEMPbEvent(const SIEMPbMessage_SIEMPbEvent& from)
   : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
 
-void SIEMPbMessage_SIEMEvent::SharedCtor() {
+void SIEMPbMessage_SIEMPbEvent::SharedCtor() {
   _cached_size_ = 0;
   plugin_id_uint32_ = 0u;
   plugin_sid_uint32_ = 0u;
@@ -191,11 +191,11 @@ void SIEMPbMessage_SIEMEvent::SharedCtor() {
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-SIEMPbMessage_SIEMEvent::~SIEMPbMessage_SIEMEvent() {
+SIEMPbMessage_SIEMPbEvent::~SIEMPbMessage_SIEMPbEvent() {
   SharedDtor();
 }
 
-void SIEMPbMessage_SIEMEvent::SharedDtor() {
+void SIEMPbMessage_SIEMPbEvent::SharedDtor() {
   if (interface_str_ != &::google::protobuf::internal::kEmptyString) {
     delete interface_str_;
   }
@@ -258,12 +258,12 @@ void SIEMPbMessage_SIEMEvent::SharedDtor() {
   }
 }
 
-void SIEMPbMessage_SIEMEvent::SetCachedSize(int size) const {
+void SIEMPbMessage_SIEMPbEvent::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const SIEMPbMessage_SIEMEvent& SIEMPbMessage_SIEMEvent::default_instance() {
+const SIEMPbMessage_SIEMPbEvent& SIEMPbMessage_SIEMPbEvent::default_instance() {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   protobuf_AddDesc_SIEMMessage_2eproto();
 #else
@@ -272,13 +272,13 @@ const SIEMPbMessage_SIEMEvent& SIEMPbMessage_SIEMEvent::default_instance() {
   return *default_instance_;
 }
 
-SIEMPbMessage_SIEMEvent* SIEMPbMessage_SIEMEvent::default_instance_ = NULL;
+SIEMPbMessage_SIEMPbEvent* SIEMPbMessage_SIEMPbEvent::default_instance_ = NULL;
 
-SIEMPbMessage_SIEMEvent* SIEMPbMessage_SIEMEvent::New() const {
-  return new SIEMPbMessage_SIEMEvent;
+SIEMPbMessage_SIEMPbEvent* SIEMPbMessage_SIEMPbEvent::New() const {
+  return new SIEMPbMessage_SIEMPbEvent;
 }
 
-void SIEMPbMessage_SIEMEvent::Clear() {
+void SIEMPbMessage_SIEMPbEvent::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     plugin_id_uint32_ = 0u;
     plugin_sid_uint32_ = 0u;
@@ -397,7 +397,7 @@ void SIEMPbMessage_SIEMEvent::Clear() {
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-bool SIEMPbMessage_SIEMEvent::MergePartialFromCodedStream(
+bool SIEMPbMessage_SIEMPbEvent::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
@@ -915,7 +915,7 @@ bool SIEMPbMessage_SIEMEvent::MergePartialFromCodedStream(
 #undef DO_
 }
 
-void SIEMPbMessage_SIEMEvent::SerializeWithCachedSizes(
+void SIEMPbMessage_SIEMPbEvent::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // required uint32 plugin_id_uint32 = 1;
   if (has_plugin_id_uint32()) {
@@ -1104,7 +1104,7 @@ void SIEMPbMessage_SIEMEvent::SerializeWithCachedSizes(
 
 }
 
-int SIEMPbMessage_SIEMEvent::ByteSize() const {
+int SIEMPbMessage_SIEMPbEvent::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
@@ -1352,12 +1352,12 @@ int SIEMPbMessage_SIEMEvent::ByteSize() const {
   return total_size;
 }
 
-void SIEMPbMessage_SIEMEvent::CheckTypeAndMergeFrom(
+void SIEMPbMessage_SIEMPbEvent::CheckTypeAndMergeFrom(
     const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const SIEMPbMessage_SIEMEvent*>(&from));
+  MergeFrom(*::google::protobuf::down_cast<const SIEMPbMessage_SIEMPbEvent*>(&from));
 }
 
-void SIEMPbMessage_SIEMEvent::MergeFrom(const SIEMPbMessage_SIEMEvent& from) {
+void SIEMPbMessage_SIEMPbEvent::MergeFrom(const SIEMPbMessage_SIEMPbEvent& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_plugin_id_uint32()) {
@@ -1470,19 +1470,19 @@ void SIEMPbMessage_SIEMEvent::MergeFrom(const SIEMPbMessage_SIEMEvent& from) {
   }
 }
 
-void SIEMPbMessage_SIEMEvent::CopyFrom(const SIEMPbMessage_SIEMEvent& from) {
+void SIEMPbMessage_SIEMPbEvent::CopyFrom(const SIEMPbMessage_SIEMPbEvent& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool SIEMPbMessage_SIEMEvent::IsInitialized() const {
+bool SIEMPbMessage_SIEMPbEvent::IsInitialized() const {
   if ((_has_bits_[0] & 0x000007ff) != 0x000007ff) return false;
 
   return true;
 }
 
-void SIEMPbMessage_SIEMEvent::Swap(SIEMPbMessage_SIEMEvent* other) {
+void SIEMPbMessage_SIEMPbEvent::Swap(SIEMPbMessage_SIEMPbEvent* other) {
   if (other != this) {
     std::swap(plugin_id_uint32_, other->plugin_id_uint32_);
     std::swap(plugin_sid_uint32_, other->plugin_sid_uint32_);
@@ -1523,14 +1523,15 @@ void SIEMPbMessage_SIEMEvent::Swap(SIEMPbMessage_SIEMEvent* other) {
   }
 }
 
-::std::string SIEMPbMessage_SIEMEvent::GetTypeName() const {
-  return "SIEM.SIEMPbMessage.SIEMEvent";
+::std::string SIEMPbMessage_SIEMPbEvent::GetTypeName() const {
+  return "SIEM.SIEMPbMessage.SIEMPbEvent";
 }
 
 
 // -------------------------------------------------------------------
 
 #ifndef _MSC_VER
+const int SIEMPbMessage::kSiemEventFieldNumber;
 #endif  // !_MSC_VER
 
 SIEMPbMessage::SIEMPbMessage()
@@ -1539,6 +1540,12 @@ SIEMPbMessage::SIEMPbMessage()
 }
 
 void SIEMPbMessage::InitAsDefaultInstance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  siem_event_ = const_cast< ::SIEM::SIEMPbMessage_SIEMPbEvent*>(
+      ::SIEM::SIEMPbMessage_SIEMPbEvent::internal_default_instance());
+#else
+  siem_event_ = const_cast< ::SIEM::SIEMPbMessage_SIEMPbEvent*>(&::SIEM::SIEMPbMessage_SIEMPbEvent::default_instance());
+#endif
 }
 
 SIEMPbMessage::SIEMPbMessage(const SIEMPbMessage& from)
@@ -1549,6 +1556,7 @@ SIEMPbMessage::SIEMPbMessage(const SIEMPbMessage& from)
 
 void SIEMPbMessage::SharedCtor() {
   _cached_size_ = 0;
+  siem_event_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1562,6 +1570,7 @@ void SIEMPbMessage::SharedDtor() {
   #else
   if (this != default_instance_) {
   #endif
+    delete siem_event_;
   }
 }
 
@@ -1586,6 +1595,11 @@ SIEMPbMessage* SIEMPbMessage::New() const {
 }
 
 void SIEMPbMessage::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (has_siem_event()) {
+      if (siem_event_ != NULL) siem_event_->::SIEM::SIEMPbMessage_SIEMPbEvent::Clear();
+    }
+  }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1594,11 +1608,30 @@ bool SIEMPbMessage::MergePartialFromCodedStream(
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
-    if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-      return true;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional .SIEM.SIEMPbMessage.SIEMPbEvent siem_event = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_siem_event()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
     }
-    DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
   }
   return true;
 #undef DO_
@@ -1606,11 +1639,26 @@ bool SIEMPbMessage::MergePartialFromCodedStream(
 
 void SIEMPbMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // optional .SIEM.SIEMPbMessage.SIEMPbEvent siem_event = 1;
+  if (has_siem_event()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      1, this->siem_event(), output);
+  }
+
 }
 
 int SIEMPbMessage::ByteSize() const {
   int total_size = 0;
 
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // optional .SIEM.SIEMPbMessage.SIEMPbEvent siem_event = 1;
+    if (has_siem_event()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->siem_event());
+    }
+
+  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
@@ -1624,6 +1672,11 @@ void SIEMPbMessage::CheckTypeAndMergeFrom(
 
 void SIEMPbMessage::MergeFrom(const SIEMPbMessage& from) {
   GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_siem_event()) {
+      mutable_siem_event()->::SIEM::SIEMPbMessage_SIEMPbEvent::MergeFrom(from.siem_event());
+    }
+  }
 }
 
 void SIEMPbMessage::CopyFrom(const SIEMPbMessage& from) {
@@ -1634,11 +1687,16 @@ void SIEMPbMessage::CopyFrom(const SIEMPbMessage& from) {
 
 bool SIEMPbMessage::IsInitialized() const {
 
+  if (has_siem_event()) {
+    if (!this->siem_event().IsInitialized()) return false;
+  }
   return true;
 }
 
 void SIEMPbMessage::Swap(SIEMPbMessage* other) {
   if (other != this) {
+    std::swap(siem_event_, other->siem_event_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }

@@ -22,7 +22,7 @@ message SIEMPbMessage
         SIEM_EVENT_BACKLOG          = 3;
     }
 
-    message SIEMEvent
+    message SIEMPbEvent
     {
         required uint32   plugin_id_uint32                                 = 1;
         required uint32   plugin_sid_uint32                                = 2;
@@ -58,4 +58,5 @@ message SIEMPbMessage
         optional string   sensor_id_str                                    = 32;
         optional string   binary_data_str                                  = 33;
     }
+    optional SIEMPbEvent siem_event                                        = 1;
 }

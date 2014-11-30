@@ -33,7 +33,7 @@ void protobuf_AssignDesc_SIEMMessage_2eproto();
 void protobuf_ShutdownFile_SIEMMessage_2eproto();
 
 class SIEMPbMessage;
-class SIEMPbMessage_SIEMEvent;
+class SIEMPbMessage_SIEMPbEvent;
 
 enum SIEMPbMessage_SIEMProtocolType {
   SIEMPbMessage_SIEMProtocolType_SIEM_PROTOCOL_NONE = -1,
@@ -62,38 +62,38 @@ const int SIEMPbMessage_SIEMEventType_SIEMEventType_ARRAYSIZE = SIEMPbMessage_SI
 
 // ===================================================================
 
-class SIEMPbMessage_SIEMEvent : public ::google::protobuf::MessageLite {
+class SIEMPbMessage_SIEMPbEvent : public ::google::protobuf::MessageLite {
  public:
-  SIEMPbMessage_SIEMEvent();
-  virtual ~SIEMPbMessage_SIEMEvent();
+  SIEMPbMessage_SIEMPbEvent();
+  virtual ~SIEMPbMessage_SIEMPbEvent();
 
-  SIEMPbMessage_SIEMEvent(const SIEMPbMessage_SIEMEvent& from);
+  SIEMPbMessage_SIEMPbEvent(const SIEMPbMessage_SIEMPbEvent& from);
 
-  inline SIEMPbMessage_SIEMEvent& operator=(const SIEMPbMessage_SIEMEvent& from) {
+  inline SIEMPbMessage_SIEMPbEvent& operator=(const SIEMPbMessage_SIEMPbEvent& from) {
     CopyFrom(from);
     return *this;
   }
 
-  static const SIEMPbMessage_SIEMEvent& default_instance();
+  static const SIEMPbMessage_SIEMPbEvent& default_instance();
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   // Returns the internal default instance pointer. This function can
   // return NULL thus should not be used by the user. This is intended
   // for Protobuf internal code. Please use default_instance() declared
   // above instead.
-  static inline const SIEMPbMessage_SIEMEvent* internal_default_instance() {
+  static inline const SIEMPbMessage_SIEMPbEvent* internal_default_instance() {
     return default_instance_;
   }
   #endif
 
-  void Swap(SIEMPbMessage_SIEMEvent* other);
+  void Swap(SIEMPbMessage_SIEMPbEvent* other);
 
   // implements Message ----------------------------------------------
 
-  SIEMPbMessage_SIEMEvent* New() const;
+  SIEMPbMessage_SIEMPbEvent* New() const;
   void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const SIEMPbMessage_SIEMEvent& from);
-  void MergeFrom(const SIEMPbMessage_SIEMEvent& from);
+  void CopyFrom(const SIEMPbMessage_SIEMPbEvent& from);
+  void MergeFrom(const SIEMPbMessage_SIEMPbEvent& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -436,7 +436,7 @@ class SIEMPbMessage_SIEMEvent : public ::google::protobuf::MessageLite {
   inline ::std::string* release_binary_data_str();
   inline void set_allocated_binary_data_str(::std::string* binary_data_str);
 
-  // @@protoc_insertion_point(class_scope:SIEM.SIEMPbMessage.SIEMEvent)
+  // @@protoc_insertion_point(class_scope:SIEM.SIEMPbMessage.SIEMPbEvent)
  private:
   inline void set_has_plugin_id_uint32();
   inline void clear_has_plugin_id_uint32();
@@ -551,7 +551,7 @@ class SIEMPbMessage_SIEMEvent : public ::google::protobuf::MessageLite {
   friend void protobuf_ShutdownFile_SIEMMessage_2eproto();
 
   void InitAsDefaultInstance();
-  static SIEMPbMessage_SIEMEvent* default_instance_;
+  static SIEMPbMessage_SIEMPbEvent* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -606,7 +606,7 @@ class SIEMPbMessage : public ::google::protobuf::MessageLite {
 
   // nested types ----------------------------------------------------
 
-  typedef SIEMPbMessage_SIEMEvent SIEMEvent;
+  typedef SIEMPbMessage_SIEMPbEvent SIEMPbEvent;
 
   typedef SIEMPbMessage_SIEMProtocolType SIEMProtocolType;
   static const SIEMProtocolType SIEM_PROTOCOL_NONE = SIEMPbMessage_SIEMProtocolType_SIEM_PROTOCOL_NONE;
@@ -643,12 +643,24 @@ class SIEMPbMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
+  // optional .SIEM.SIEMPbMessage.SIEMPbEvent siem_event = 1;
+  inline bool has_siem_event() const;
+  inline void clear_siem_event();
+  static const int kSiemEventFieldNumber = 1;
+  inline const ::SIEM::SIEMPbMessage_SIEMPbEvent& siem_event() const;
+  inline ::SIEM::SIEMPbMessage_SIEMPbEvent* mutable_siem_event();
+  inline ::SIEM::SIEMPbMessage_SIEMPbEvent* release_siem_event();
+  inline void set_allocated_siem_event(::SIEM::SIEMPbMessage_SIEMPbEvent* siem_event);
+
   // @@protoc_insertion_point(class_scope:SIEM.SIEMPbMessage)
  private:
+  inline void set_has_siem_event();
+  inline void clear_has_siem_event();
 
+  ::SIEM::SIEMPbMessage_SIEMPbEvent* siem_event_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[1];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_SIEMMessage_2eproto_impl();
@@ -666,233 +678,233 @@ class SIEMPbMessage : public ::google::protobuf::MessageLite {
 
 // ===================================================================
 
-// SIEMPbMessage_SIEMEvent
+// SIEMPbMessage_SIEMPbEvent
 
 // required uint32 plugin_id_uint32 = 1;
-inline bool SIEMPbMessage_SIEMEvent::has_plugin_id_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_plugin_id_uint32() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_plugin_id_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_plugin_id_uint32() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_plugin_id_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_plugin_id_uint32() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_plugin_id_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_plugin_id_uint32() {
   plugin_id_uint32_ = 0u;
   clear_has_plugin_id_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::plugin_id_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::plugin_id_uint32() const {
   return plugin_id_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_plugin_id_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_plugin_id_uint32(::google::protobuf::uint32 value) {
   set_has_plugin_id_uint32();
   plugin_id_uint32_ = value;
 }
 
 // required uint32 plugin_sid_uint32 = 2;
-inline bool SIEMPbMessage_SIEMEvent::has_plugin_sid_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_plugin_sid_uint32() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_plugin_sid_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_plugin_sid_uint32() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_plugin_sid_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_plugin_sid_uint32() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_plugin_sid_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_plugin_sid_uint32() {
   plugin_sid_uint32_ = 0u;
   clear_has_plugin_sid_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::plugin_sid_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::plugin_sid_uint32() const {
   return plugin_sid_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_plugin_sid_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_plugin_sid_uint32(::google::protobuf::uint32 value) {
   set_has_plugin_sid_uint32();
   plugin_sid_uint32_ = value;
 }
 
 // required uint32 data_uint32 = 3;
-inline bool SIEMPbMessage_SIEMEvent::has_data_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_data_uint32() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_data_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_data_uint32() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_data_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_data_uint32() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_data_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_data_uint32() {
   data_uint32_ = 0u;
   clear_has_data_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::data_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::data_uint32() const {
   return data_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_data_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_data_uint32(::google::protobuf::uint32 value) {
   set_has_data_uint32();
   data_uint32_ = value;
 }
 
 // required uint32 fdata_uint32 = 4;
-inline bool SIEMPbMessage_SIEMEvent::has_fdata_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_fdata_uint32() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_fdata_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_fdata_uint32() {
   _has_bits_[0] |= 0x00000008u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_fdata_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_fdata_uint32() {
   _has_bits_[0] &= ~0x00000008u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_fdata_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_fdata_uint32() {
   fdata_uint32_ = 0u;
   clear_has_fdata_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::fdata_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::fdata_uint32() const {
   return fdata_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_fdata_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_fdata_uint32(::google::protobuf::uint32 value) {
   set_has_fdata_uint32();
   fdata_uint32_ = value;
 }
 
 // required .SIEM.SIEMPbMessage.SIEMEventType event_type_enum = 5;
-inline bool SIEMPbMessage_SIEMEvent::has_event_type_enum() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_event_type_enum() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_event_type_enum() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_event_type_enum() {
   _has_bits_[0] |= 0x00000010u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_event_type_enum() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_event_type_enum() {
   _has_bits_[0] &= ~0x00000010u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_event_type_enum() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_event_type_enum() {
   event_type_enum_ = -1;
   clear_has_event_type_enum();
 }
-inline ::SIEM::SIEMPbMessage_SIEMEventType SIEMPbMessage_SIEMEvent::event_type_enum() const {
+inline ::SIEM::SIEMPbMessage_SIEMEventType SIEMPbMessage_SIEMPbEvent::event_type_enum() const {
   return static_cast< ::SIEM::SIEMPbMessage_SIEMEventType >(event_type_enum_);
 }
-inline void SIEMPbMessage_SIEMEvent::set_event_type_enum(::SIEM::SIEMPbMessage_SIEMEventType value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_event_type_enum(::SIEM::SIEMPbMessage_SIEMEventType value) {
   assert(::SIEM::SIEMPbMessage_SIEMEventType_IsValid(value));
   set_has_event_type_enum();
   event_type_enum_ = value;
 }
 
 // required uint32 src_ipv4_uint32 = 6;
-inline bool SIEMPbMessage_SIEMEvent::has_src_ipv4_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_src_ipv4_uint32() const {
   return (_has_bits_[0] & 0x00000020u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_src_ipv4_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_src_ipv4_uint32() {
   _has_bits_[0] |= 0x00000020u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_src_ipv4_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_src_ipv4_uint32() {
   _has_bits_[0] &= ~0x00000020u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_src_ipv4_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_src_ipv4_uint32() {
   src_ipv4_uint32_ = 0u;
   clear_has_src_ipv4_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::src_ipv4_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::src_ipv4_uint32() const {
   return src_ipv4_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_src_ipv4_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_src_ipv4_uint32(::google::protobuf::uint32 value) {
   set_has_src_ipv4_uint32();
   src_ipv4_uint32_ = value;
 }
 
 // required uint32 dst_ipv4_uint32 = 7;
-inline bool SIEMPbMessage_SIEMEvent::has_dst_ipv4_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_dst_ipv4_uint32() const {
   return (_has_bits_[0] & 0x00000040u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_dst_ipv4_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_dst_ipv4_uint32() {
   _has_bits_[0] |= 0x00000040u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_dst_ipv4_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_dst_ipv4_uint32() {
   _has_bits_[0] &= ~0x00000040u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_dst_ipv4_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_dst_ipv4_uint32() {
   dst_ipv4_uint32_ = 0u;
   clear_has_dst_ipv4_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::dst_ipv4_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::dst_ipv4_uint32() const {
   return dst_ipv4_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_dst_ipv4_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_dst_ipv4_uint32(::google::protobuf::uint32 value) {
   set_has_dst_ipv4_uint32();
   dst_ipv4_uint32_ = value;
 }
 
 // required uint32 device_ipv4_uint32 = 8;
-inline bool SIEMPbMessage_SIEMEvent::has_device_ipv4_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_device_ipv4_uint32() const {
   return (_has_bits_[0] & 0x00000080u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_device_ipv4_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_device_ipv4_uint32() {
   _has_bits_[0] |= 0x00000080u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_device_ipv4_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_device_ipv4_uint32() {
   _has_bits_[0] &= ~0x00000080u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_device_ipv4_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_device_ipv4_uint32() {
   device_ipv4_uint32_ = 0u;
   clear_has_device_ipv4_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::device_ipv4_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::device_ipv4_uint32() const {
   return device_ipv4_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_device_ipv4_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_device_ipv4_uint32(::google::protobuf::uint32 value) {
   set_has_device_ipv4_uint32();
   device_ipv4_uint32_ = value;
 }
 
 // required string interface_str = 9;
-inline bool SIEMPbMessage_SIEMEvent::has_interface_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_interface_str() const {
   return (_has_bits_[0] & 0x00000100u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_interface_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_interface_str() {
   _has_bits_[0] |= 0x00000100u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_interface_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_interface_str() {
   _has_bits_[0] &= ~0x00000100u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_interface_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_interface_str() {
   if (interface_str_ != &::google::protobuf::internal::kEmptyString) {
     interface_str_->clear();
   }
   clear_has_interface_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::interface_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::interface_str() const {
   return *interface_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_interface_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_interface_str(const ::std::string& value) {
   set_has_interface_str();
   if (interface_str_ == &::google::protobuf::internal::kEmptyString) {
     interface_str_ = new ::std::string;
   }
   interface_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_interface_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_interface_str(const char* value) {
   set_has_interface_str();
   if (interface_str_ == &::google::protobuf::internal::kEmptyString) {
     interface_str_ = new ::std::string;
   }
   interface_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_interface_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_interface_str(const char* value, size_t size) {
   set_has_interface_str();
   if (interface_str_ == &::google::protobuf::internal::kEmptyString) {
     interface_str_ = new ::std::string;
   }
   interface_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_interface_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_interface_str() {
   set_has_interface_str();
   if (interface_str_ == &::google::protobuf::internal::kEmptyString) {
     interface_str_ = new ::std::string;
   }
   return interface_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_interface_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_interface_str() {
   clear_has_interface_str();
   if (interface_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -902,7 +914,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_interface_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_interface_str(::std::string* interface_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_interface_str(::std::string* interface_str) {
   if (interface_str_ != &::google::protobuf::internal::kEmptyString) {
     delete interface_str_;
   }
@@ -916,53 +928,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_interface_str(::std::string* 
 }
 
 // required string log_str = 10;
-inline bool SIEMPbMessage_SIEMEvent::has_log_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_log_str() const {
   return (_has_bits_[0] & 0x00000200u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_log_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_log_str() {
   _has_bits_[0] |= 0x00000200u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_log_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_log_str() {
   _has_bits_[0] &= ~0x00000200u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_log_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_log_str() {
   if (log_str_ != &::google::protobuf::internal::kEmptyString) {
     log_str_->clear();
   }
   clear_has_log_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::log_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::log_str() const {
   return *log_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_log_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_log_str(const ::std::string& value) {
   set_has_log_str();
   if (log_str_ == &::google::protobuf::internal::kEmptyString) {
     log_str_ = new ::std::string;
   }
   log_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_log_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_log_str(const char* value) {
   set_has_log_str();
   if (log_str_ == &::google::protobuf::internal::kEmptyString) {
     log_str_ = new ::std::string;
   }
   log_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_log_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_log_str(const char* value, size_t size) {
   set_has_log_str();
   if (log_str_ == &::google::protobuf::internal::kEmptyString) {
     log_str_ = new ::std::string;
   }
   log_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_log_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_log_str() {
   set_has_log_str();
   if (log_str_ == &::google::protobuf::internal::kEmptyString) {
     log_str_ = new ::std::string;
   }
   return log_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_log_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_log_str() {
   clear_has_log_str();
   if (log_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -972,7 +984,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_log_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_log_str(::std::string* log_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_log_str(::std::string* log_str) {
   if (log_str_ != &::google::protobuf::internal::kEmptyString) {
     delete log_str_;
   }
@@ -986,53 +998,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_log_str(::std::string* log_st
 }
 
 // required string event_id_str = 11;
-inline bool SIEMPbMessage_SIEMEvent::has_event_id_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_event_id_str() const {
   return (_has_bits_[0] & 0x00000400u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_event_id_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_event_id_str() {
   _has_bits_[0] |= 0x00000400u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_event_id_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_event_id_str() {
   _has_bits_[0] &= ~0x00000400u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_event_id_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_event_id_str() {
   if (event_id_str_ != &::google::protobuf::internal::kEmptyString) {
     event_id_str_->clear();
   }
   clear_has_event_id_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::event_id_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::event_id_str() const {
   return *event_id_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_event_id_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_event_id_str(const ::std::string& value) {
   set_has_event_id_str();
   if (event_id_str_ == &::google::protobuf::internal::kEmptyString) {
     event_id_str_ = new ::std::string;
   }
   event_id_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_event_id_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_event_id_str(const char* value) {
   set_has_event_id_str();
   if (event_id_str_ == &::google::protobuf::internal::kEmptyString) {
     event_id_str_ = new ::std::string;
   }
   event_id_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_event_id_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_event_id_str(const char* value, size_t size) {
   set_has_event_id_str();
   if (event_id_str_ == &::google::protobuf::internal::kEmptyString) {
     event_id_str_ = new ::std::string;
   }
   event_id_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_event_id_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_event_id_str() {
   set_has_event_id_str();
   if (event_id_str_ == &::google::protobuf::internal::kEmptyString) {
     event_id_str_ = new ::std::string;
   }
   return event_id_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_event_id_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_event_id_str() {
   clear_has_event_id_str();
   if (event_id_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1042,7 +1054,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_event_id_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_event_id_str(::std::string* event_id_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_event_id_str(::std::string* event_id_str) {
   if (event_id_str_ != &::google::protobuf::internal::kEmptyString) {
     delete event_id_str_;
   }
@@ -1056,208 +1068,208 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_event_id_str(::std::string* e
 }
 
 // optional .SIEM.SIEMPbMessage.SIEMProtocolType protocol_type_enum = 12;
-inline bool SIEMPbMessage_SIEMEvent::has_protocol_type_enum() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_protocol_type_enum() const {
   return (_has_bits_[0] & 0x00000800u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_protocol_type_enum() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_protocol_type_enum() {
   _has_bits_[0] |= 0x00000800u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_protocol_type_enum() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_protocol_type_enum() {
   _has_bits_[0] &= ~0x00000800u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_protocol_type_enum() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_protocol_type_enum() {
   protocol_type_enum_ = -1;
   clear_has_protocol_type_enum();
 }
-inline ::SIEM::SIEMPbMessage_SIEMProtocolType SIEMPbMessage_SIEMEvent::protocol_type_enum() const {
+inline ::SIEM::SIEMPbMessage_SIEMProtocolType SIEMPbMessage_SIEMPbEvent::protocol_type_enum() const {
   return static_cast< ::SIEM::SIEMPbMessage_SIEMProtocolType >(protocol_type_enum_);
 }
-inline void SIEMPbMessage_SIEMEvent::set_protocol_type_enum(::SIEM::SIEMPbMessage_SIEMProtocolType value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_protocol_type_enum(::SIEM::SIEMPbMessage_SIEMProtocolType value) {
   assert(::SIEM::SIEMPbMessage_SIEMProtocolType_IsValid(value));
   set_has_protocol_type_enum();
   protocol_type_enum_ = value;
 }
 
 // optional uint32 src_port_uint32 = 13;
-inline bool SIEMPbMessage_SIEMEvent::has_src_port_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_src_port_uint32() const {
   return (_has_bits_[0] & 0x00001000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_src_port_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_src_port_uint32() {
   _has_bits_[0] |= 0x00001000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_src_port_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_src_port_uint32() {
   _has_bits_[0] &= ~0x00001000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_src_port_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_src_port_uint32() {
   src_port_uint32_ = 0u;
   clear_has_src_port_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::src_port_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::src_port_uint32() const {
   return src_port_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_src_port_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_src_port_uint32(::google::protobuf::uint32 value) {
   set_has_src_port_uint32();
   src_port_uint32_ = value;
 }
 
 // optional uint32 dst_port_uint32 = 14;
-inline bool SIEMPbMessage_SIEMEvent::has_dst_port_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_dst_port_uint32() const {
   return (_has_bits_[0] & 0x00002000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_dst_port_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_dst_port_uint32() {
   _has_bits_[0] |= 0x00002000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_dst_port_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_dst_port_uint32() {
   _has_bits_[0] &= ~0x00002000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_dst_port_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_dst_port_uint32() {
   dst_port_uint32_ = 0u;
   clear_has_dst_port_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::dst_port_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::dst_port_uint32() const {
   return dst_port_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_dst_port_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_dst_port_uint32(::google::protobuf::uint32 value) {
   set_has_dst_port_uint32();
   dst_port_uint32_ = value;
 }
 
 // optional uint32 snort_sid_uint32 = 15;
-inline bool SIEMPbMessage_SIEMEvent::has_snort_sid_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_snort_sid_uint32() const {
   return (_has_bits_[0] & 0x00004000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_snort_sid_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_snort_sid_uint32() {
   _has_bits_[0] |= 0x00004000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_snort_sid_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_snort_sid_uint32() {
   _has_bits_[0] &= ~0x00004000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_snort_sid_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_snort_sid_uint32() {
   snort_sid_uint32_ = 0u;
   clear_has_snort_sid_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::snort_sid_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::snort_sid_uint32() const {
   return snort_sid_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_snort_sid_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_snort_sid_uint32(::google::protobuf::uint32 value) {
   set_has_snort_sid_uint32();
   snort_sid_uint32_ = value;
 }
 
 // optional uint32 snort_cid_uint32 = 16;
-inline bool SIEMPbMessage_SIEMEvent::has_snort_cid_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_snort_cid_uint32() const {
   return (_has_bits_[0] & 0x00008000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_snort_cid_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_snort_cid_uint32() {
   _has_bits_[0] |= 0x00008000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_snort_cid_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_snort_cid_uint32() {
   _has_bits_[0] &= ~0x00008000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_snort_cid_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_snort_cid_uint32() {
   snort_cid_uint32_ = 0u;
   clear_has_snort_cid_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::snort_cid_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::snort_cid_uint32() const {
   return snort_cid_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_snort_cid_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_snort_cid_uint32(::google::protobuf::uint32 value) {
   set_has_snort_cid_uint32();
   snort_cid_uint32_ = value;
 }
 
 // optional uint32 priority_uint32 = 17;
-inline bool SIEMPbMessage_SIEMEvent::has_priority_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_priority_uint32() const {
   return (_has_bits_[0] & 0x00010000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_priority_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_priority_uint32() {
   _has_bits_[0] |= 0x00010000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_priority_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_priority_uint32() {
   _has_bits_[0] &= ~0x00010000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_priority_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_priority_uint32() {
   priority_uint32_ = 0u;
   clear_has_priority_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::priority_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::priority_uint32() const {
   return priority_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_priority_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_priority_uint32(::google::protobuf::uint32 value) {
   set_has_priority_uint32();
   priority_uint32_ = value;
 }
 
 // optional uint32 occurrences_uint32 = 18;
-inline bool SIEMPbMessage_SIEMEvent::has_occurrences_uint32() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_occurrences_uint32() const {
   return (_has_bits_[0] & 0x00020000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_occurrences_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_occurrences_uint32() {
   _has_bits_[0] |= 0x00020000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_occurrences_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_occurrences_uint32() {
   _has_bits_[0] &= ~0x00020000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_occurrences_uint32() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_occurrences_uint32() {
   occurrences_uint32_ = 0u;
   clear_has_occurrences_uint32();
 }
-inline ::google::protobuf::uint32 SIEMPbMessage_SIEMEvent::occurrences_uint32() const {
+inline ::google::protobuf::uint32 SIEMPbMessage_SIEMPbEvent::occurrences_uint32() const {
   return occurrences_uint32_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_occurrences_uint32(::google::protobuf::uint32 value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_occurrences_uint32(::google::protobuf::uint32 value) {
   set_has_occurrences_uint32();
   occurrences_uint32_ = value;
 }
 
 // optional string ctx_str = 19;
-inline bool SIEMPbMessage_SIEMEvent::has_ctx_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_ctx_str() const {
   return (_has_bits_[0] & 0x00040000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_ctx_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_ctx_str() {
   _has_bits_[0] |= 0x00040000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_ctx_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_ctx_str() {
   _has_bits_[0] &= ~0x00040000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_ctx_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_ctx_str() {
   if (ctx_str_ != &::google::protobuf::internal::kEmptyString) {
     ctx_str_->clear();
   }
   clear_has_ctx_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::ctx_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::ctx_str() const {
   return *ctx_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_ctx_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_ctx_str(const ::std::string& value) {
   set_has_ctx_str();
   if (ctx_str_ == &::google::protobuf::internal::kEmptyString) {
     ctx_str_ = new ::std::string;
   }
   ctx_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_ctx_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_ctx_str(const char* value) {
   set_has_ctx_str();
   if (ctx_str_ == &::google::protobuf::internal::kEmptyString) {
     ctx_str_ = new ::std::string;
   }
   ctx_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_ctx_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_ctx_str(const char* value, size_t size) {
   set_has_ctx_str();
   if (ctx_str_ == &::google::protobuf::internal::kEmptyString) {
     ctx_str_ = new ::std::string;
   }
   ctx_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_ctx_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_ctx_str() {
   set_has_ctx_str();
   if (ctx_str_ == &::google::protobuf::internal::kEmptyString) {
     ctx_str_ = new ::std::string;
   }
   return ctx_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_ctx_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_ctx_str() {
   clear_has_ctx_str();
   if (ctx_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1267,7 +1279,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_ctx_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_ctx_str(::std::string* ctx_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_ctx_str(::std::string* ctx_str) {
   if (ctx_str_ != &::google::protobuf::internal::kEmptyString) {
     delete ctx_str_;
   }
@@ -1281,53 +1293,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_ctx_str(::std::string* ctx_st
 }
 
 // optional string username_str = 20;
-inline bool SIEMPbMessage_SIEMEvent::has_username_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_username_str() const {
   return (_has_bits_[0] & 0x00080000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_username_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_username_str() {
   _has_bits_[0] |= 0x00080000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_username_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_username_str() {
   _has_bits_[0] &= ~0x00080000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_username_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_username_str() {
   if (username_str_ != &::google::protobuf::internal::kEmptyString) {
     username_str_->clear();
   }
   clear_has_username_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::username_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::username_str() const {
   return *username_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_username_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_username_str(const ::std::string& value) {
   set_has_username_str();
   if (username_str_ == &::google::protobuf::internal::kEmptyString) {
     username_str_ = new ::std::string;
   }
   username_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_username_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_username_str(const char* value) {
   set_has_username_str();
   if (username_str_ == &::google::protobuf::internal::kEmptyString) {
     username_str_ = new ::std::string;
   }
   username_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_username_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_username_str(const char* value, size_t size) {
   set_has_username_str();
   if (username_str_ == &::google::protobuf::internal::kEmptyString) {
     username_str_ = new ::std::string;
   }
   username_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_username_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_username_str() {
   set_has_username_str();
   if (username_str_ == &::google::protobuf::internal::kEmptyString) {
     username_str_ = new ::std::string;
   }
   return username_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_username_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_username_str() {
   clear_has_username_str();
   if (username_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1337,7 +1349,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_username_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_username_str(::std::string* username_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_username_str(::std::string* username_str) {
   if (username_str_ != &::google::protobuf::internal::kEmptyString) {
     delete username_str_;
   }
@@ -1351,53 +1363,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_username_str(::std::string* u
 }
 
 // optional string password_str = 21;
-inline bool SIEMPbMessage_SIEMEvent::has_password_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_password_str() const {
   return (_has_bits_[0] & 0x00100000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_password_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_password_str() {
   _has_bits_[0] |= 0x00100000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_password_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_password_str() {
   _has_bits_[0] &= ~0x00100000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_password_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_password_str() {
   if (password_str_ != &::google::protobuf::internal::kEmptyString) {
     password_str_->clear();
   }
   clear_has_password_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::password_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::password_str() const {
   return *password_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_password_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_password_str(const ::std::string& value) {
   set_has_password_str();
   if (password_str_ == &::google::protobuf::internal::kEmptyString) {
     password_str_ = new ::std::string;
   }
   password_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_password_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_password_str(const char* value) {
   set_has_password_str();
   if (password_str_ == &::google::protobuf::internal::kEmptyString) {
     password_str_ = new ::std::string;
   }
   password_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_password_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_password_str(const char* value, size_t size) {
   set_has_password_str();
   if (password_str_ == &::google::protobuf::internal::kEmptyString) {
     password_str_ = new ::std::string;
   }
   password_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_password_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_password_str() {
   set_has_password_str();
   if (password_str_ == &::google::protobuf::internal::kEmptyString) {
     password_str_ = new ::std::string;
   }
   return password_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_password_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_password_str() {
   clear_has_password_str();
   if (password_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1407,7 +1419,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_password_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_password_str(::std::string* password_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_password_str(::std::string* password_str) {
   if (password_str_ != &::google::protobuf::internal::kEmptyString) {
     delete password_str_;
   }
@@ -1421,53 +1433,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_password_str(::std::string* p
 }
 
 // optional string filename_str = 22;
-inline bool SIEMPbMessage_SIEMEvent::has_filename_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_filename_str() const {
   return (_has_bits_[0] & 0x00200000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_filename_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_filename_str() {
   _has_bits_[0] |= 0x00200000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_filename_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_filename_str() {
   _has_bits_[0] &= ~0x00200000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_filename_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_filename_str() {
   if (filename_str_ != &::google::protobuf::internal::kEmptyString) {
     filename_str_->clear();
   }
   clear_has_filename_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::filename_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::filename_str() const {
   return *filename_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_filename_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_filename_str(const ::std::string& value) {
   set_has_filename_str();
   if (filename_str_ == &::google::protobuf::internal::kEmptyString) {
     filename_str_ = new ::std::string;
   }
   filename_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_filename_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_filename_str(const char* value) {
   set_has_filename_str();
   if (filename_str_ == &::google::protobuf::internal::kEmptyString) {
     filename_str_ = new ::std::string;
   }
   filename_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_filename_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_filename_str(const char* value, size_t size) {
   set_has_filename_str();
   if (filename_str_ == &::google::protobuf::internal::kEmptyString) {
     filename_str_ = new ::std::string;
   }
   filename_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_filename_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_filename_str() {
   set_has_filename_str();
   if (filename_str_ == &::google::protobuf::internal::kEmptyString) {
     filename_str_ = new ::std::string;
   }
   return filename_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_filename_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_filename_str() {
   clear_has_filename_str();
   if (filename_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1477,7 +1489,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_filename_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_filename_str(::std::string* filename_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_filename_str(::std::string* filename_str) {
   if (filename_str_ != &::google::protobuf::internal::kEmptyString) {
     delete filename_str_;
   }
@@ -1491,53 +1503,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_filename_str(::std::string* f
 }
 
 // optional string userdata1_str = 23;
-inline bool SIEMPbMessage_SIEMEvent::has_userdata1_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_userdata1_str() const {
   return (_has_bits_[0] & 0x00400000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_userdata1_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_userdata1_str() {
   _has_bits_[0] |= 0x00400000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_userdata1_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_userdata1_str() {
   _has_bits_[0] &= ~0x00400000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_userdata1_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_userdata1_str() {
   if (userdata1_str_ != &::google::protobuf::internal::kEmptyString) {
     userdata1_str_->clear();
   }
   clear_has_userdata1_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::userdata1_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::userdata1_str() const {
   return *userdata1_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata1_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata1_str(const ::std::string& value) {
   set_has_userdata1_str();
   if (userdata1_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata1_str_ = new ::std::string;
   }
   userdata1_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata1_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata1_str(const char* value) {
   set_has_userdata1_str();
   if (userdata1_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata1_str_ = new ::std::string;
   }
   userdata1_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata1_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata1_str(const char* value, size_t size) {
   set_has_userdata1_str();
   if (userdata1_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata1_str_ = new ::std::string;
   }
   userdata1_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_userdata1_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_userdata1_str() {
   set_has_userdata1_str();
   if (userdata1_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata1_str_ = new ::std::string;
   }
   return userdata1_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata1_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_userdata1_str() {
   clear_has_userdata1_str();
   if (userdata1_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1547,7 +1559,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata1_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata1_str(::std::string* userdata1_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_userdata1_str(::std::string* userdata1_str) {
   if (userdata1_str_ != &::google::protobuf::internal::kEmptyString) {
     delete userdata1_str_;
   }
@@ -1561,53 +1573,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata1_str(::std::string* 
 }
 
 // optional string userdata2_str = 24;
-inline bool SIEMPbMessage_SIEMEvent::has_userdata2_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_userdata2_str() const {
   return (_has_bits_[0] & 0x00800000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_userdata2_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_userdata2_str() {
   _has_bits_[0] |= 0x00800000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_userdata2_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_userdata2_str() {
   _has_bits_[0] &= ~0x00800000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_userdata2_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_userdata2_str() {
   if (userdata2_str_ != &::google::protobuf::internal::kEmptyString) {
     userdata2_str_->clear();
   }
   clear_has_userdata2_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::userdata2_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::userdata2_str() const {
   return *userdata2_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata2_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata2_str(const ::std::string& value) {
   set_has_userdata2_str();
   if (userdata2_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata2_str_ = new ::std::string;
   }
   userdata2_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata2_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata2_str(const char* value) {
   set_has_userdata2_str();
   if (userdata2_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata2_str_ = new ::std::string;
   }
   userdata2_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata2_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata2_str(const char* value, size_t size) {
   set_has_userdata2_str();
   if (userdata2_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata2_str_ = new ::std::string;
   }
   userdata2_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_userdata2_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_userdata2_str() {
   set_has_userdata2_str();
   if (userdata2_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata2_str_ = new ::std::string;
   }
   return userdata2_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata2_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_userdata2_str() {
   clear_has_userdata2_str();
   if (userdata2_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1617,7 +1629,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata2_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata2_str(::std::string* userdata2_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_userdata2_str(::std::string* userdata2_str) {
   if (userdata2_str_ != &::google::protobuf::internal::kEmptyString) {
     delete userdata2_str_;
   }
@@ -1631,53 +1643,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata2_str(::std::string* 
 }
 
 // optional string userdata3_str = 25;
-inline bool SIEMPbMessage_SIEMEvent::has_userdata3_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_userdata3_str() const {
   return (_has_bits_[0] & 0x01000000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_userdata3_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_userdata3_str() {
   _has_bits_[0] |= 0x01000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_userdata3_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_userdata3_str() {
   _has_bits_[0] &= ~0x01000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_userdata3_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_userdata3_str() {
   if (userdata3_str_ != &::google::protobuf::internal::kEmptyString) {
     userdata3_str_->clear();
   }
   clear_has_userdata3_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::userdata3_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::userdata3_str() const {
   return *userdata3_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata3_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata3_str(const ::std::string& value) {
   set_has_userdata3_str();
   if (userdata3_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata3_str_ = new ::std::string;
   }
   userdata3_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata3_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata3_str(const char* value) {
   set_has_userdata3_str();
   if (userdata3_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata3_str_ = new ::std::string;
   }
   userdata3_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata3_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata3_str(const char* value, size_t size) {
   set_has_userdata3_str();
   if (userdata3_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata3_str_ = new ::std::string;
   }
   userdata3_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_userdata3_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_userdata3_str() {
   set_has_userdata3_str();
   if (userdata3_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata3_str_ = new ::std::string;
   }
   return userdata3_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata3_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_userdata3_str() {
   clear_has_userdata3_str();
   if (userdata3_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1687,7 +1699,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata3_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata3_str(::std::string* userdata3_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_userdata3_str(::std::string* userdata3_str) {
   if (userdata3_str_ != &::google::protobuf::internal::kEmptyString) {
     delete userdata3_str_;
   }
@@ -1701,53 +1713,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata3_str(::std::string* 
 }
 
 // optional string userdata4_str = 26;
-inline bool SIEMPbMessage_SIEMEvent::has_userdata4_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_userdata4_str() const {
   return (_has_bits_[0] & 0x02000000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_userdata4_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_userdata4_str() {
   _has_bits_[0] |= 0x02000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_userdata4_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_userdata4_str() {
   _has_bits_[0] &= ~0x02000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_userdata4_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_userdata4_str() {
   if (userdata4_str_ != &::google::protobuf::internal::kEmptyString) {
     userdata4_str_->clear();
   }
   clear_has_userdata4_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::userdata4_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::userdata4_str() const {
   return *userdata4_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata4_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata4_str(const ::std::string& value) {
   set_has_userdata4_str();
   if (userdata4_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata4_str_ = new ::std::string;
   }
   userdata4_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata4_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata4_str(const char* value) {
   set_has_userdata4_str();
   if (userdata4_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata4_str_ = new ::std::string;
   }
   userdata4_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata4_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata4_str(const char* value, size_t size) {
   set_has_userdata4_str();
   if (userdata4_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata4_str_ = new ::std::string;
   }
   userdata4_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_userdata4_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_userdata4_str() {
   set_has_userdata4_str();
   if (userdata4_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata4_str_ = new ::std::string;
   }
   return userdata4_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata4_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_userdata4_str() {
   clear_has_userdata4_str();
   if (userdata4_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1757,7 +1769,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata4_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata4_str(::std::string* userdata4_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_userdata4_str(::std::string* userdata4_str) {
   if (userdata4_str_ != &::google::protobuf::internal::kEmptyString) {
     delete userdata4_str_;
   }
@@ -1771,53 +1783,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata4_str(::std::string* 
 }
 
 // optional string userdata5_str = 27;
-inline bool SIEMPbMessage_SIEMEvent::has_userdata5_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_userdata5_str() const {
   return (_has_bits_[0] & 0x04000000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_userdata5_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_userdata5_str() {
   _has_bits_[0] |= 0x04000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_userdata5_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_userdata5_str() {
   _has_bits_[0] &= ~0x04000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_userdata5_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_userdata5_str() {
   if (userdata5_str_ != &::google::protobuf::internal::kEmptyString) {
     userdata5_str_->clear();
   }
   clear_has_userdata5_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::userdata5_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::userdata5_str() const {
   return *userdata5_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata5_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata5_str(const ::std::string& value) {
   set_has_userdata5_str();
   if (userdata5_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata5_str_ = new ::std::string;
   }
   userdata5_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata5_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata5_str(const char* value) {
   set_has_userdata5_str();
   if (userdata5_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata5_str_ = new ::std::string;
   }
   userdata5_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata5_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata5_str(const char* value, size_t size) {
   set_has_userdata5_str();
   if (userdata5_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata5_str_ = new ::std::string;
   }
   userdata5_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_userdata5_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_userdata5_str() {
   set_has_userdata5_str();
   if (userdata5_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata5_str_ = new ::std::string;
   }
   return userdata5_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata5_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_userdata5_str() {
   clear_has_userdata5_str();
   if (userdata5_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1827,7 +1839,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata5_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata5_str(::std::string* userdata5_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_userdata5_str(::std::string* userdata5_str) {
   if (userdata5_str_ != &::google::protobuf::internal::kEmptyString) {
     delete userdata5_str_;
   }
@@ -1841,53 +1853,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata5_str(::std::string* 
 }
 
 // optional string userdata6_str = 28;
-inline bool SIEMPbMessage_SIEMEvent::has_userdata6_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_userdata6_str() const {
   return (_has_bits_[0] & 0x08000000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_userdata6_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_userdata6_str() {
   _has_bits_[0] |= 0x08000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_userdata6_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_userdata6_str() {
   _has_bits_[0] &= ~0x08000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_userdata6_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_userdata6_str() {
   if (userdata6_str_ != &::google::protobuf::internal::kEmptyString) {
     userdata6_str_->clear();
   }
   clear_has_userdata6_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::userdata6_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::userdata6_str() const {
   return *userdata6_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata6_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata6_str(const ::std::string& value) {
   set_has_userdata6_str();
   if (userdata6_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata6_str_ = new ::std::string;
   }
   userdata6_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata6_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata6_str(const char* value) {
   set_has_userdata6_str();
   if (userdata6_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata6_str_ = new ::std::string;
   }
   userdata6_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata6_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata6_str(const char* value, size_t size) {
   set_has_userdata6_str();
   if (userdata6_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata6_str_ = new ::std::string;
   }
   userdata6_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_userdata6_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_userdata6_str() {
   set_has_userdata6_str();
   if (userdata6_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata6_str_ = new ::std::string;
   }
   return userdata6_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata6_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_userdata6_str() {
   clear_has_userdata6_str();
   if (userdata6_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1897,7 +1909,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata6_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata6_str(::std::string* userdata6_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_userdata6_str(::std::string* userdata6_str) {
   if (userdata6_str_ != &::google::protobuf::internal::kEmptyString) {
     delete userdata6_str_;
   }
@@ -1911,53 +1923,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata6_str(::std::string* 
 }
 
 // optional string userdata7_str = 29;
-inline bool SIEMPbMessage_SIEMEvent::has_userdata7_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_userdata7_str() const {
   return (_has_bits_[0] & 0x10000000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_userdata7_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_userdata7_str() {
   _has_bits_[0] |= 0x10000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_userdata7_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_userdata7_str() {
   _has_bits_[0] &= ~0x10000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_userdata7_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_userdata7_str() {
   if (userdata7_str_ != &::google::protobuf::internal::kEmptyString) {
     userdata7_str_->clear();
   }
   clear_has_userdata7_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::userdata7_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::userdata7_str() const {
   return *userdata7_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata7_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata7_str(const ::std::string& value) {
   set_has_userdata7_str();
   if (userdata7_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata7_str_ = new ::std::string;
   }
   userdata7_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata7_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata7_str(const char* value) {
   set_has_userdata7_str();
   if (userdata7_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata7_str_ = new ::std::string;
   }
   userdata7_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata7_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata7_str(const char* value, size_t size) {
   set_has_userdata7_str();
   if (userdata7_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata7_str_ = new ::std::string;
   }
   userdata7_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_userdata7_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_userdata7_str() {
   set_has_userdata7_str();
   if (userdata7_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata7_str_ = new ::std::string;
   }
   return userdata7_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata7_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_userdata7_str() {
   clear_has_userdata7_str();
   if (userdata7_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -1967,7 +1979,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata7_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata7_str(::std::string* userdata7_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_userdata7_str(::std::string* userdata7_str) {
   if (userdata7_str_ != &::google::protobuf::internal::kEmptyString) {
     delete userdata7_str_;
   }
@@ -1981,53 +1993,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata7_str(::std::string* 
 }
 
 // optional string userdata8_str = 30;
-inline bool SIEMPbMessage_SIEMEvent::has_userdata8_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_userdata8_str() const {
   return (_has_bits_[0] & 0x20000000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_userdata8_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_userdata8_str() {
   _has_bits_[0] |= 0x20000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_userdata8_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_userdata8_str() {
   _has_bits_[0] &= ~0x20000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_userdata8_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_userdata8_str() {
   if (userdata8_str_ != &::google::protobuf::internal::kEmptyString) {
     userdata8_str_->clear();
   }
   clear_has_userdata8_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::userdata8_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::userdata8_str() const {
   return *userdata8_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata8_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata8_str(const ::std::string& value) {
   set_has_userdata8_str();
   if (userdata8_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata8_str_ = new ::std::string;
   }
   userdata8_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata8_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata8_str(const char* value) {
   set_has_userdata8_str();
   if (userdata8_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata8_str_ = new ::std::string;
   }
   userdata8_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata8_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata8_str(const char* value, size_t size) {
   set_has_userdata8_str();
   if (userdata8_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata8_str_ = new ::std::string;
   }
   userdata8_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_userdata8_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_userdata8_str() {
   set_has_userdata8_str();
   if (userdata8_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata8_str_ = new ::std::string;
   }
   return userdata8_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata8_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_userdata8_str() {
   clear_has_userdata8_str();
   if (userdata8_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -2037,7 +2049,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata8_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata8_str(::std::string* userdata8_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_userdata8_str(::std::string* userdata8_str) {
   if (userdata8_str_ != &::google::protobuf::internal::kEmptyString) {
     delete userdata8_str_;
   }
@@ -2051,53 +2063,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata8_str(::std::string* 
 }
 
 // optional string userdata9_str = 31;
-inline bool SIEMPbMessage_SIEMEvent::has_userdata9_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_userdata9_str() const {
   return (_has_bits_[0] & 0x40000000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_userdata9_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_userdata9_str() {
   _has_bits_[0] |= 0x40000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_userdata9_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_userdata9_str() {
   _has_bits_[0] &= ~0x40000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_userdata9_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_userdata9_str() {
   if (userdata9_str_ != &::google::protobuf::internal::kEmptyString) {
     userdata9_str_->clear();
   }
   clear_has_userdata9_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::userdata9_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::userdata9_str() const {
   return *userdata9_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata9_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata9_str(const ::std::string& value) {
   set_has_userdata9_str();
   if (userdata9_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata9_str_ = new ::std::string;
   }
   userdata9_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata9_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata9_str(const char* value) {
   set_has_userdata9_str();
   if (userdata9_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata9_str_ = new ::std::string;
   }
   userdata9_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_userdata9_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_userdata9_str(const char* value, size_t size) {
   set_has_userdata9_str();
   if (userdata9_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata9_str_ = new ::std::string;
   }
   userdata9_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_userdata9_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_userdata9_str() {
   set_has_userdata9_str();
   if (userdata9_str_ == &::google::protobuf::internal::kEmptyString) {
     userdata9_str_ = new ::std::string;
   }
   return userdata9_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata9_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_userdata9_str() {
   clear_has_userdata9_str();
   if (userdata9_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -2107,7 +2119,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_userdata9_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata9_str(::std::string* userdata9_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_userdata9_str(::std::string* userdata9_str) {
   if (userdata9_str_ != &::google::protobuf::internal::kEmptyString) {
     delete userdata9_str_;
   }
@@ -2121,53 +2133,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_userdata9_str(::std::string* 
 }
 
 // optional string sensor_id_str = 32;
-inline bool SIEMPbMessage_SIEMEvent::has_sensor_id_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_sensor_id_str() const {
   return (_has_bits_[0] & 0x80000000u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_sensor_id_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_sensor_id_str() {
   _has_bits_[0] |= 0x80000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_sensor_id_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_sensor_id_str() {
   _has_bits_[0] &= ~0x80000000u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_sensor_id_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_sensor_id_str() {
   if (sensor_id_str_ != &::google::protobuf::internal::kEmptyString) {
     sensor_id_str_->clear();
   }
   clear_has_sensor_id_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::sensor_id_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::sensor_id_str() const {
   return *sensor_id_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_sensor_id_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_sensor_id_str(const ::std::string& value) {
   set_has_sensor_id_str();
   if (sensor_id_str_ == &::google::protobuf::internal::kEmptyString) {
     sensor_id_str_ = new ::std::string;
   }
   sensor_id_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_sensor_id_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_sensor_id_str(const char* value) {
   set_has_sensor_id_str();
   if (sensor_id_str_ == &::google::protobuf::internal::kEmptyString) {
     sensor_id_str_ = new ::std::string;
   }
   sensor_id_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_sensor_id_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_sensor_id_str(const char* value, size_t size) {
   set_has_sensor_id_str();
   if (sensor_id_str_ == &::google::protobuf::internal::kEmptyString) {
     sensor_id_str_ = new ::std::string;
   }
   sensor_id_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_sensor_id_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_sensor_id_str() {
   set_has_sensor_id_str();
   if (sensor_id_str_ == &::google::protobuf::internal::kEmptyString) {
     sensor_id_str_ = new ::std::string;
   }
   return sensor_id_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_sensor_id_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_sensor_id_str() {
   clear_has_sensor_id_str();
   if (sensor_id_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -2177,7 +2189,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_sensor_id_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_sensor_id_str(::std::string* sensor_id_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_sensor_id_str(::std::string* sensor_id_str) {
   if (sensor_id_str_ != &::google::protobuf::internal::kEmptyString) {
     delete sensor_id_str_;
   }
@@ -2191,53 +2203,53 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_sensor_id_str(::std::string* 
 }
 
 // optional string binary_data_str = 33;
-inline bool SIEMPbMessage_SIEMEvent::has_binary_data_str() const {
+inline bool SIEMPbMessage_SIEMPbEvent::has_binary_data_str() const {
   return (_has_bits_[1] & 0x00000001u) != 0;
 }
-inline void SIEMPbMessage_SIEMEvent::set_has_binary_data_str() {
+inline void SIEMPbMessage_SIEMPbEvent::set_has_binary_data_str() {
   _has_bits_[1] |= 0x00000001u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_has_binary_data_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_has_binary_data_str() {
   _has_bits_[1] &= ~0x00000001u;
 }
-inline void SIEMPbMessage_SIEMEvent::clear_binary_data_str() {
+inline void SIEMPbMessage_SIEMPbEvent::clear_binary_data_str() {
   if (binary_data_str_ != &::google::protobuf::internal::kEmptyString) {
     binary_data_str_->clear();
   }
   clear_has_binary_data_str();
 }
-inline const ::std::string& SIEMPbMessage_SIEMEvent::binary_data_str() const {
+inline const ::std::string& SIEMPbMessage_SIEMPbEvent::binary_data_str() const {
   return *binary_data_str_;
 }
-inline void SIEMPbMessage_SIEMEvent::set_binary_data_str(const ::std::string& value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_binary_data_str(const ::std::string& value) {
   set_has_binary_data_str();
   if (binary_data_str_ == &::google::protobuf::internal::kEmptyString) {
     binary_data_str_ = new ::std::string;
   }
   binary_data_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_binary_data_str(const char* value) {
+inline void SIEMPbMessage_SIEMPbEvent::set_binary_data_str(const char* value) {
   set_has_binary_data_str();
   if (binary_data_str_ == &::google::protobuf::internal::kEmptyString) {
     binary_data_str_ = new ::std::string;
   }
   binary_data_str_->assign(value);
 }
-inline void SIEMPbMessage_SIEMEvent::set_binary_data_str(const char* value, size_t size) {
+inline void SIEMPbMessage_SIEMPbEvent::set_binary_data_str(const char* value, size_t size) {
   set_has_binary_data_str();
   if (binary_data_str_ == &::google::protobuf::internal::kEmptyString) {
     binary_data_str_ = new ::std::string;
   }
   binary_data_str_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::mutable_binary_data_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::mutable_binary_data_str() {
   set_has_binary_data_str();
   if (binary_data_str_ == &::google::protobuf::internal::kEmptyString) {
     binary_data_str_ = new ::std::string;
   }
   return binary_data_str_;
 }
-inline ::std::string* SIEMPbMessage_SIEMEvent::release_binary_data_str() {
+inline ::std::string* SIEMPbMessage_SIEMPbEvent::release_binary_data_str() {
   clear_has_binary_data_str();
   if (binary_data_str_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -2247,7 +2259,7 @@ inline ::std::string* SIEMPbMessage_SIEMEvent::release_binary_data_str() {
     return temp;
   }
 }
-inline void SIEMPbMessage_SIEMEvent::set_allocated_binary_data_str(::std::string* binary_data_str) {
+inline void SIEMPbMessage_SIEMPbEvent::set_allocated_binary_data_str(::std::string* binary_data_str) {
   if (binary_data_str_ != &::google::protobuf::internal::kEmptyString) {
     delete binary_data_str_;
   }
@@ -2263,6 +2275,48 @@ inline void SIEMPbMessage_SIEMEvent::set_allocated_binary_data_str(::std::string
 // -------------------------------------------------------------------
 
 // SIEMPbMessage
+
+// optional .SIEM.SIEMPbMessage.SIEMPbEvent siem_event = 1;
+inline bool SIEMPbMessage::has_siem_event() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void SIEMPbMessage::set_has_siem_event() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void SIEMPbMessage::clear_has_siem_event() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void SIEMPbMessage::clear_siem_event() {
+  if (siem_event_ != NULL) siem_event_->::SIEM::SIEMPbMessage_SIEMPbEvent::Clear();
+  clear_has_siem_event();
+}
+inline const ::SIEM::SIEMPbMessage_SIEMPbEvent& SIEMPbMessage::siem_event() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return siem_event_ != NULL ? *siem_event_ : *default_instance().siem_event_;
+#else
+  return siem_event_ != NULL ? *siem_event_ : *default_instance_->siem_event_;
+#endif
+}
+inline ::SIEM::SIEMPbMessage_SIEMPbEvent* SIEMPbMessage::mutable_siem_event() {
+  set_has_siem_event();
+  if (siem_event_ == NULL) siem_event_ = new ::SIEM::SIEMPbMessage_SIEMPbEvent;
+  return siem_event_;
+}
+inline ::SIEM::SIEMPbMessage_SIEMPbEvent* SIEMPbMessage::release_siem_event() {
+  clear_has_siem_event();
+  ::SIEM::SIEMPbMessage_SIEMPbEvent* temp = siem_event_;
+  siem_event_ = NULL;
+  return temp;
+}
+inline void SIEMPbMessage::set_allocated_siem_event(::SIEM::SIEMPbMessage_SIEMPbEvent* siem_event) {
+  delete siem_event_;
+  siem_event_ = siem_event;
+  if (siem_event) {
+    set_has_siem_event();
+  } else {
+    clear_has_siem_event();
+  }
+}
 
 
 // @@protoc_insertion_point(namespace_scope)
