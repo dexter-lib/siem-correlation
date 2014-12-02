@@ -35,7 +35,7 @@ public:
     virtual ~CSIEMEventBuild();
 public:
     bool ZMQEventBuild(::SIEM::SIEMEvent& event, ::SIEM::SIEMPbMessage& pbMsg);
-    bool ThriftEventBuild(::SIEM::SIEMEvent& event, ::SIEM::thrift::SIEMThriftEvent& tEvent);
+    bool ThriftEventBuild(::SIEM::SIEMEvent& event, const ::SIEM::thrift::SIEMThriftEvent& tEvent);
 };
 
 } /* namespace SIEM */

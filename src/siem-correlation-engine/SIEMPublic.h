@@ -39,7 +39,8 @@ struct stCacheItem
     {}
 };
 
-typedef enum stProtocolType {
+typedef enum stProtocolType
+{
     SIEM_PROTOCOL_NONE = -1,
     SIEM_PROTOCOL_ICMP = 1,
     SIEM_PROTOCOL_TCP = 6,
@@ -49,7 +50,8 @@ typedef enum stProtocolType {
     SIEM_PROTOCOL_SERVER_EVENT = 136
 } SIEM_PROTOCOL_TYPE;
 
-typedef enum stSIEMEventType {
+typedef enum stSIEMEventType
+{
       SIEM_EVENT_NONE = -1,
       SIEM_EVENT_DETECTOR = 1,
       SIEM_EVENT_MONITOR = 2,

@@ -20,7 +20,11 @@
 #define IRECEIVESERVER_H_
 
 #include <boost/noncopyable.hpp>
+#include <boost/shared_ptr.hpp>
+
 #include <pthread.h>
+
+#include "SIEMEventBuild.h"
 
 namespace SIEM
 {
@@ -28,7 +32,11 @@ namespace SIEM
 class IReceiveServer : public boost::noncopyable
 {
 public:
-    IReceiveServer(){}
+    IReceiveServer()
+    :m_pthServerID(0),
+     m_ptrSIEMBuild(new CSIEMEventBuild())
+    {
+    }
     virtual ~IReceiveServer(){}
 public:
     bool virtual Start()         = 0;
@@ -37,7 +45,8 @@ public:
     inline bool Stop();
     inline bool Join();
 protected:
-    pthread_t m_pthServerID;
+    pthread_t                           m_pthServerID;
+    boost::shared_ptr<CSIEMEventBuild>  m_ptrSIEMBuild;
 };
 
 inline bool IReceiveServer::Join()

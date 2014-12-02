@@ -67,6 +67,11 @@ JUDGE_WRITE:
 
 bool CThriftReceiveServer::Handle(const SIEMThriftEvent& tEvent)
 {
+    shared_ptr<SIEMEvent> se(new SIEMEvent());
+    if(!m_ptrSIEMBuild->ThriftEventBuild(*(se.get()), tEvent))
+    {
+
+    }
     return true;
 }
 
