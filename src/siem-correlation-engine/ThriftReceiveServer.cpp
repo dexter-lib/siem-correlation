@@ -32,6 +32,9 @@ using boost::shared_ptr;
 
 using namespace  ::SIEM::thrift;
 
+extern ::SIEM::SIEMEventVctPtr g_vctSIEMEventPtr;
+extern pthread_mutex_t g_mutEvent;
+
 namespace SIEM
 {
 
@@ -67,10 +70,12 @@ JUDGE_WRITE:
 
 bool CThriftReceiveServer::Handle(const SIEMThriftEvent& tEvent)
 {
-    shared_ptr<SIEMEvent> se(new SIEMEvent());
-    if(!m_ptrSIEMBuild->ThriftEventBuild(*(se.get()), tEvent))
+    SIEMEventPtr se(new SIEMEvent());
+    if(m_ptrSIEMBuild->ThriftEventBuild(*(se.get()), tEvent))
     {
-
+        pthread_mutex_lock(&g_mutEvent);
+        g_vctSIEMEventPtr->push_back(se);
+        pthread_mutex_unlock(&g_mutEvent);
     }
     return true;
 }

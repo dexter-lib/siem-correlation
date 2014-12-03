@@ -30,7 +30,8 @@
 
 #include <iostream>
 
-
+extern ::SIEM::SIEMEventVctPtr g_vctSIEMEventPtr;
+extern pthread_mutex_t g_mutEvent;
 
 namespace SIEM
 {
@@ -94,8 +95,23 @@ void * CZMQReceiveServer::ThreadZMQ(void *p)
 
 bool CZMQReceiveServer::Handle(char * pszMsg, size_t size)
 {
+    Poco::Logger & logger = Poco::Util::Application::instance().logger();
+
     SIEMPbMessage msg;
     msg.ParseFromArray(pszMsg, size);
+
+    SIEMEventPtr se(new SIEMEvent());
+    if(m_ptrSIEMBuild->ZMQEventBuild(*(se.get()), msg))
+    {
+        pthread_mutex_lock(&g_mutEvent);
+        g_vctSIEMEventPtr->push_back(se);
+        pthread_mutex_unlock(&g_mutEvent);
+    }
+    else
+    {
+        se.reset();
+        logger.error("Build SIEMEvent fault");
+    }
 
 
     return true;

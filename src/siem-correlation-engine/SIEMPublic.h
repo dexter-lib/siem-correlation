@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 
+#include <boost/shared_ptr.hpp>
+
 #include <stdint.h>
 
 namespace SIEM
@@ -97,7 +99,8 @@ typedef struct stSIEMEvent
     std::string        strLog;
 } SIEMEvent;
 
-
+typedef boost::shared_ptr<SIEMEvent> SIEMEventPtr;
+typedef boost::shared_ptr<std::vector<SIEMEventPtr> > SIEMEventVctPtr;
 
 } /* namespace SIEM */
 #endif /* SIEMPUBLIC_H_ */
