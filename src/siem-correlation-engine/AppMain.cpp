@@ -22,7 +22,7 @@
 
 #include "SIEMServer.h"
 
-::SIEM::SIEMEventVctPtr g_vctSIEMEventPtr(new std::vector<::SIEM::SIEMEventPtr>());
+::SIEM::SIEMEventVctPtr g_vctSIEMEventPtr(new std::vector< ::SIEM::SIEMEventPtr>());
 
 pthread_mutex_t g_mutEvent = PTHREAD_MUTEX_INITIALIZER;
 

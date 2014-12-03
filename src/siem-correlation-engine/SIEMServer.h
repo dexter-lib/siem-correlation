@@ -11,6 +11,7 @@
 #include <Poco/Util/ServerApplication.h>
 
 #include "IReceiveServer.h"
+#include "SIEMEventHandle.h"
 
 namespace SIEM
 {
@@ -34,8 +35,11 @@ private:
     bool m_bHelpRequest;
     bool m_bUseZMQServer;
     bool m_bUseThriftServer;
-    IReceiveServer *m_pZMQServer;
-    IReceiveServer *m_pThriftServer;
+    //Initialized when it necessary
+    IReceiveServer                     *m_pZMQServer;
+    IReceiveServer                     *m_pThriftServer;
+    //Initialized when server begin
+    boost::shared_ptr<CSIEMEventHandle> m_ptrSIEMEventHandle;
 };
 
 } /* namespace SIEM */

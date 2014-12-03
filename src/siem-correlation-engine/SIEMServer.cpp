@@ -196,9 +196,11 @@ int CSIEMServer::main(const std::vector<std::string>& args)
         displayHelp();
         return Application::EXIT_OK;
     }
+
     //handle signal
     setupSignal();
 
+    //Receive from zmq
     if(m_bUseZMQServer)
     {
         m_pZMQServer = new CZMQReceiveServer();
@@ -206,12 +208,15 @@ int CSIEMServer::main(const std::vector<std::string>& args)
         m_pZMQServer->Start();
     }
 
+    //Receive from thrift
     if(m_bUseThriftServer)
     {
         m_pThriftServer = new CThriftReceiveServer();
         m_pThriftServer->Initialize();
         m_pThriftServer->Start();
     }
+
+    m_ptrSIEMEventHandle->Start();
 
     if(m_bUseZMQServer)
     {
@@ -222,6 +227,8 @@ int CSIEMServer::main(const std::vector<std::string>& args)
     {
         m_pThriftServer->Join();
     }
+
+    m_ptrSIEMEventHandle->Join();
 
     return 0;
 }
@@ -285,13 +292,24 @@ CSIEMServer::CSIEMServer()
  m_bUseZMQServer(false),
  m_bUseThriftServer(false),
  m_pZMQServer(NULL),
- m_pThriftServer(NULL)
+ m_pThriftServer(NULL),
+ m_ptrSIEMEventHandle(new CSIEMEventHandle())
 {
-
 }
 
 CSIEMServer::~CSIEMServer()
 {
+    if(m_pZMQServer)
+    {
+        delete m_pZMQServer;
+        m_pZMQServer = NULL;
+    }
+
+    if(m_pThriftServer)
+    {
+        delete m_pThriftServer;
+        m_pThriftServer = NULL;
+    }
 
 }
 

@@ -42,7 +42,7 @@ void * CZMQReceiveServer::ThreadZMQ(void *p)
     logger.debug("Begin zmq receive thread");
     if(p == NULL)
     {
-        logger.error("Input is NULL");
+        logger.error("Input is NULL", __FILE__, __LINE__);
         exit(1);
     }
 
@@ -109,11 +109,9 @@ bool CZMQReceiveServer::Handle(char * pszMsg, size_t size)
     }
     else
     {
-        se.reset();
-        logger.error("Build SIEMEvent fault");
+        se.reset();//reference count-- not necessary
+        logger.error("Build SIEMEvent fault", __FILE__, __LINE__);
     }
-
-
     return true;
 }
 
@@ -131,8 +129,8 @@ bool CZMQReceiveServer::Initialize()
 
     logger.debug("Read zmq config from config file");
 
-    m_nHwm     = config.getInt("siemevent.zmq.hwm", 100000);
-    m_nTimeout = config.getInt("siemevent.zmq.timeout", 2000000);
+    m_nHwm     = config.getInt   ("siemevent.zmq.hwm", 100000);
+    m_nTimeout = config.getInt   ("siemevent.zmq.timeout", 2000000);
     m_strIPC   = config.getString("siemevent.zmq.bind", "ipc:///tmp/siem-correlation");
 
     logger.debug(Poco::format("Hwm is %lu, timeout is %u ipc address is %s", m_nHwm, m_nTimeout, m_strIPC));
