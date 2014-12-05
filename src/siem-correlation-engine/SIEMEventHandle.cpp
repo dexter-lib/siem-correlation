@@ -24,6 +24,8 @@
 
 #include <boost/foreach.hpp>
 
+#include <sched.h>
+
 extern ::SIEM::SIEMEventVctPtr g_vctSIEMEventPtr;
 extern pthread_mutex_t         g_mutEvent;
 
@@ -34,7 +36,44 @@ bool CSIEMEventHandle::Start()
 {
     Poco::Logger & logger = Poco::Util::Application::instance().logger();
 
-    if(pthread_create(&m_pthHandle, NULL, EventHandle, NULL))
+    pthread_attr_t thread_attr;
+    struct sched_param thread_param;
+    int thread_policy, status, rr_min_priority, rr_max_priority;
+
+    pthread_attr_init(&thread_attr);
+
+#if defined(_POSIX_THREAD_PRIORITY_SCHEDULING)
+    pthread_attr_getschedpolicy(&thread_attr, &thread_policy);
+    pthread_attr_getschedparam(&thread_attr, &thread_param);
+    status = pthread_attr_setschedpolicy(&thread_attr, SCHED_RR);
+    if(status != 0)
+    {
+        logger.debug("Unable to set schedpolicy");
+    }
+    else
+    {
+        rr_min_priority = sched_get_priority_min(SCHED_RR);
+        if(rr_min_priority == -1)
+        {
+            logger.debug("Get SCHED_RR min priority");
+            goto THREAD_START;
+        }
+        rr_max_priority = sched_get_priority_max(SCHED_RR);
+        if(rr_max_priority == -1)
+        {
+            logger.debug("Get SCHED_RR max priority");
+            goto THREAD_START;
+        }
+        thread_param.__sched_priority = (rr_max_priority + rr_min_priority)/2;
+        pthread_attr_setschedparam(&thread_attr, &thread_param);
+        pthread_attr_setinheritsched(&thread_attr, PTHREAD_EXPLICIT_SCHED);
+    }
+#else
+    logger.debug("Priority setting not supports\n");
+#endif
+
+THREAD_START:
+    if(pthread_create(&m_pthHandle, &thread_attr, EventHandle, NULL))
     {
         logger.error("Create SIEMEvent handle error!", __FILE__, __LINE__);
         return false;
