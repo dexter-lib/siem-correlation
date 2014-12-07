@@ -23,6 +23,8 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 
+#include <pthread.h>
+
 namespace SIEM
 {
 namespace Util
@@ -57,6 +59,22 @@ std::string static ThriftToString(const ThriftStruct& ts)
     uint32_t size;
     buffer->getBuffer(&buf, &size);
     return std::string((char*)buf, (unsigned int)size);
+}
+
+bool SetThreadCPU(pthread_t pthID, u_int32_t nCPUNum)
+{
+    cpu_set_t mask;
+    cpu_set_t get;
+
+    CPU_ZERO(&mask);
+    CPU_SET(nCPUNum, &mask);
+    if (pthread_setaffinity_np(pthID, sizeof(mask), &mask) < 0) return false;
+
+    CPU_ZERO(&get);
+    if (pthread_getaffinity_np(pthID, sizeof(get), &get) < 0) return false;
+    if (CPU_ISSET(nCPUNum, &get)) return true;
+
+    return false;
 }
 
 } /* namespace Util */
