@@ -32,7 +32,7 @@ namespace Util
 
 //thrift serialize
 template<typename ThriftStruct>
-bool static StringToThrift(const std::string& buff, \
+static bool StringToThrift(const std::string& buff, \
         ThriftStruct* ts)
 {
     using namespace apache::thrift::transport;
@@ -47,7 +47,7 @@ bool static StringToThrift(const std::string& buff, \
 
 //thrift deserialize
 template<typename ThriftStruct>
-std::string static ThriftToString(const ThriftStruct& ts)
+static std::string  ThriftToString(const ThriftStruct& ts)
 {
     using namespace apache::thrift::transport;
     using namespace apache::thrift::protocol;
@@ -61,7 +61,7 @@ std::string static ThriftToString(const ThriftStruct& ts)
     return std::string((char*)buf, (unsigned int)size);
 }
 
-bool SetThreadCPU(pthread_t pthID, u_int32_t nCPUNum)
+static bool SetThreadCPU(pthread_t pthID, u_int32_t nCPUNum)
 {
     cpu_set_t mask;
     cpu_set_t get;

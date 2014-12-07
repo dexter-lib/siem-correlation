@@ -21,7 +21,7 @@
 namespace SIEM
 {
 
-static CSIEMDirectiveHandle* CSIEMDirectiveHandle::m_pDirectiveHandle = NULL;
+CSIEMDirectiveHandle* CSIEMDirectiveHandle::m_pDirectiveHandle = NULL;
 
 CSIEMDirectiveHandle::CSIEMDirectiveHandle()
 {
