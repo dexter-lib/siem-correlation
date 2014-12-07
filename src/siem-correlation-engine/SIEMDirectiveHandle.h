@@ -20,7 +20,14 @@
 #define SRC_SIEM_CORRELATION_ENGINE_SIEMDIRECTIVEHANDLE_H_
 
 #include <boost/noncopyable.hpp>
+
 #include <stddef.h>
+#include <libxml/xmlreader.h>
+#include <libxml/parser.h>
+#include <libxml/xpath.h>
+#include <libxml/tree.h>
+
+#include <string>
 
 namespace SIEM
 {
@@ -39,8 +46,11 @@ public:
         }
         return m_pDirectiveHandle;
     }
+public:
+    bool LoadDirectives(const std::string& strPath);
 private:
     static CSIEMDirectiveHandle *m_pDirectiveHandle;
+    bool ParseDirectives(xmlNodePtr pXMLNode);
 };
 
 } /* namespace SIEM */
