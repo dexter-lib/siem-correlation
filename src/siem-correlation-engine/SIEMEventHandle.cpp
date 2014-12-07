@@ -18,6 +18,7 @@
 
 #include "SIEMEventHandle.h"
 #include "SIEMPublic.h"
+#include "SIEMUtil.hpp"
 
 #include <Poco/Util/Application.h>
 #include <Poco/Logger.h>
@@ -79,6 +80,20 @@ THREAD_START:
         return false;
     }
 
+    int nCPUNum = sysconf(_SC_NPROCESSORS_ONLN);
+    //CPU core number greater than 2 then set affinity
+    if(nCPUNum >= 2)
+    {
+        //The thread bound to a final CPU core
+        if(!::SIEM::Util::SetThreadCPU(m_pthHandle, nCPUNum - 1))
+        {
+            logger.debug("Set cpu affinity false");
+        }
+    }
+    else
+    {
+        logger.debug("CPU core number less than 2");
+    }
     return true;
 }
 

@@ -68,7 +68,7 @@ void signal_catch(int sig)
     }
 }
 
-void setupSignal(void)
+void SetupSignal(void)
 {
     struct sigaction act;
     act.sa_handler = signal_catch;
@@ -198,7 +198,7 @@ int CSIEMServer::main(const std::vector<std::string>& args)
     }
 
     //handle signal
-    setupSignal();
+    SetupSignal();
 
     //Receive from zmq
     if(m_bUseZMQServer)
