@@ -18,6 +18,12 @@
 
 #include "SIEMDirectiveHandle.h"
 
+#include <Poco/Path.h>
+#include <Poco/Logger.h>
+#include <Poco/Util/Application.h>
+
+#include <string.h>
+
 namespace SIEM
 {
 
@@ -25,6 +31,8 @@ CSIEMDirectiveHandle* CSIEMDirectiveHandle::m_pDirectiveHandle = NULL;
 
 bool CSIEMDirectiveHandle::LoadDirectives(const std::string& strPath)
 {
+    Poco::Logger& logger = Poco::Util::Application::instance().logger();
+
     xmlSchemaParserCtxtPtr pParserCtxt;
     xmlSchemaPtr pSchema;
     xmlSchemaValidCtxtPtr pValidCtxt;
@@ -79,7 +87,7 @@ bool CSIEMDirectiveHandle::LoadDirectives(const std::string& strPath)
 
     if(xmlSchemaValidateDoc(pValidCtxt, pDoc) != 0)
     {
-        std::cout << "validate error" <<std::endl;
+        logger.error("validate error", __FILE__, __LINE__);
         bRt = false;
         goto XML_VALIDATE_ERROR;
     }
