@@ -50,7 +50,7 @@ JUDGE_WRITE:
 
     if(m_CachePtr->nWrite - m_CachePtr->nRead < m_nCacheNum)
     {
-        m_CachePtr->Cache[m_CachePtr->nWrite % m_nCacheNum].assign(strEvent);
+        m_CachePtr->Cache[m_CachePtr->nWrite % m_nCacheNum].assign(strEvent.c_str(), strEvent.length());
         m_CachePtr->nWrite ++;
     }
     else if(nJudge < 4)//judge 4 times
@@ -65,6 +65,7 @@ JUDGE_WRITE:
         logger.error("buffer always full, return false");
         return false;
     }
+
     return true;
 }
 
@@ -108,7 +109,7 @@ void* CThriftReceiveServer::ThreadThrift(void *p)
     CThriftReceiveServer *pTs = (CThriftReceiveServer *)p;
 
     //start Thrift server
-    shared_ptr<CThriftReceiveServer> handler(new CThriftReceiveServer());
+    shared_ptr<CThriftReceiveServer> handler(pTs);
     shared_ptr<TProcessor> processor(new SIEMThriftProcessor(handler));
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
     shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(pTs->m_nThreadNum);
@@ -144,10 +145,15 @@ void * CThriftReceiveServer::ThreadHandle(void *p)
             logger.debug("Thrift no receive data");
             sleep(2);
         }
-        else if(CACHE_PTR->nRead >= CACHE_PTR->nWrite)
+        else if(CACHE_PTR->nRead == CACHE_PTR->nWrite)
         {
-            logger.debug("Read >= Write");
+            logger.debug("Read == Write");
             sleep(1);
+        }
+        else if(CACHE_PTR->nRead > CACHE_PTR->nWrite)
+        {
+            logger.error("Read > Write");
+            pthread_exit((void *)0);
         }
         else
         {
@@ -177,6 +183,7 @@ bool CThriftReceiveServer::Initialize()
     m_nPort      = config.getInt   ("siemevent.thrift.port", 9999);
     m_nCacheNum  = config.getInt   ("siemevent.thrift.cache.num", 2048);
 
+    //resize cache size and init string in vector
     m_CachePtr->Cache.resize(m_nCacheNum);
 
     logger.debug(Poco::format("Thrift bind address is %s, thread number is %hu port is %hu cache number is %u",\

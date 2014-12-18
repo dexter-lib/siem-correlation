@@ -25,6 +25,12 @@
 
 #include <pthread.h>
 
+#ifdef __GNUC__
+#    define __UTIL_UNUSED__ __attribute__ ((unused))
+#else
+#    define __UTIL_UNUSED__
+#endif
+
 namespace SIEM
 {
 namespace Util
@@ -61,6 +67,7 @@ static std::string  ThriftToString(const ThriftStruct& ts)
     return std::string((char*)buf, (unsigned int)size);
 }
 
+__UTIL_UNUSED__
 static bool SetThreadCPU(pthread_t pthID, u_int32_t nCPUNum)
 {
     cpu_set_t mask;
