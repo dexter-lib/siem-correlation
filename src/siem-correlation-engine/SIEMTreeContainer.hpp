@@ -21,6 +21,7 @@
 
 #include <list>
 #include <iostream>
+#include <string>
 
 
 namespace SIEM
@@ -44,17 +45,35 @@ template <typename T>
 class CSIEMTreeContainer
 {
 public:
-    CSIEMTreeContainer(){};
-    virtual ~CSIEMTreeContainer(){};
+    CSIEMTreeContainer():m_pRoot(NULL), m_pCurrent(NULL){};
+    virtual ~CSIEMTreeContainer()
+    {
+        if(m_pRoot)
+        {
+            DeleteTree(m_pRoot);
+            m_pRoot = NULL;
+        }
+    }
 public:
-    Element<T>* GetRootElement()
+    Element<T>* GetRootElement() const
     {
         return m_pRoot;
     }
-    Element<T>* GetCurrentElement()
+    Element<T>* GetCurrentElement() const
     {
         return m_pCurrent;
     }
+
+    void SetRootElement(Element<T> *pRoot)
+    {
+        if(pRoot != NULL) m_pRoot = pRoot;
+    }
+    void SetCurrentElement(Element<T> *pCurrent)
+    {
+        if(pCurrent != NULL) m_pCurrent = pCurrent;
+    }
+
+    //for test
     void TreeTraversing(Element<T> *pElement)
     {
         //print data element
@@ -67,6 +86,38 @@ public:
             while(pElement->iterChild != pElement->pChild->end())
             {
                 TreeTraversing(*(pElement->iterChild));
+                pElement->iterChild++;
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    void CopyTree(Element<T> *pElement, Element<T> *pDst)
+    {
+        if(pElement == NULL || pDst == NULL) return;
+
+        // Template class need  override operator =
+        if(pDst->pData == NULL)
+        {
+            pDst->pData = new T();
+            *(pDst->pData) = *(pElement->pData);
+        }
+
+        if(pElement->pChild != NULL && pElement->pChild->size() > 0)
+        {
+            //traversing children
+            pElement->iterChild = pElement->pChild->begin();
+            //init children list
+            pDst->pChild = new std::list<Element<T> *>();
+
+            while(pElement->iterChild != pElement->pChild->end())
+            {
+                Element<T> *pChildren = new Element<T>();
+                pDst->pChild->push_back(pChildren);
+                CopyTree(*(pElement->iterChild), pChildren);
                 pElement->iterChild++;
             }
         }
@@ -112,6 +163,38 @@ public:
             }
             return;
         }
+    }
+
+    CSIEMTreeContainer& operator = (const CSIEMTreeContainer& container)
+    {
+        Element<T> *pRoot = container.GetRootElement();
+
+        if(pRoot == NULL)
+        {
+            std::cout << "source root element is null" << std::endl;
+            return *this;
+        }
+
+        Element<T> *pDst = new Element<T>();
+        this->CopyTree(pRoot, pDst);
+        this->SetRootElement(pDst);
+        this->SetCurrentElement(pDst);
+
+        return *this;
+    }
+
+    CSIEMTreeContainer(const CSIEMTreeContainer<T>& container)
+    :m_pRoot(NULL), m_pCurrent(NULL)
+    {
+        Element<T> *pRoot = container.GetRootElement();
+        if(pRoot == NULL)
+        {
+            std::cout << "source root element is null" << std::endl;
+            return;
+        }
+        Element<T> *pDst = new Element<T>();
+        this->CopyTree(pRoot, pDst);
+        m_pRoot = m_pCurrent = pDst;
     }
 
 private:
