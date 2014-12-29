@@ -23,6 +23,7 @@
 #include <iostream>
 #include <string>
 
+#include <stdint.h>
 
 namespace SIEM
 {
@@ -45,7 +46,14 @@ template <typename T>
 class CSIEMTreeContainer
 {
 public:
-    CSIEMTreeContainer():m_pRoot(NULL), m_pCurrent(NULL){};
+    std::string m_strName;
+    uint32_t    m_nPriority;
+    uint32_t    m_nID;
+public:
+    CSIEMTreeContainer()
+    :m_strName(""), m_nPriority(0), m_nID(0), m_pRoot(NULL), m_pCurrent(NULL)
+    {
+    }
     virtual ~CSIEMTreeContainer()
     {
         if(m_pRoot)
@@ -77,7 +85,7 @@ public:
     void TreeTraversing(Element<T> *pElement)
     {
         //print data element
-        std::cout << "t_name:" << pElement->pData->name << std::endl;
+        std::cout << "t_name:" << pElement->pData->strName << std::endl;
 
         if(pElement->pChild != NULL && pElement->pChild->size() > 0)
         {
@@ -175,16 +183,20 @@ public:
             return *this;
         }
 
+        //Assignment
         Element<T> *pDst = new Element<T>();
         this->CopyTree(pRoot, pDst);
         this->SetRootElement(pDst);
         this->SetCurrentElement(pDst);
+        this->m_nID       = container.m_nID;
+        this->m_strName   = container.m_strName;
+        this->m_nPriority = container.m_nPriority;
 
         return *this;
     }
 
     CSIEMTreeContainer(const CSIEMTreeContainer<T>& container)
-    :m_pRoot(NULL), m_pCurrent(NULL)
+    :m_strName(""), m_nPriority(0), m_nID(0), m_pRoot(NULL), m_pCurrent(NULL)
     {
         Element<T> *pRoot = container.GetRootElement();
         if(pRoot == NULL)
@@ -192,9 +204,33 @@ public:
             std::cout << "source root element is null" << std::endl;
             return;
         }
+
+        //Assignment
         Element<T> *pDst = new Element<T>();
         this->CopyTree(pRoot, pDst);
         m_pRoot = m_pCurrent = pDst;
+        m_nID       = container.m_nID;
+        m_strName   = container.m_strName;
+        m_nPriority = container.m_nPriority;
+    }
+
+    CSIEMTreeContainer(CSIEMTreeContainer<T>& container)
+    :m_strName(""), m_nPriority(0), m_nID(0), m_pRoot(NULL), m_pCurrent(NULL)
+    {
+        Element<T> *pRoot = container.GetRootElement();
+        if(pRoot == NULL)
+        {
+            std::cout << "source root element is null" << std::endl;
+            return;
+        }
+
+        //Assignment
+        Element<T> *pDst = new Element<T>();
+        this->CopyTree(pRoot, pDst);
+        m_pRoot = m_pCurrent = pDst;
+        m_nID       = container.m_nID;
+        m_strName   = container.m_strName;
+        m_nPriority = container.m_nPriority;
     }
 
 private:

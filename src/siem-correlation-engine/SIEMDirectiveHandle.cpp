@@ -17,6 +17,7 @@
  */
 
 #include "SIEMDirectiveHandle.h"
+#include "SIEMTreeContainer.hpp"
 
 #include <Poco/Path.h>
 #include <Poco/Logger.h>
@@ -116,6 +117,20 @@ XML_VALIDATE_ERROR:
 
 bool CSIEMDirectiveHandle::ParseDirectives(xmlNodePtr pXMLNode)
 {
+    Poco::Logger& logger = Poco::Util::Application::instance().logger();
+
+    if(pXMLNode == NULL)
+    {
+        logger.error("XML node is NULL", __FILE__, __LINE__);
+        return false;
+    }
+
+    if(strcmp("directive", (char *)pXMLNode->name) != 0)
+    {
+        logger.error("XML type is invalid", __FILE__, __LINE__);
+        return false;
+    }
+
     return true;
 }
 
