@@ -17,18 +17,20 @@
  */
 
 #include "SIEMDirectiveHandle.h"
+#include "SIEMRuleHandle.h"
 #include "SIEMTreeContainer.hpp"
+#include "SIEMPublic.h"
 
 #include <Poco/Path.h>
 #include <Poco/Logger.h>
 #include <Poco/Util/Application.h>
 
+#include <boost/lexical_cast.hpp>
+
 #include <string.h>
 
 namespace SIEM
 {
-
-CSIEMDirectiveHandle* CSIEMDirectiveHandle::m_pDirectiveHandle = NULL;
 
 bool CSIEMDirectiveHandle::LoadDirectives(const std::string& strPath)
 {
@@ -41,6 +43,7 @@ bool CSIEMDirectiveHandle::LoadDirectives(const std::string& strPath)
     xmlParserCtxtPtr pCtx;
     xmlNodePtr root = NULL;
     xmlNodePtr pNode = NULL;
+
 
     //Default return value:true
     bool bRt = true;
@@ -79,7 +82,8 @@ bool CSIEMDirectiveHandle::LoadDirectives(const std::string& strPath)
                 strDirPath.c_str(),\
                 NULL,\
                 XML_PARSE_DTDVALID | XML_PARSE_NOENT | XML_PARSE_RECOVER \
-                | XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
+                | XML_PARSE_NOERROR | XML_PARSE_NOWARNING | XML_PARSE_NOBLANKS);
+
     if(pDoc == NULL)
     {
         bRt = false;
@@ -94,7 +98,7 @@ bool CSIEMDirectiveHandle::LoadDirectives(const std::string& strPath)
     }
 
     root = xmlDocGetRootElement(pDoc);
-    if(root == NULL || (strcmp((char *)root->name, "directives") != 0))
+    if(root == NULL || (xmlStrcmp(root->name, BAD_CAST"directives") != 0))
     {
         bRt = false;
         goto XML_VALIDATE_ERROR;
@@ -104,6 +108,8 @@ bool CSIEMDirectiveHandle::LoadDirectives(const std::string& strPath)
     while(pNode)
     {
         bRt = ParseDirectives(pNode);
+        if(!bRt)
+            goto XML_VALIDATE_ERROR;
         pNode = pNode->next;
     }
 
@@ -119,19 +125,87 @@ bool CSIEMDirectiveHandle::ParseDirectives(xmlNodePtr pXMLNode)
 {
     Poco::Logger& logger = Poco::Util::Application::instance().logger();
 
+    bool bParseRes = true;
+    CSIEMTreeContainer<SIEMRule> *pDirective = NULL;
+    xmlChar *pszValue = NULL;
+    xmlNodePtr pXMLChildren = NULL;
+    Element<SIEMRule> *pElement = NULL;
+    CSIEMRuleHandle ruleHandle;
+
+    xmlKeepBlanksDefault(1);
+
     if(pXMLNode == NULL)
     {
         logger.error("XML node is NULL", __FILE__, __LINE__);
-        return false;
+        bParseRes = false;
+        goto XML_PARSE_ERROR;
     }
 
-    if(strcmp("directive", (char *)pXMLNode->name) != 0)
+    if(xmlStrcmp(pXMLNode->name, BAD_CAST"directive") != 0)
     {
         logger.error("XML type is invalid", __FILE__, __LINE__);
-        return false;
+        printf("pxmlNode->name %s\n", pXMLNode->name);
+        bParseRes = false;
+        goto XML_PARSE_ERROR;
     }
 
-    return true;
+    pDirective = new CSIEMTreeContainer<SIEMRule>();
+
+    pszValue = xmlGetProp(pXMLNode, BAD_CAST"name");
+    if(pszValue != NULL)
+    {
+        pDirective->m_strName = (char *)pszValue;
+        xmlFree(pszValue);
+        pszValue = NULL;
+    }
+    else goto XML_PARSE_ERROR;
+
+    pszValue = xmlGetProp(pXMLNode, BAD_CAST"id");
+    if(pszValue != NULL)
+    {
+        pDirective->m_nID = boost::lexical_cast<uint32_t>((char *)pszValue);
+        xmlFree(pszValue);
+        pszValue = NULL;
+    }
+    else goto XML_PARSE_ERROR;
+
+    pszValue = xmlGetProp(pXMLNode, BAD_CAST"priority");
+    if(pszValue != NULL)
+    {
+        pDirective->m_nPriority = boost::lexical_cast<uint32_t>((char *)pszValue);
+        xmlFree(pszValue);
+        pszValue = NULL;
+    }
+    else goto XML_PARSE_ERROR;
+
+    //parse root rule ,only one
+    pXMLChildren = pXMLNode->children;
+    if(xmlStrcmp(pXMLChildren->name, BAD_CAST"rule") != 0 || pXMLChildren->next != NULL)
+        goto XML_PARSE_ERROR;
+
+    pElement = new Element<SIEMRule>();
+    pDirective->SetCurrentElement(pElement);
+    pDirective->SetRootElement(pElement);
+
+    ruleHandle.ParseRule(pElement, pXMLChildren);
+    //for test
+    if(pElement)
+        pDirective->TreeTraversing(pElement);
+
+XML_PARSE_ERROR:
+    xmlCleanupParser();
+    if(pDirective != NULL && !bParseRes)
+    {
+        delete pDirective;
+        pDirective = NULL;
+    }
+
+    if(pElement != NULL && !bParseRes)
+    {
+        delete pElement;
+        pElement = NULL;
+    }
+    return bParseRes;
 }
 
 CSIEMDirectiveHandle::CSIEMDirectiveHandle()
@@ -140,11 +214,6 @@ CSIEMDirectiveHandle::CSIEMDirectiveHandle()
 
 CSIEMDirectiveHandle::~CSIEMDirectiveHandle()
 {
-    if(m_pDirectiveHandle)
-    {
-        delete m_pDirectiveHandle;
-        m_pDirectiveHandle = NULL;
-    }
 }
 
 } /* namespace SIEM */

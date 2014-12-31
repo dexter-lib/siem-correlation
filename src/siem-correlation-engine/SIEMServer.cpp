@@ -19,11 +19,14 @@
 #include <Poco/File.h>
 #include <Poco/SyslogChannel.h>
 
+#include <boost/shared_ptr.hpp>
+
 #include <signal.h>
 #include <stdio.h>
 
 #include "ZMQReceiveServer.h"
 #include "ThriftReceiveServer.h"
+#include "SIEMDirectiveHandle.h"
 
 namespace SIEM
 {
@@ -186,6 +189,20 @@ void CSIEMServer::initialize(Application& self)
         ServerApplication::logger().setChannel(formattingChannel);
         ServerApplication::logger().setLevel(level);
     }
+
+    //load directive xml
+    boost::shared_ptr< ::SIEM::CSIEMDirectiveHandle> directiveHandlePtr(new ::SIEM::CSIEMDirectiveHandle());
+    Poco::Path appPath(config().getString("application.path"));
+    std::string szCnfPath = appPath.makeParent().makeParent().toString();
+    szCnfPath += appPath.separator();
+    szCnfPath += "data";
+
+    if(!directiveHandlePtr->LoadDirectives(szCnfPath))
+    {
+        ServerApplication::logger().error("load directive error");
+        exit(1);
+    }
+
 }
 
 int CSIEMServer::main(const std::vector<std::string>& args)

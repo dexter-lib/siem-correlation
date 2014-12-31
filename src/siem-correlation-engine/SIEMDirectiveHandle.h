@@ -32,24 +32,14 @@
 namespace SIEM
 {
 
-class CSIEMDirectiveHandle : public boost::noncopyable
+class CSIEMDirectiveHandle
 {
 public:
     CSIEMDirectiveHandle();
     virtual ~CSIEMDirectiveHandle();
 public:
-    inline static CSIEMDirectiveHandle *Instance()
-    {
-        if(m_pDirectiveHandle)
-        {
-           m_pDirectiveHandle = new CSIEMDirectiveHandle();
-        }
-        return m_pDirectiveHandle;
-    }
-public:
     bool LoadDirectives(const std::string& strPath);
 private:
-    static CSIEMDirectiveHandle *m_pDirectiveHandle;
     bool ParseDirectives(xmlNodePtr pXMLNode);
 };
 

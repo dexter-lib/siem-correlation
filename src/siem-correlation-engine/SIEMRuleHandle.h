@@ -19,6 +19,14 @@
 #ifndef SRC_SIEM_CORRELATION_ENGINE_SIEMRULEHANDLE_H_
 #define SRC_SIEM_CORRELATION_ENGINE_SIEMRULEHANDLE_H_
 
+#include <libxml/xmlreader.h>
+#include <libxml/parser.h>
+#include <libxml/xpath.h>
+#include <libxml/tree.h>
+
+#include "SIEMTreeContainer.hpp"
+#include "SIEMPublic.h"
+
 namespace SIEM
 {
 
@@ -27,6 +35,9 @@ class CSIEMRuleHandle
 public:
     CSIEMRuleHandle();
     virtual ~CSIEMRuleHandle();
+public:
+    void ParseRule(Element<SIEMRule> *pElement, xmlNodePtr pXMLNode);
+    void ParseRuleProperties(SIEMRule *pRule, xmlNodePtr pXMLNode);
 };
 
 } /* namespace SIEM */
