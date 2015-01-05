@@ -6,6 +6,8 @@
  */
 
 #include "SIEMServer.h"
+#include "ZMQReceiveServer.h"
+#include "ThriftReceiveServer.h"
 
 #include <Poco/Logger.h>
 #include <Poco/PatternFormatter.h>
@@ -23,10 +25,6 @@
 
 #include <signal.h>
 #include <stdio.h>
-
-#include "ZMQReceiveServer.h"
-#include "ThriftReceiveServer.h"
-#include "SIEMDirectiveHandle.h"
 
 namespace SIEM
 {
@@ -191,15 +189,14 @@ void CSIEMServer::initialize(Application& self)
     }
 
     //load directive xml
-    boost::shared_ptr< ::SIEM::CSIEMDirectiveHandle> directiveHandlePtr(new ::SIEM::CSIEMDirectiveHandle());
     Poco::Path appPath(config().getString("application.path"));
     std::string szCnfPath = appPath.makeParent().makeParent().toString();
     szCnfPath += appPath.separator();
     szCnfPath += "data";
 
-    if(!directiveHandlePtr->LoadDirectives(szCnfPath))
+    if(!m_ptrSIEMDirectiveHandle->LoadDirectives(szCnfPath))
     {
-        ServerApplication::logger().error("load directive error");
+        ServerApplication::logger().error("Load directive error");
         exit(1);
     }
 
@@ -233,7 +230,7 @@ int CSIEMServer::main(const std::vector<std::string>& args)
         m_pThriftServer->Start();
     }
 
-    m_ptrSIEMEventHandle->Start();
+    m_pSIEMEventHandle->Start();
 
     if(m_bUseZMQServer)
     {
@@ -245,7 +242,7 @@ int CSIEMServer::main(const std::vector<std::string>& args)
         m_pThriftServer->Join();
     }
 
-    m_ptrSIEMEventHandle->Join();
+    m_pSIEMEventHandle->Join();
 
     return 0;
 }
@@ -310,8 +307,10 @@ CSIEMServer::CSIEMServer()
  m_bUseThriftServer(false),
  m_pZMQServer(NULL),
  m_pThriftServer(NULL),
- m_ptrSIEMEventHandle(new CSIEMEventHandle())
+ m_pSIEMEventHandle(NULL),
+ m_ptrSIEMDirectiveHandle(new CSIEMDirectiveHandle())
 {
+    m_pSIEMEventHandle = CSIEMEventHandle::Instance();
 }
 
 CSIEMServer::~CSIEMServer()
@@ -327,6 +326,8 @@ CSIEMServer::~CSIEMServer()
         delete m_pThriftServer;
         m_pThriftServer = NULL;
     }
+
+    m_pSIEMEventHandle->Release();
 
 }
 

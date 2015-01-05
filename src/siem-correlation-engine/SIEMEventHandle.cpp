@@ -33,39 +33,41 @@ extern pthread_mutex_t         g_mutEvent;
 namespace SIEM
 {
 
+CSIEMEventHandle * CSIEMEventHandle::m_pSIEMEventHandle = NULL;
+
 bool CSIEMEventHandle::Start()
 {
     Poco::Logger & logger = Poco::Util::Application::instance().logger();
 
     pthread_attr_t thread_attr;
     struct sched_param thread_param;
-    int thread_policy, status, rr_min_priority, rr_max_priority;
+    int thread_policy, status, fifo_min_priority, fifo_max_priority;
 
     pthread_attr_init(&thread_attr);
 
 #if defined(_POSIX_THREAD_PRIORITY_SCHEDULING)
     pthread_attr_getschedpolicy(&thread_attr, &thread_policy);
     pthread_attr_getschedparam(&thread_attr, &thread_param);
-    status = pthread_attr_setschedpolicy(&thread_attr, SCHED_RR);
+    status = pthread_attr_setschedpolicy(&thread_attr, SCHED_FIFO);
     if(status != 0)
     {
         logger.debug("Unable to set schedpolicy");
     }
     else
     {
-        rr_min_priority = sched_get_priority_min(SCHED_RR);
-        if(rr_min_priority == -1)
+        fifo_min_priority = sched_get_priority_min(SCHED_FIFO);
+        if(fifo_min_priority == -1)
         {
             logger.debug("Get SCHED_RR min priority");
             goto THREAD_START;
         }
-        rr_max_priority = sched_get_priority_max(SCHED_RR);
-        if(rr_max_priority == -1)
+        fifo_max_priority = sched_get_priority_max(SCHED_FIFO);
+        if(fifo_max_priority == -1)
         {
             logger.debug("Get SCHED_RR max priority");
             goto THREAD_START;
         }
-        thread_param.__sched_priority = (rr_max_priority + rr_min_priority)/2;
+        thread_param.__sched_priority = (fifo_max_priority + fifo_min_priority)/2;
         pthread_attr_setschedparam(&thread_attr, &thread_param);
         pthread_attr_setinheritsched(&thread_attr, PTHREAD_EXPLICIT_SCHED);
     }
@@ -114,7 +116,6 @@ void* CSIEMEventHandle::EventHandle(void *p)
             pthread_mutex_unlock(&g_mutEvent);
             sleep(5);
             logger.debug("No event data container");
-
             continue;
         }
 
@@ -145,15 +146,57 @@ bool CSIEMEventHandle::Join()
     return true;
 }
 
+bool CSIEMEventHandle::Release()
+{
+    Poco::Logger & logger = Poco::Util::Application::instance().logger();
+
+    if(m_pvctDirective != NULL)
+    {
+        if(m_pvctDirective->size() > 0)
+        {
+            BOOST_FOREACH(Directive *p, *m_pvctDirective)
+            {
+                delete p;
+                p = NULL;
+            }
+            m_pvctDirective->clear();
+        }
+        delete m_pvctDirective;
+        m_pvctDirective = NULL;
+    }
+
+    if(m_plstBacklog != NULL)
+    {
+        if(m_plstBacklog->size() > 0)
+        {
+            BOOST_FOREACH(Backlog *p, *m_plstBacklog)
+            {
+                delete p;
+                p = NULL;
+            }
+            m_plstBacklog->clear();
+        }
+        delete m_plstBacklog;
+        m_plstBacklog = NULL;
+    }
+
+    if(!pthread_cancel(m_pthHandle))
+    {
+        logger.error("Exit event handle thread failure", __FILE__, __LINE__);
+        return false;
+    }
+    return true;
+}
+
 CSIEMEventHandle::CSIEMEventHandle()
+:m_pvctDirective(new std::vector<Directive *>()),
+ m_plstBacklog  (new std::list  <Backlog *>())
 {
     // TODO Auto-generated constructor stub
-
 }
 
 CSIEMEventHandle::~CSIEMEventHandle()
 {
-    // TODO Auto-generated destructor stub
 }
 
 } /* namespace SIEM */

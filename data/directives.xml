@@ -5,15 +5,15 @@
 <!DOCTYPE directives
 SYSTEM './directives.dtd'
 [
-<!ENTITY alienvault-attacks SYSTEM '/root/oss_xml/alienvault-attacks.xml'>
-<!ENTITY alienvault-bruteforce SYSTEM '/root/oss_xml/alienvault-bruteforce.xml'>
-<!ENTITY alienvault-dos SYSTEM '/root/oss_xml/alienvault-dos.xml'>
-<!ENTITY alienvault-malware SYSTEM '/root/oss_xml/alienvault-malware.xml'>
-<!ENTITY alienvault-misc SYSTEM '/root/oss_xml/alienvault-misc.xml'>
-<!ENTITY alienvault-network SYSTEM '/root/oss_xml/alienvault-network.xml'>
-<!ENTITY alienvault-policy SYSTEM '/root/oss_xml/alienvault-policy.xml'>
-<!ENTITY alienvault-scada SYSTEM '/root/oss_xml/alienvault-scada.xml'>
-<!ENTITY alienvault-scan SYSTEM '/root/oss_xml/alienvault-scan.xml'>
+<!ENTITY alienvault-attacks SYSTEM './alienvault-attacks.xml'>
+<!ENTITY alienvault-bruteforce SYSTEM './alienvault-bruteforce.xml'>
+<!ENTITY alienvault-dos SYSTEM './alienvault-dos.xml'>
+<!ENTITY alienvault-malware SYSTEM './alienvault-malware.xml'>
+<!ENTITY alienvault-misc SYSTEM './alienvault-misc.xml'>
+<!ENTITY alienvault-network SYSTEM './alienvault-network.xml'>
+<!ENTITY alienvault-policy SYSTEM './alienvault-policy.xml'>
+<!ENTITY alienvault-scada SYSTEM './alienvault-scada.xml'>
+<!ENTITY alienvault-scan SYSTEM './alienvault-scan.xml'>
 <!ENTITY user SYSTEM './user.xml'>
 ]>
 <directives>
@@ -28,11 +28,5 @@ SYSTEM './directives.dtd'
 &alienvault-scada;
 &alienvault-scan;
 &user;
-
-<groups>
-<group name="GroupTest1">
-<append-directive directive_id="1"/>
-</group>
-</groups>
-
+<!---->
 </directives>

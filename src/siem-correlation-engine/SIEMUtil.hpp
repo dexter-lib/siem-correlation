@@ -23,6 +23,12 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 
+#include <boost/foreach.hpp>
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/split.hpp>
+
 #include <pthread.h>
 
 #ifdef __GNUC__
@@ -82,6 +88,26 @@ static bool SetThreadCPU(pthread_t pthID, u_int32_t nCPUNum)
     if (CPU_ISSET(nCPUNum, &get)) return true;
 
     return false;
+}
+
+template<typename T>
+static void ParseString(std::string& strSource, std::set<T> *pSet)
+{
+    std::vector<std::string> vecStr;
+    boost::algorithm::split(vecStr, strSource, boost::algorithm::is_any_of(","));
+    BOOST_FOREACH(std::string& strValue, vecStr)
+    {
+        try
+        {
+            boost::trim(strValue);
+            T nValue = boost::lexical_cast<T, std::string>(strValue);
+            pSet->insert(nValue);
+        }
+        catch (boost::bad_lexical_cast& e)
+        {
+            continue;
+        }
+    }
 }
 
 } /* namespace Util */

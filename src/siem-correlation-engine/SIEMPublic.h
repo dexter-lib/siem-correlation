@@ -105,9 +105,9 @@ typedef boost::shared_ptr<std::vector<SIEMEventPtr> > SIEMEventVctPtr;
 
 typedef enum
 {
-    PROTOCOL_TYPE_NULL = 0,
+    PROTOCOL_TYPE_ANY = 0,
     PROTOCOL_TYPE_TCP,
-    PROTOCOL_TYPE_UDP
+    PROTOCOL_TYPE_UDP,
 }PROTOCOL_TYPE;
 
 typedef enum
@@ -323,14 +323,14 @@ typedef struct stRule
     stRule():
         strName(""), nReliability(0), nOccurrence(0),
         nTimeout(0), eRuleType(RULE_TYPE_NULL),
-        eProtocolType(PROTOCOL_TYPE_NULL)
+        eProtocolType(PROTOCOL_TYPE_ANY)
     {
     }
 
     stRule(const stRule& rule):
         strName(""), nReliability(0), nOccurrence(0),
         nTimeout(0), eRuleType(RULE_TYPE_NULL),
-        eProtocolType(PROTOCOL_TYPE_NULL)
+        eProtocolType(PROTOCOL_TYPE_ANY)
     {
         if(!setPluginID.empty())
             setPluginID.insert(rule.setPluginID.begin(), \
@@ -354,7 +354,7 @@ typedef struct stRule
     stRule(stRule& rule):
         strName(""), nReliability(0), nOccurrence(0),
         nTimeout(0), eRuleType(RULE_TYPE_NULL),
-        eProtocolType(PROTOCOL_TYPE_NULL)
+        eProtocolType(PROTOCOL_TYPE_ANY)
     {
         if(!setPluginID.empty())
             setPluginID.insert(rule.setPluginID.begin(), \

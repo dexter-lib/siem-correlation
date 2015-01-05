@@ -12,6 +12,7 @@
 
 #include "IReceiveServer.h"
 #include "SIEMEventHandle.h"
+#include "SIEMDirectiveHandle.h"
 
 namespace SIEM
 {
@@ -36,10 +37,11 @@ private:
     bool m_bUseZMQServer;
     bool m_bUseThriftServer;
     //Initialized when it necessary
-    IReceiveServer                     *m_pZMQServer;
-    IReceiveServer                     *m_pThriftServer;
+    IReceiveServer                          *m_pZMQServer;
+    IReceiveServer                          *m_pThriftServer;
     //Initialized when server begin
-    boost::shared_ptr<CSIEMEventHandle> m_ptrSIEMEventHandle;
+    CSIEMEventHandle                        *m_pSIEMEventHandle;
+    boost::shared_ptr<CSIEMDirectiveHandle> m_ptrSIEMDirectiveHandle;
 };
 
 } /* namespace SIEM */

@@ -18,6 +18,7 @@
 
 #include "SIEMDirectiveHandle.h"
 #include "SIEMRuleHandle.h"
+#include "SIEMEventHandle.h"
 #include "SIEMTreeContainer.hpp"
 #include "SIEMPublic.h"
 
@@ -82,7 +83,8 @@ bool CSIEMDirectiveHandle::LoadDirectives(const std::string& strPath)
                 strDirPath.c_str(),\
                 NULL,\
                 XML_PARSE_DTDVALID | XML_PARSE_NOENT | XML_PARSE_RECOVER \
-                | XML_PARSE_NOERROR | XML_PARSE_NOWARNING | XML_PARSE_NOBLANKS);
+                | XML_PARSE_NOERROR | XML_PARSE_NOWARNING | XML_PARSE_NOBLANKS \
+                | XML_PARSE_DTDATTR);
 
     if(pDoc == NULL)
     {
@@ -113,6 +115,9 @@ bool CSIEMDirectiveHandle::LoadDirectives(const std::string& strPath)
         pNode = pNode->next;
     }
 
+    logger.debug(Poco::format("Directive number is %u", \
+            (uint32_t)CSIEMEventHandle::Instance()->m_pvctDirective->size()));
+
 XML_VALIDATE_ERROR:
     xmlSchemaFree(pSchema);
     xmlFreeDoc(pDoc);
@@ -139,6 +144,13 @@ bool CSIEMDirectiveHandle::ParseDirectives(xmlNodePtr pXMLNode)
         logger.error("XML node is NULL", __FILE__, __LINE__);
         bParseRes = false;
         goto XML_PARSE_ERROR;
+    }
+
+    //Removal of commit and text node
+    if(xmlStrcmp(pXMLNode->name, BAD_CAST"text") == 0 || \
+            xmlStrcmp(pXMLNode->name, BAD_CAST"comment") == 0)
+    {
+        return true;
     }
 
     if(xmlStrcmp(pXMLNode->name, BAD_CAST"directive") != 0)
@@ -190,7 +202,10 @@ bool CSIEMDirectiveHandle::ParseDirectives(xmlNodePtr pXMLNode)
     ruleHandle.ParseRule(pElement, pXMLChildren);
     //for test
     if(pElement)
+    {
+        CSIEMEventHandle::Instance()->m_pvctDirective->push_back(pDirective);
         pDirective->TreeTraversing(pElement);
+    }
 
 XML_PARSE_ERROR:
     xmlCleanupParser();

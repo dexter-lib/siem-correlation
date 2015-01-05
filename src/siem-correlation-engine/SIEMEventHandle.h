@@ -21,22 +21,48 @@
 
 #include <pthread.h>
 
+#include <list>
+#include <vector>
+
+#include "SIEMPublic.h"
+#include "SIEMTreeContainer.hpp"
+
+typedef ::SIEM::CSIEMTreeContainer< ::SIEM::SIEMRule > Directive;
+typedef ::SIEM::CSIEMTreeContainer< ::SIEM::SIEMRule > Backlog;
+
 namespace SIEM
 {
 
 class CSIEMEventHandle
 {
+    friend class CSIEMDirectiveHandle;
 public:
     CSIEMEventHandle();
     virtual ~CSIEMEventHandle();
 public:
-    bool Start();
-    bool Join ();
+    bool                     Start();
+    bool                     Join ();
+    bool                     Release();
+    bool                     MatchDirective(::SIEM::SIEMEvent *pEvent);
+    bool                     MatchBacklog(::SIEM::SIEMEvent *pEvent);
+    static CSIEMEventHandle *Instance();
 private:
     pthread_t m_pthHandle;
+    std::vector<Directive *> *m_pvctDirective;
+    std::list<Backlog *>     *m_plstBacklog;
 private:
     static void *EventHandle(void *p);
+    static CSIEMEventHandle *m_pSIEMEventHandle;
 };
+
+inline CSIEMEventHandle* CSIEMEventHandle::Instance()
+{
+    if(m_pSIEMEventHandle == NULL)
+    {
+        m_pSIEMEventHandle = new CSIEMEventHandle();
+    }
+    return m_pSIEMEventHandle;
+}
 
 } /* namespace SIEM */
 #endif /* SIEMEVENTHANDLE_H_ */

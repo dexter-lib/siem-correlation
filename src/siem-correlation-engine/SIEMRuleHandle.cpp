@@ -18,9 +18,15 @@
 
 #include "SIEMRuleHandle.h"
 #include "SIEMTreeContainer.hpp"
+#include "SIEMUtil.hpp"
 
 #include <Poco/Logger.h>
 #include <Poco/Util/Application.h>
+
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/split.hpp>
 
 #include <list>
 
@@ -67,15 +73,114 @@ void CSIEMRuleHandle::ParseRule(Element<SIEMRule> *pElement, xmlNodePtr pXMLNode
 
 void CSIEMRuleHandle::ParseRuleProperties(SIEMRule *pRule, xmlNodePtr pXMLNode)
 {
-    xmlChar *pszValue = NULL;
-    pszValue = xmlGetProp(pXMLNode, BAD_CAST"name");
+    Poco::Logger & logger = Poco::Util::Application::instance().logger();
 
-    if(pszValue)
+    xmlChar *pszValue = NULL;
+
+    try
     {
-        pRule->strName = (char *)pszValue;
-        xmlFree(pszValue);
-        pszValue = NULL;
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"name");
+        if(pszValue)
+        {
+            pRule->strName = (char *)pszValue;
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"type");
+        if(pszValue)
+        {
+            if(strcmp("detector", (char *)pszValue) == 0)
+            {
+                pRule->eRuleType = RULE_TYPE_DETECTOR;
+            }
+            else if(strcmp("monitor", (char *)pszValue) == 0)
+            {
+                pRule->eRuleType = RULE_TYPE_MONITOR;
+            }
+            else
+            {
+                pRule->eRuleType = RULE_TYPE_NULL;
+            }
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+        else
+        {
+            pRule->eRuleType = RULE_TYPE_NULL;
+        }
+
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"protocol");
+        if(pszValue)
+        {
+            if(strcmp("TCP", (char *)pszValue) == 0)
+            {
+                pRule->eProtocolType = PROTOCOL_TYPE_TCP;
+            }
+            else if(strcmp("UDP", (char *)pszValue) == 0)
+            {
+                pRule->eProtocolType = PROTOCOL_TYPE_UDP;
+            }
+            else
+            {
+                pRule->eProtocolType = PROTOCOL_TYPE_ANY;
+            }
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+        else
+        {
+            pRule->eProtocolType = PROTOCOL_TYPE_ANY;
+        }
+
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"reliability");
+        if(pszValue)
+        {
+            pRule->nReliability = boost::lexical_cast<uint32_t>((char *)pszValue);
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"occurrence");
+        if(pszValue)
+        {
+            pRule->nOccurrence = boost::lexical_cast<uint32_t>((char *)pszValue);
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"time_out");
+        if(pszValue)
+        {
+            pRule->nTimeout = boost::lexical_cast<uint32_t>((char *)pszValue);
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"plugin_id");
+        if(pszValue)
+        {
+            std::string strPluginID((char *)pszValue);
+            SIEM::Util::ParseString(strPluginID, &pRule->setPluginID);
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"plugin_sid");
+        if(pszValue)
+        {
+            std::string strPluginSID((char *)pszValue);
+            SIEM::Util::ParseString(strPluginSID, &pRule->setPluginSID);
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+
     }
+    catch (boost::bad_lexical_cast &e)
+    {
+        logger.error("bad_lexical_cast error", __FILE__, __LINE__);
+    }
+
     return;
 }
 
