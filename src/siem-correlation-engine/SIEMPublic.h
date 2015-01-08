@@ -44,6 +44,7 @@ struct stCacheItem
 
 typedef enum stProtocolType
 {
+    SIEM_PROTOCOL_ANY = 0,
     SIEM_PROTOCOL_NONE = -1,
     SIEM_PROTOCOL_ICMP = 1,
     SIEM_PROTOCOL_TCP = 6,
@@ -102,13 +103,6 @@ typedef struct stSIEMEvent
 
 typedef boost::shared_ptr<SIEMEvent> SIEMEventPtr;
 typedef boost::shared_ptr<std::vector<SIEMEventPtr> > SIEMEventVctPtr;
-
-typedef enum
-{
-    PROTOCOL_TYPE_ANY = 0,
-    PROTOCOL_TYPE_TCP,
-    PROTOCOL_TYPE_UDP,
-}PROTOCOL_TYPE;
 
 typedef enum
 {
@@ -196,17 +190,20 @@ typedef struct stIPType
     std::set<IP_STRUCT> setIPV4;
     IP_TYPE             eIPType;
     bool                bIsSection;
+    bool                bIsNot;
     IP_STRUCT           beginIP;
     IP_STRUCT           endIP;
     stIPType():
         eIPType(IP_TYPE_NULL),
-        bIsSection(false)
+        bIsSection(false),
+        bIsNot(false)
     {
     }
 
     stIPType(const stIPType& ipType):
         eIPType(IP_TYPE_NULL),
-        bIsSection(false)
+        bIsSection(false),
+        bIsNot(false)
     {
         if(!ipType.setIPV4.empty())
             setIPV4.insert(ipType.setIPV4.begin(), \
@@ -214,13 +211,15 @@ typedef struct stIPType
 
         eIPType    = ipType.eIPType;
         bIsSection = ipType.bIsSection;
+        bIsNot     = ipType.bIsNot;
         beginIP    = ipType.beginIP;
         endIP      = ipType.endIP;
     }
 
     stIPType(stIPType& ipType):
         eIPType(IP_TYPE_NULL),
-        bIsSection(false)
+        bIsSection(false),
+        bIsNot(false)
     {
         if(!ipType.setIPV4.empty())
             setIPV4.insert(ipType.setIPV4.begin(), \
@@ -228,6 +227,7 @@ typedef struct stIPType
 
         eIPType    = ipType.eIPType;
         bIsSection = ipType.bIsSection;
+        bIsNot     = ipType.bIsNot;
         beginIP    = ipType.beginIP;
         endIP      = ipType.endIP;
     }
@@ -240,6 +240,7 @@ typedef struct stIPType
 
         this->eIPType    = ipType.eIPType;
         this->bIsSection = ipType.bIsSection;
+        this->bIsNot     = ipType.bIsNot;
         this->beginIP    = ipType.beginIP;
         this->endIP      = ipType.endIP;
         return *this;
@@ -252,18 +253,21 @@ typedef struct stPortType
 {
     std::set<PORT_STRUCT> setPort;
     PORT_TYPE             ePortType;
-    bool                bIsSection;
-    IP_STRUCT           beginPort;
-    IP_STRUCT           endPort;
+    bool                  bIsSection;
+    bool                  bIsNot;
+    PORT_STRUCT           beginPort;
+    PORT_STRUCT           endPort;
     stPortType():
         ePortType(PORT_TYPE_NULL),
-        bIsSection(false)
+        bIsSection(false),
+        bIsNot(false)
     {
     }
 
     stPortType(const stPortType& portType):
         ePortType(PORT_TYPE_NULL),
-        bIsSection(false)
+        bIsSection(false),
+        bIsNot(false)
     {
         if(!portType.setPort.empty())
             setPort.insert(portType.setPort.begin(), \
@@ -271,13 +275,15 @@ typedef struct stPortType
 
         ePortType  = portType.ePortType;
         bIsSection = portType.bIsSection;
+        bIsNot     = portType.bIsNot;
         beginPort  = portType.beginPort;
         endPort    = portType.endPort;
     }
 
     stPortType(stPortType& portType):
         ePortType(PORT_TYPE_NULL),
-        bIsSection(false)
+        bIsSection(false),
+        bIsNot(false)
     {
         if(!portType.setPort.empty())
             setPort.insert(portType.setPort.begin(), \
@@ -285,6 +291,7 @@ typedef struct stPortType
 
         ePortType  = portType.ePortType;
         bIsSection = portType.bIsSection;
+        bIsNot     = portType.bIsNot;
         beginPort  = portType.beginPort;
         endPort    = portType.endPort;
     }
@@ -299,6 +306,7 @@ typedef struct stPortType
 
         this->ePortType  = portType.ePortType;
         this->bIsSection = portType.bIsSection;
+        this->bIsNot     = portType.bIsNot;
         this->beginPort  = portType.beginPort;
         this->endPort    = portType.endPort;
         return *this;
@@ -314,7 +322,7 @@ typedef struct stRule
     uint16_t           nOccurrence;
     uint32_t           nTimeout;
     RULE_TYPE          eRuleType;
-    PROTOCOL_TYPE      eProtocolType;
+    SIEM_PROTOCOL_TYPE eProtocolType;
     SIEM_IP_TYPE       srcIP;
     SIEM_IP_TYPE       dstIP;
     SIEM_PORT_TYPE     srcPort;
@@ -323,14 +331,14 @@ typedef struct stRule
     stRule():
         strName(""), nReliability(0), nOccurrence(0),
         nTimeout(0), eRuleType(RULE_TYPE_NULL),
-        eProtocolType(PROTOCOL_TYPE_ANY)
+        eProtocolType(SIEM_PROTOCOL_ANY)
     {
     }
 
     stRule(const stRule& rule):
         strName(""), nReliability(0), nOccurrence(0),
         nTimeout(0), eRuleType(RULE_TYPE_NULL),
-        eProtocolType(PROTOCOL_TYPE_ANY)
+        eProtocolType(SIEM_PROTOCOL_ANY)
     {
         if(!setPluginID.empty())
             setPluginID.insert(rule.setPluginID.begin(), \
@@ -354,7 +362,7 @@ typedef struct stRule
     stRule(stRule& rule):
         strName(""), nReliability(0), nOccurrence(0),
         nTimeout(0), eRuleType(RULE_TYPE_NULL),
-        eProtocolType(PROTOCOL_TYPE_ANY)
+        eProtocolType(SIEM_PROTOCOL_ANY)
     {
         if(!setPluginID.empty())
             setPluginID.insert(rule.setPluginID.begin(), \

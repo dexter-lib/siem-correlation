@@ -115,22 +115,22 @@ void CSIEMRuleHandle::ParseRuleProperties(SIEMRule *pRule, xmlNodePtr pXMLNode)
         {
             if(strcmp("TCP", (char *)pszValue) == 0)
             {
-                pRule->eProtocolType = PROTOCOL_TYPE_TCP;
+                pRule->eProtocolType = SIEM_PROTOCOL_TCP;
             }
             else if(strcmp("UDP", (char *)pszValue) == 0)
             {
-                pRule->eProtocolType = PROTOCOL_TYPE_UDP;
+                pRule->eProtocolType = SIEM_PROTOCOL_UDP;
             }
             else
             {
-                pRule->eProtocolType = PROTOCOL_TYPE_ANY;
+                pRule->eProtocolType = SIEM_PROTOCOL_ANY;
             }
             xmlFree(pszValue);
             pszValue = NULL;
         }
         else
         {
-            pRule->eProtocolType = PROTOCOL_TYPE_ANY;
+            pRule->eProtocolType = SIEM_PROTOCOL_ANY;
         }
 
         pszValue = xmlGetProp(pXMLNode, BAD_CAST"reliability");
@@ -175,6 +175,41 @@ void CSIEMRuleHandle::ParseRuleProperties(SIEMRule *pRule, xmlNodePtr pXMLNode)
             pszValue = NULL;
         }
 
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"from");
+        if(pszValue)
+        {
+            std::string strSrcIP((char *)pszValue);
+            SIEM::Util::ParseIPStr(strSrcIP, &pRule->srcIP);
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"to");
+        if(pszValue)
+        {
+            std::string strDstIP((char *)pszValue);
+            SIEM::Util::ParseIPStr(strDstIP, &pRule->dstIP);
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"port_from");
+        if(pszValue)
+        {
+            std::string strSrcPort((char *)pszValue);
+            SIEM::Util::ParsePortStr(strSrcPort, &pRule->srcPort);
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
+
+        pszValue = xmlGetProp(pXMLNode, BAD_CAST"port_to");
+        if(pszValue)
+        {
+            std::string strDstPort((char *)pszValue);
+            SIEM::Util::ParsePortStr(strDstPort, &pRule->dstPort);
+            xmlFree(pszValue);
+            pszValue = NULL;
+        }
     }
     catch (boost::bad_lexical_cast &e)
     {

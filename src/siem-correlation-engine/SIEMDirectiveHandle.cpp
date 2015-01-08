@@ -200,10 +200,11 @@ bool CSIEMDirectiveHandle::ParseDirectives(xmlNodePtr pXMLNode)
     pDirective->SetRootElement(pElement);
 
     ruleHandle.ParseRule(pElement, pXMLChildren);
-    //for test
+
     if(pElement)
     {
         CSIEMEventHandle::Instance()->m_pvctDirective->push_back(pDirective);
+        //for test
         pDirective->TreeTraversing(pElement);
     }
 
