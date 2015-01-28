@@ -29,7 +29,6 @@
 
 namespace SIEM
 {
-
 //use this item please override assign and operater =
 
 template<typename T = std::string>
@@ -129,189 +128,122 @@ typedef enum
     PORT_TYPE_NULL
 }PORT_TYPE;
 
-typedef struct stIPStruct
+typedef struct stIPVar
 {
-    bool     bIsNot;
-    uint32_t nIPV4;
-    stIPStruct():
-        bIsNot(false),
-        nIPV4(0)
+    IP_TYPE eIPType;
+    int     nLevel;
+    stIPVar():
+        eIPType(IP_TYPE_NULL),
+        nLevel(1)
     {
     }
 
-    stIPStruct& operator=(const stIPStruct& ipStruct)
+    bool operator < (const stIPVar& ip) const
     {
-        this->bIsNot = ipStruct.bIsNot;
-        this->nIPV4  = ipStruct.nIPV4;
-        return *this;
-    }
-
-    bool operator < (const stIPStruct& ipStruct) const
-    {
-        if(this->bIsNot == ipStruct.bIsNot)
-            return this->nIPV4 < ipStruct.nIPV4;
-        else if(this->bIsNot)
-            return false;
-        else
+        if(this->eIPType < ip.eIPType)
             return true;
-    }
-}IP_STRUCT;
-
-typedef struct stPortStruct
-{
-    bool     bIsNot;
-    uint16_t nPort;
-    stPortStruct():
-        bIsNot(false),
-        nPort(0)
-    {
-    }
-
-    stPortStruct& operator=(const stPortStruct& portStruct)
-    {
-        this->bIsNot = portStruct.bIsNot;
-        this->nPort  = portStruct.nPort;
-        return *this;
-    }
-
-    bool operator < (const stPortStruct& portStruct) const
-    {
-        if(this->bIsNot == portStruct.bIsNot)
-            return this->nPort < portStruct.nPort;
-        else if(this->bIsNot)
-            return false;
         else
+            return false;
+    }
+}IPVar;
+
+typedef struct stPortVar
+{
+    PORT_TYPE ePortType;
+    int       nLevel;
+    stPortVar():
+        ePortType(PORT_TYPE_NULL),
+        nLevel(1)
+    {
+    }
+
+    stPortVar& operator= (const stPortVar& port)
+    {
+        this->ePortType = port.ePortType;
+        this->nLevel    = port.nLevel;
+        return *this;
+    }
+
+    bool operator< (const stPortVar& port) const
+    {
+        if(this->ePortType < port.ePortType)
             return true;
+        else
+            return false;
     }
-}PORT_STRUCT;
+}PortVar;
 
-typedef struct stIPType
+typedef struct stSIEM_IP
 {
-    std::set<IP_STRUCT> setIPV4;
-    IP_TYPE             eIPType;
-    bool                bIsSection;
-    bool                bIsNot;
-    IP_STRUCT           beginIP;
-    IP_STRUCT           endIP;
-    stIPType():
-        eIPType(IP_TYPE_NULL),
-        bIsSection(false),
-        bIsNot(false)
+    std::set<IPVar>       varSet;
+    std::set<IPVar>       varNotSet;
+    std::set<std::string> ipSet;
+    std::set<std::string> ipNotSet;
+    bool                  bAny;
+
+    stSIEM_IP& operator=(const stSIEM_IP& ip)
     {
-    }
-
-    stIPType(const stIPType& ipType):
-        eIPType(IP_TYPE_NULL),
-        bIsSection(false),
-        bIsNot(false)
-    {
-        if(!ipType.setIPV4.empty())
-            setIPV4.insert(ipType.setIPV4.begin(), \
-                    ipType.setIPV4.end());
-
-        eIPType    = ipType.eIPType;
-        bIsSection = ipType.bIsSection;
-        bIsNot     = ipType.bIsNot;
-        beginIP    = ipType.beginIP;
-        endIP      = ipType.endIP;
-    }
-
-    stIPType(stIPType& ipType):
-        eIPType(IP_TYPE_NULL),
-        bIsSection(false),
-        bIsNot(false)
-    {
-        if(!ipType.setIPV4.empty())
-            setIPV4.insert(ipType.setIPV4.begin(), \
-                    ipType.setIPV4.end());
-
-        eIPType    = ipType.eIPType;
-        bIsSection = ipType.bIsSection;
-        bIsNot     = ipType.bIsNot;
-        beginIP    = ipType.beginIP;
-        endIP      = ipType.endIP;
-    }
-
-    stIPType& operator= (const stIPType& ipType)
-    {
-        if(!ipType.setIPV4.empty())
-            this->setIPV4.insert(ipType.setIPV4.begin(), \
-                    ipType.setIPV4.end());
-
-        this->eIPType    = ipType.eIPType;
-        this->bIsSection = ipType.bIsSection;
-        this->bIsNot     = ipType.bIsNot;
-        this->beginIP    = ipType.beginIP;
-        this->endIP      = ipType.endIP;
+        this->ipSet.insert(ip.ipSet.begin(), ip.ipSet.end());
+        this->ipNotSet.insert(ip.ipNotSet.begin(), \
+                ip.ipNotSet.end());
+        this->varNotSet.insert(ip.varNotSet.begin(), ip.varNotSet.end());
+        this->varSet.insert(ip.varSet.begin(), ip.varSet.end());
+        this->bAny = ip.bAny;
         return *this;
     }
 
+    stSIEM_IP():bAny(false){}
 
-}SIEM_IP_TYPE;
+    stSIEM_IP(const stSIEM_IP& ip)
+    :bAny(false)
+    {
+        if(!ip.varSet.empty())
+            varSet.insert(ip.varSet.begin(), ip.varSet.end());
+        if(!ip.varNotSet.empty())
+            varNotSet.insert(ip.varNotSet.begin(), ip.varNotSet.end());
+        if(!ip.ipSet.empty())
+            ipNotSet.insert(ip.ipSet.begin(), ip.ipSet.end());
+        if(!ip.ipNotSet.empty())
+            ipNotSet.insert(ip.ipNotSet.begin(), ip.ipNotSet.end());
+        bAny = ip.bAny;
+    }
+}SIEM_IP;
 
-typedef struct stPortType
+typedef struct stSIEM_PORT
 {
-    std::set<PORT_STRUCT> setPort;
-    PORT_TYPE             ePortType;
-    bool                  bIsSection;
-    bool                  bIsNot;
-    PORT_STRUCT           beginPort;
-    PORT_STRUCT           endPort;
-    stPortType():
-        ePortType(PORT_TYPE_NULL),
-        bIsSection(false),
-        bIsNot(false)
+    std::set<PortVar>  varSet;
+    std::set<PortVar>  varNotSet;
+    std::set<uint16_t> portSet;
+    std::set<uint16_t> portNotSet;
+    bool               bAny;
+
+    stSIEM_PORT& operator=(const stSIEM_PORT& port)
     {
-    }
-
-    stPortType(const stPortType& portType):
-        ePortType(PORT_TYPE_NULL),
-        bIsSection(false),
-        bIsNot(false)
-    {
-        if(!portType.setPort.empty())
-            setPort.insert(portType.setPort.begin(), \
-                    portType.setPort.end());
-
-        ePortType  = portType.ePortType;
-        bIsSection = portType.bIsSection;
-        bIsNot     = portType.bIsNot;
-        beginPort  = portType.beginPort;
-        endPort    = portType.endPort;
-    }
-
-    stPortType(stPortType& portType):
-        ePortType(PORT_TYPE_NULL),
-        bIsSection(false),
-        bIsNot(false)
-    {
-        if(!portType.setPort.empty())
-            setPort.insert(portType.setPort.begin(), \
-                    portType.setPort.end());
-
-        ePortType  = portType.ePortType;
-        bIsSection = portType.bIsSection;
-        bIsNot     = portType.bIsNot;
-        beginPort  = portType.beginPort;
-        endPort    = portType.endPort;
-    }
-
-    stPortType& operator= (const stPortType& portType)
-    {
-        if(!portType.setPort.empty())
-        {
-            this->setPort.insert(portType.setPort.begin(), \
-                    portType.setPort.end());
-        }
-
-        this->ePortType  = portType.ePortType;
-        this->bIsSection = portType.bIsSection;
-        this->bIsNot     = portType.bIsNot;
-        this->beginPort  = portType.beginPort;
-        this->endPort    = portType.endPort;
+        this->portSet.insert(port.portSet.begin(), port.portSet.end());
+        this->portNotSet.insert(port.portNotSet.begin(), \
+                port.portNotSet.end());
+        this->varNotSet.insert(port.varNotSet.begin(), port.varNotSet.end());
+        this->varSet.insert(port.varSet.begin(), port.varSet.end());
+        this->bAny = port.bAny;
         return *this;
     }
-}SIEM_PORT_TYPE;
+
+    stSIEM_PORT():bAny(false){}
+
+    stSIEM_PORT(const stSIEM_PORT& port)
+    :bAny(false)
+    {
+        if(!port.varSet.empty())
+            varSet.insert(port.varSet.begin(), port.varSet.end());
+        if(!port.varNotSet.empty())
+            varNotSet.insert(port.varNotSet.begin(), port.varNotSet.end());
+        if(!port.portSet.empty())
+            portSet.insert(port.portSet.begin(), port.portSet.end());
+        if(!port.portNotSet.empty())
+            portNotSet.insert(port.portNotSet.begin(), port.portNotSet.end());
+        bAny = port.bAny;
+    }
+}SIEM_PORT;
 
 typedef struct stRule
 {
@@ -323,10 +255,10 @@ typedef struct stRule
     uint32_t           nTimeout;
     RULE_TYPE          eRuleType;
     SIEM_PROTOCOL_TYPE eProtocolType;
-    SIEM_IP_TYPE       srcIP;
-    SIEM_IP_TYPE       dstIP;
-    SIEM_PORT_TYPE     srcPort;
-    SIEM_PORT_TYPE     dstPort;
+    SIEM_IP            srcIP;
+    SIEM_IP            dstIP;
+    SIEM_PORT          srcPort;
+    SIEM_PORT          dstPort;
 
     stRule():
         strName(""), nReliability(0), nOccurrence(0),

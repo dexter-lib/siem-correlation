@@ -41,7 +41,7 @@ private:
     IReceiveServer                          *m_pThriftServer;
     //Initialized when server begin
     CSIEMEventHandle                        *m_pSIEMEventHandle;
-    boost::shared_ptr<CSIEMDirectiveHandle> m_ptrSIEMDirectiveHandle;
+    boost::shared_ptr<CSIEMDirectiveHandle>  m_ptrSIEMDirectiveHandle;
 };
 
 } /* namespace SIEM */

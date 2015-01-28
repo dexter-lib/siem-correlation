@@ -29,10 +29,14 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/split.hpp>
 
+#include <Poco/Util/Application.h>
+#include <Poco/Logger.h>
+
 #include <pthread.h>
 #include <arpa/inet.h>
 
 #include "SIEMPublic.h"
+#include "SIEMConst.h"
 
 #ifdef __GNUC__
 #    define __UTIL_UNUSED__ __attribute__ ((unused))
@@ -94,10 +98,11 @@ static bool SetThreadCPU(pthread_t pthID, u_int32_t nCPUNum)
 }
 
 template<typename T>
-static void ParseString(std::string& strSource, std::set<T> *pSet)
+static void ParseString(std::string& strSource, std::set<T> *pSet, \
+        const std::string& strSplit = ",")
 {
     std::vector<std::string> vecStr;
-    boost::algorithm::split(vecStr, strSource, boost::algorithm::is_any_of(","));
+    boost::algorithm::split(vecStr, strSource, boost::algorithm::is_any_of(strSplit));
     BOOST_FOREACH(std::string& strValue, vecStr)
     {
         try
@@ -113,126 +118,292 @@ static void ParseString(std::string& strSource, std::set<T> *pSet)
     }
 }
 
-//this code so ugly
 __UTIL_UNUSED__
-static bool ParseIPStr(std::string& strIP, SIEM_IP_TYPE *pIP)
+static bool IsIPV4Format(std::string strIP)
 {
-    if(strcmp(strIP.c_str(), "ANY") == 0)
-    {
-        pIP->eIPType = IP_TYPE_ANY;
-        return true;
-    }
-    else if(strIP.find("HOME_NET") != strIP.npos)
-    {
-        if(strIP[0] == '!') pIP->bIsNot = true;
-        pIP->eIPType = IP_TYPE_HOME_NET;
-        return true;
-    }
-    else if(strIP.find("SRC_IP") != strIP.npos)
-    {
-        if(strIP[0] == '!') pIP->bIsNot = true;
-        pIP->eIPType = IP_TYPE_SRC_IP;
-        return true;
-    }
-    else if(strIP.find("DST_IP") != strIP.npos)
-    {
-        if(strIP[0] == '!') pIP->bIsNot = true;
-        pIP->eIPType = IP_TYPE_DST_IP;
-        return true;
-    }
-    else if(strIP.find("-") != strIP.npos)
-    {
-        pIP->bIsSection = true;
-        std::vector<std::string> vctStr;
-        boost::algorithm::split(vctStr, strIP, boost::algorithm::is_any_of("-"));
-        BOOST_FOREACH(std::string str, vctStr)
-        {
-            boost::algorithm::trim(str);
-        }
+    std::set<uint16_t> s;
+    const std::string split = ",";
+    ParseString(strIP, &s, split);
 
-        if(vctStr.size() != 2)
-            return false;
-        pIP->beginIP.nIPV4 = ntohl(inet_addr(vctStr[0].c_str()));
-        pIP->endIP.nIPV4   = ntohl(inet_addr(vctStr[1].c_str()));
-        return true;
-    }
-    else
+    if(s.size() != 4)
+        return false;
+
+    BOOST_FOREACH(uint16_t b, s)
     {
-        std::set<std::string> ips;
-        ParseString(strIP, &ips);
-        BOOST_FOREACH(std::string strIP, ips)
-        {
-            if(strIP.empty() || strIP.length() <= 1)
-                continue;
-            IP_STRUCT ip;
-            if(strIP[0] == '!')
-            {
-                ip.bIsNot = true;
-                strIP.assign(strIP.begin() + 1, strIP.end());
-            }
-            ip.nIPV4 = ntohl(inet_addr(strIP.c_str()));
-            pIP->setIPV4.insert(ip);
-        }
-        return true;
+        if(b >= 255)
+            return false;
     }
+
+    return true;
 }
 
 __UTIL_UNUSED__
-static bool ParsePortStr(std::string& strPort, SIEM_PORT_TYPE *pPort)
+static bool IsIPV6Format(std::string& strIP)
 {
-    if(strcmp(strPort.c_str(), "ANY") == 0)
+    static char addr[39];
+    memset(addr, 0, sizeof(addr));
+
+    int v = inet_pton(AF_INET6, strIP.c_str(), (void *)addr);
+
+    if(!v)
+        return false;
+
+    return true;
+}
+
+template <typename T>
+static bool StringToInt(const char *pszValue, T& value)
+{
+    if(!pszValue)
+        return false;
+
+    try
     {
-        pPort->ePortType = PORT_TYPE_ANY;
-        return true;
+        std::string str(pszValue);
+        value = boost::lexical_cast<T>(str);
     }
-    else if(strPort.find("SRC_PORT") != strPort.npos)
+    catch (boost::bad_lexical_cast &e)
     {
-        if(strPort[0] == '!') pPort->bIsNot = true;
-        pPort->ePortType = PORT_TYPE_SRC_PORT;
-        return true;
+        return false;
     }
-    else if(strPort.find("DST_PORT") != strPort.npos)
+    catch(...)
     {
-        if(strPort[0] == '!') pPort->bIsNot = true;
-        pPort->ePortType = PORT_TYPE_DST_PORT;
-        return true;
+        return false;
     }
-    else if(strPort.find("-") != strPort.npos)
+
+    return true;
+}
+
+//this code so ugly
+__UTIL_UNUSED__
+static bool ParseIPStr(std::string& strIP, SIEM_IP *pIP)
+{
+    Poco::Logger & logger = Poco::Util::Application::instance().logger();
+
+    if(strIP.empty())
     {
-        pPort->bIsSection = true;
-        std::vector<std::string> vctStr;
-        boost::algorithm::split(vctStr, strPort, boost::algorithm::is_any_of("-"));
-        BOOST_FOREACH(std::string str, vctStr)
+        logger.error("IP string is empty", __FILE__, __LINE__);
+        return false;
+    }
+
+    if(!pIP)
+    {
+        logger.error("IP struct is empty", __FILE__, __LINE__);
+        return false;
+    }
+
+    std::vector<std::string> vctStr;
+    boost::algorithm::split(vctStr, strIP, \
+            boost::algorithm::is_any_of(SIEM_DELIMITER_LIST));
+
+    BOOST_FOREACH(std::string str, vctStr)
+    {
+        boost::algorithm::trim(str);
+
+        bool bIPNeg = false;
+        if(str[0] == SIEM_DELIMITER_NOT)
         {
-            boost::algorithm::trim(str);
+            bIPNeg = true;
+            str.assign(str.begin() + 1, str.end());
         }
 
-        if(vctStr.size() != 2)
-            return false;
-
-        pPort->beginPort.nPort = boost::lexical_cast<uint16_t>(vctStr[0]);
-        pPort->endPort.nPort   = boost::lexical_cast<uint16_t>(vctStr[1]);
-        return true;
-    }
-    else
-    {
-        std::set<std::string> setPort;
-        ParseString(strPort, &setPort);
-        BOOST_FOREACH(std::string strPort, setPort)
+        IPVar ipVar;
+        size_t nIndex;
+        if((nIndex = str.find(SIEM_DELIMITER_LEVEL)) != str.npos && \
+                (str.find(SIEM_SRC_IP_CONST) != str.npos ||\
+                 str.find(SIEM_DST_IP_CONST) != str.npos))
         {
-            if(strPort.empty() || strPort.length() <= 1)
-                continue;
-            PORT_STRUCT port;
-            if(strPort[0] == '!')
+            if(StringToInt(str.substr(0, nIndex).c_str(),ipVar.nLevel))
             {
-                port.bIsNot = true;
-                strPort.assign(strPort.begin() + 1, strPort.end());
+                logger.error("ip level lexcast error", __FILE__, __LINE__);
+                continue;
             }
-            port.nPort = boost::lexical_cast<uint16_t>(strPort);
-            pPort->setPort.insert(port);
+            str.assign(str.begin() + nIndex + 1, str.end());
+            if(str == SIEM_SRC_IP_CONST)
+            {
+                ipVar.eIPType = IP_TYPE_SRC_IP;
+            }
+            else if(str == SIEM_DST_IP_CONST)
+            {
+                ipVar.eIPType = IP_TYPE_DST_IP;
+            }
+            else
+            {
+                logger.debug(Poco::format("A IP type is not recognized:%s",\
+                        str), __FILE__, __LINE__);
+                continue;
+            }
+
+            if(bIPNeg)
+                pIP->varNotSet.insert(ipVar);
+            else
+                pIP->varSet.insert(ipVar);
         }
-        return true;
+        else if(str == SIEM_HOME_NET_CONST)
+        {
+            ipVar.eIPType = IP_TYPE_HOME_NET;
+            if(bIPNeg)
+                pIP->varNotSet.insert(ipVar);
+            else
+                pIP->varSet.insert(ipVar);
+        }
+        else if(str == SIEM_WILDCARD_ANY)
+        {
+            if(!bIPNeg)
+            {
+                pIP->bAny = true;
+                return true;
+            }
+            else
+            {
+                logger.error("\"ANY\" type can not be opposite");
+                return false;
+            }
+        }
+        else
+        {
+            if(!IsIPV4Format(str) && !IsIPV6Format(str))
+            {
+                logger.error(Poco::format("IP type is wrong:%s",\
+                        str), __FILE__, __LINE__);
+                continue;
+            }
+
+            if(bIPNeg)
+                pIP->ipSet.insert(str);
+            else
+                pIP->ipNotSet.insert(str);
+        }
     }
+
+    return true;
+}
+
+__UTIL_UNUSED__
+static bool ParsePortStr(std::string& strPort, SIEM_PORT *pPort)
+{
+    Poco::Logger & logger = Poco::Util::Application::instance().logger();
+
+    if(strPort.empty())
+    {
+        logger.error("Port string is empty", __FILE__, __LINE__);
+        return false;
+    }
+
+    if(!pPort)
+    {
+        logger.error("Port struct is empty", __FILE__, __LINE__);
+        return false;
+    }
+
+    std::vector<std::string> vctStr;
+    boost::algorithm::split(vctStr, strPort, \
+            boost::algorithm::is_any_of(SIEM_DELIMITER_LIST));
+    BOOST_FOREACH(std::string str, vctStr)
+    {
+        boost::algorithm::trim(str);
+
+        bool bPortNeg = false;
+        if(str[0] == SIEM_DELIMITER_NOT)
+        {
+            bPortNeg = true;
+            str.assign(str.begin() + 1, str.end());
+        }
+
+        PortVar portVar;
+        size_t nIndex;
+        if((nIndex = str.find(SIEM_DELIMITER_LEVEL)) != str.npos && \
+                (str.find(SIEM_SRC_PORT_CONST) != str.npos ||\
+                 str.find(SIEM_DST_PORT_CONST) != str.npos))
+        {
+            if(StringToInt(str.substr(0, nIndex).c_str(), portVar.nLevel))
+            {
+                logger.error("port Level lexcast error");
+                continue;
+            }
+            str.assign(str.begin() + nIndex + 1, str.end());
+            if(str == SIEM_SRC_PORT_CONST)
+            {
+                portVar.ePortType = PORT_TYPE_SRC_PORT;
+            }
+            else if(str == SIEM_DST_PORT_CONST)
+            {
+                portVar.ePortType = PORT_TYPE_DST_PORT;
+            }
+            else
+            {
+                logger.debug(Poco::format("A port type is not recognized:%s",\
+                        str), __FILE__, __LINE__);
+                continue;
+            }
+
+            if(bPortNeg)
+                pPort->varNotSet.insert(portVar);
+            else
+                pPort->varSet.insert(portVar);
+        }
+        else if((nIndex = str.find(SIEM_DELIMITER_RANGE)) != str.npos)
+        {
+            uint16_t nPortBegin = 0, nPortEnd = 0;
+            if(!StringToInt(str.substr(0, nIndex).c_str(), nPortBegin))
+            {
+                logger.error("from port lexcast error", __FILE__, __LINE__);
+                continue;
+            }
+
+            if(!StringToInt(str.substr(nIndex + 1, str.length() - nIndex -1).c_str(), \
+                    nPortEnd))
+            {
+                logger.error("To port lexcast error", __FILE__, __LINE__);
+                continue;
+            }
+
+            if(nPortBegin > nPortEnd)
+            {
+                logger.debug("Port Range error", __FILE__, __LINE__);
+                continue;
+            }
+
+            std::set<uint16_t> *pPortSet = NULL;
+            if(bPortNeg)
+                pPortSet = &(pPort->portNotSet);
+            else
+                pPortSet = &(pPort->portSet);
+
+            for(uint16_t i = 0; i <= nPortEnd; i++)
+                pPortSet->insert(i);
+        }
+        else if((nIndex = str.find(SIEM_WILDCARD_ANY)) != str.npos)
+        {
+            if(!bPortNeg)
+            {
+                pPort->bAny = true;
+                return true;
+            }
+            else
+            {
+                logger.error("\"ANY\" type can not be opposite");
+                return false;
+            }
+        }
+        else
+        {
+            uint16_t nPort = 0;
+            if(StringToInt(str.c_str(), nPort))
+            {
+                logger.debug(Poco::format("Port lexcast error:%s",\
+                        str), __FILE__, __LINE__);
+                continue;
+            }
+
+            if(bPortNeg)
+                pPort->portNotSet.insert(nPort);
+            else
+                pPort->portSet.insert(nPort);
+        }
+    }
+
+    return true;
 }
 
 __UTIL_UNUSED__
