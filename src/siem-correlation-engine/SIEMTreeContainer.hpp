@@ -86,6 +86,7 @@ public:
     {
         //print data element
         std::cout << "t_name:" << pElement->pData->strName << std::endl;
+        std::cout << "t_timeout:" << pElement->pData->nTimeout << std::endl;
 
         if(pElement->pChild != NULL && pElement->pChild->size() > 0)
         {

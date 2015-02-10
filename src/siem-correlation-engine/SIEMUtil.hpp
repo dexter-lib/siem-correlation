@@ -152,18 +152,24 @@ static bool IsIPV6Format(std::string& strIP)
 }
 
 template <typename T>
-static bool StringToInt(const char *pszValue, T& value)
+static bool StringToNum(const char *pszValue, T& value)
 {
-    if(!pszValue)
-        return false;
+    Poco::Logger & logger = Poco::Util::Application::instance().logger();
 
+    if(!pszValue)
+    {
+        logger.error("String is NULL", __FILE__, __LINE__);
+        return false;
+    }
+
+    std::string str(pszValue);
     try
     {
-        std::string str(pszValue);
         value = boost::lexical_cast<T>(str);
     }
     catch (boost::bad_lexical_cast &e)
     {
+        logger.error(Poco::format("Port lexical error:%s", str), __FILE__, __LINE__);
         return false;
     }
     catch(...)
@@ -213,7 +219,7 @@ static bool ParseIPStr(std::string& strIP, SIEM_IP *pIP)
                 (str.find(SIEM_SRC_IP_CONST) != str.npos ||\
                  str.find(SIEM_DST_IP_CONST) != str.npos))
         {
-            if(StringToInt(str.substr(0, nIndex).c_str(),ipVar.nLevel))
+            if(!StringToNum(str.substr(0, nIndex).c_str(),ipVar.nLevel))
             {
                 logger.error("ip level lexcast error", __FILE__, __LINE__);
                 continue;
@@ -234,18 +240,12 @@ static bool ParseIPStr(std::string& strIP, SIEM_IP *pIP)
                 continue;
             }
 
-            if(bIPNeg)
-                pIP->varNotSet.insert(ipVar);
-            else
-                pIP->varSet.insert(ipVar);
+            bIPNeg ? pIP->varNotSet.insert(ipVar):pIP->varSet.insert(ipVar);
         }
         else if(str == SIEM_HOME_NET_CONST)
         {
             ipVar.eIPType = IP_TYPE_HOME_NET;
-            if(bIPNeg)
-                pIP->varNotSet.insert(ipVar);
-            else
-                pIP->varSet.insert(ipVar);
+            bIPNeg ? pIP->varNotSet.insert(ipVar):pIP->varSet.insert(ipVar);
         }
         else if(str == SIEM_WILDCARD_ANY)
         {
@@ -269,10 +269,7 @@ static bool ParseIPStr(std::string& strIP, SIEM_IP *pIP)
                 continue;
             }
 
-            if(bIPNeg)
-                pIP->ipSet.insert(str);
-            else
-                pIP->ipNotSet.insert(str);
+            bIPNeg ? pIP->ipSet.insert(str): pIP->ipNotSet.insert(str);
         }
     }
 
@@ -316,7 +313,7 @@ static bool ParsePortStr(std::string& strPort, SIEM_PORT *pPort)
                 (str.find(SIEM_SRC_PORT_CONST) != str.npos ||\
                  str.find(SIEM_DST_PORT_CONST) != str.npos))
         {
-            if(StringToInt(str.substr(0, nIndex).c_str(), portVar.nLevel))
+            if(!StringToNum(str.substr(0, nIndex).c_str(), portVar.nLevel))
             {
                 logger.error("port Level lexcast error");
                 continue;
@@ -337,21 +334,18 @@ static bool ParsePortStr(std::string& strPort, SIEM_PORT *pPort)
                 continue;
             }
 
-            if(bPortNeg)
-                pPort->varNotSet.insert(portVar);
-            else
-                pPort->varSet.insert(portVar);
+            bPortNeg ? pPort->varNotSet.insert(portVar):pPort->varSet.insert(portVar);
         }
         else if((nIndex = str.find(SIEM_DELIMITER_RANGE)) != str.npos)
         {
             uint16_t nPortBegin = 0, nPortEnd = 0;
-            if(!StringToInt(str.substr(0, nIndex).c_str(), nPortBegin))
+            if(!StringToNum(str.substr(0, nIndex).c_str(), nPortBegin))
             {
                 logger.error("from port lexcast error", __FILE__, __LINE__);
                 continue;
             }
 
-            if(!StringToInt(str.substr(nIndex + 1, str.length() - nIndex -1).c_str(), \
+            if(!StringToNum(str.substr(nIndex + 1, str.length() - nIndex -1).c_str(), \
                     nPortEnd))
             {
                 logger.error("To port lexcast error", __FILE__, __LINE__);
@@ -365,11 +359,7 @@ static bool ParsePortStr(std::string& strPort, SIEM_PORT *pPort)
             }
 
             std::set<uint16_t> *pPortSet = NULL;
-            if(bPortNeg)
-                pPortSet = &(pPort->portNotSet);
-            else
-                pPortSet = &(pPort->portSet);
-
+            bPortNeg ? pPortSet = &(pPort->portNotSet) : pPortSet = &(pPort->portSet);
             for(uint16_t i = 0; i <= nPortEnd; i++)
                 pPortSet->insert(i);
         }
@@ -389,17 +379,14 @@ static bool ParsePortStr(std::string& strPort, SIEM_PORT *pPort)
         else
         {
             uint16_t nPort = 0;
-            if(StringToInt(str.c_str(), nPort))
+            if(!StringToNum(str.c_str(), nPort))
             {
                 logger.debug(Poco::format("Port lexcast error:%s",\
                         str), __FILE__, __LINE__);
                 continue;
             }
 
-            if(bPortNeg)
-                pPort->portNotSet.insert(nPort);
-            else
-                pPort->portSet.insert(nPort);
+            bPortNeg ? pPort->portNotSet.insert(nPort):pPort->portSet.insert(nPort);
         }
     }
 

@@ -117,140 +117,64 @@ bool CSIEMEventHandle::MatchDirective(::SIEM::SIEMEvent *pEvent)
 
     BOOST_FOREACH(Directive *pDirective, *m_pvctDirective)
     {
-        Element<SIEMRule> *pRule = pDirective->GetRootElement();
+        Element<SIEMRule> *pRoot = pDirective->GetRootElement();
 
-        if(pRule->pData->eProtocolType != pEvent->enEventProtoType)
+        SIEMRule *pRule = pRoot->pData;
+
+        if(pRule->eProtocolType != pEvent->enEventProtoType)
             continue;
-        if(pRule->pData->setPluginID.find(pEvent->nPluginID) == \
-                pRule->pData->setPluginID.end())
+        if(pRule->setPluginID.find(pEvent->nPluginID  ) == \
+                pRule->setPluginID.end())
             continue;
-        if(pRule->pData->setPluginSID.find(pEvent->nPluginSID) == \
-                pRule->pData->setPluginSID.end())
+        if(pRule->setPluginSID.find(pEvent->nPluginSID) == \
+                pRule->setPluginSID.end())
             continue;
-        if(!MatchIP(pEvent->nSrcIP, pRule->pData, SRC_IP))
+        if(!MatchIP(pEvent->nSrcIP, &pRule->srcIP))
             continue;
-        if(!MatchIP(pEvent->nDstIP, pRule->pData, DST_IP))
+        if(!MatchIP(pEvent->nDstIP, &pRule->dstIP))
             continue;
-        if(!MatchPort(pEvent->nSrcPort, pRule->pData, SRC_PORT))
+        if(!MatchPort(pEvent->nSrcPort, &pRule->srcPort))
             continue;
-        if(!MatchPort(pEvent->nDstPort, pRule->pData, DST_PORT))
+        if(!MatchPort(pEvent->nDstPort, &pRule->dstPort))
             continue;
     }
 
     return true;
 }
 
-bool CSIEMEventHandle::MatchIP(uint32_t nIP, SIEMRule *pRule, IP_CATEGORY category)
+bool CSIEMEventHandle::MatchIP(uint32_t nIP, SIEM_IP *pRuleIP)
 {
-    if(pRule == NULL) return false;
 
-//    switch(category)
-//    {
-//    case SRC_IP:
-//        if(pRule->srcIP.bIsSection)
-//        {
-//            if(nIP < pRule->srcIP.beginIP.nIPV4 && \
-//                    nIP > pRule->srcIP.endIP.nIPV4)
-//                return false;
-//        }
-//        else if(pRule->srcIP.eIPType == IP_TYPE_HOME_NET)
-//        {
-//            bool bIsHomeNet = SIEM::Util::IsHomeNet(nIP);
-//            if((bIsHomeNet && pRule->srcIP.bIsNot) || \
-//                    (!bIsHomeNet && !pRule->srcIP.bIsNot))
-//                return false;
-//        }
-//        else
-//        {
-//            if(pRule->srcIP.setIPV4.empty())
-//                return false;
-//            IP_STRUCT ip;
-//            ip.bIsNot = false;
-//            ip.nIPV4  = nIP;
-//            if(pRule->srcIP.setIPV4.find(ip) == \
-//                    pRule->srcIP.setIPV4.end())
-//                return false;
-//        }
-//        break;
-//    case DST_IP:
-//        if(pRule->dstIP.bIsSection)
-//        {
-//            if(nIP < pRule->dstIP.beginIP.nIPV4 && \
-//                    nIP > pRule->dstIP.endIP.nIPV4)
-//                return false;
-//        }
-//        else if(pRule->dstIP.eIPType == IP_TYPE_HOME_NET)
-//        {
-//            bool bIsHomeNet = SIEM::Util::IsHomeNet(nIP);
-//            if((bIsHomeNet && pRule->dstIP.bIsNot) || \
-//                    (!bIsHomeNet && !pRule->dstIP.bIsNot))
-//                return false;
-//        }
-//        else
-//        {
-//            if(pRule->dstIP.setIPV4.empty())
-//                return false;
-//            IP_STRUCT ip;
-//            ip.bIsNot = false;
-//            ip.nIPV4 = nIP;
-//            if(pRule->dstIP.setIPV4.find(ip) == \
-//                    pRule->dstIP.setIPV4.end())
-//                return false;
-//        }
-//        break;
-//    default:
-//        break;
-//    }
+    if(NULL == pRuleIP) return false;
+    if(pRuleIP->bAny) return true;
+
+    in_addr addr;
+    addr.s_addr = nIP;
+    std::string strIP = inet_ntoa(addr);
+
+    if(!pRuleIP->ipNotSet.empty() && \
+            pRuleIP->ipNotSet.find(strIP) != pRuleIP->ipNotSet.end())
+        return false;
+    if(!pRuleIP->ipSet.empty() && \
+            pRuleIP->ipSet.find(strIP) == pRuleIP->ipSet.end())
+        return false;
+
     return true;
 }
 
-bool CSIEMEventHandle::MatchPort(uint16_t nPort, SIEMRule *pRule, PORT_CATEGORY category)
+bool CSIEMEventHandle::MatchPort(uint16_t nPort, SIEM_PORT *pRulePort)
 {
-    if(pRule == NULL) return false;
-//
-//    switch(category)
-//    {
-//    case SRC_PORT:
-//        if(pRule->srcPort.bIsSection)
-//        {
-//            if(nPort < pRule->srcPort.beginPort.nPort && \
-//                    nPort > pRule->srcPort.endPort.nPort)
-//                return false;
-//        }
-//        else
-//        {
-//            if(pRule->srcPort.setPort.empty())
-//                return false;
-//            PORT_STRUCT port;
-//            port.bIsNot = false;
-//            port.nPort  = nPort;
-//            if(pRule->srcPort.setPort.find(port) == \
-//                    pRule->srcPort.setPort.end())
-//                return false;
-//        }
-//        break;
-//    case DST_PORT:
-//        if(pRule->dstPort.bIsSection)
-//        {
-//            if(nPort < pRule->dstPort.beginPort.nPort && \
-//                    nPort > pRule->dstPort.endPort.nPort)
-//                return false;
-//        }
-//        else
-//        {
-//            if(pRule->dstPort.setPort.empty())
-//                return false;
-//            PORT_STRUCT port;
-//            port.bIsNot = false;
-//            port.nPort = nPort;
-//            if(pRule->dstPort.setPort.find(port) == \
-//                    pRule->dstPort.setPort.end())
-//                return false;
-//        }
-//        break;
-//    default:
-//        break;
-//    }
+    if(pRulePort == NULL) return false;
+
+    if(pRulePort->bAny) return true;
+
+    if(!pRulePort->portNotSet.empty() && \
+            pRulePort->portNotSet.find(nPort) != pRulePort->portSet.end())
+        return false;
+    if(!pRulePort->portSet.empty() && \
+            pRulePort->portSet.find(nPort) == pRulePort->portSet.end())
+        return false;
+
     return true;
 }
 

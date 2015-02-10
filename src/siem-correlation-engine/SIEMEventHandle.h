@@ -30,18 +30,6 @@
 typedef ::SIEM::CSIEMTreeContainer< ::SIEM::SIEMRule > Directive;
 typedef ::SIEM::CSIEMTreeContainer< ::SIEM::SIEMRule > Backlog;
 
-typedef enum
-{
-    SRC_IP = 0,
-    DST_IP
-} IP_CATEGORY;
-
-typedef enum
-{
-    SRC_PORT = 0,
-    DST_PORT
-} PORT_CATEGORY;
-
 namespace SIEM
 {
 
@@ -65,8 +53,8 @@ private:
 private:
     static void *EventHandle(void *p);
     static CSIEMEventHandle *m_pSIEMEventHandle;
-    bool MatchIP(uint32_t nSrcIP, SIEMRule *pRule, IP_CATEGORY category);
-    bool MatchPort(uint16_t nPort, SIEMRule *pRule, PORT_CATEGORY category);
+    bool MatchIP(uint32_t nSrcIP, SIEM_IP *pRuleIP);
+    bool MatchPort(uint16_t nPort, SIEM_PORT *pRulePort);
 };
 
 inline CSIEMEventHandle* CSIEMEventHandle::Instance()

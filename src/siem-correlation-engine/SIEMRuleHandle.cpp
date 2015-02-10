@@ -113,11 +113,11 @@ void CSIEMRuleHandle::ParseRuleProperties(SIEMRule *pRule, xmlNodePtr pXMLNode)
         pszValue = xmlGetProp(pXMLNode, BAD_CAST"protocol");
         if(pszValue)
         {
-            if(strcmp("TCP", (char *)pszValue) == 0)
+            if(strcasecmp("TCP", (char *)pszValue) == 0)
             {
                 pRule->eProtocolType = SIEM_PROTOCOL_TCP;
             }
-            else if(strcmp("UDP", (char *)pszValue) == 0)
+            else if(strcasecmp("UDP", (char *)pszValue) == 0)
             {
                 pRule->eProtocolType = SIEM_PROTOCOL_UDP;
             }
