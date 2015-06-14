@@ -24,11 +24,13 @@
 
 ::SIEM::SIEMEventVctPtr g_vctSIEMEventPtr(new std::vector< ::SIEM::SIEMEventPtr>());
 
-pthread_mutex_t g_mutEvent = PTHREAD_MUTEX_INITIALIZER;
+pthread_spinlock_t g_spin_lock;
 
 int main(int argc, char **argv)
 {
+    pthread_spin_init(&g_spin_lock, PTHREAD_PROCESS_PRIVATE);
 	Poco::AutoPtr<SIEM::CSIEMServer> server(new SIEM::CSIEMServer());
 	server->run(argc, argv);
+	pthread_spin_destroy(&g_spin_lock);
 	return 0;
 }

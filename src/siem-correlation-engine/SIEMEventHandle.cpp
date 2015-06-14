@@ -28,7 +28,7 @@
 #include <sched.h>
 
 extern ::SIEM::SIEMEventVctPtr g_vctSIEMEventPtr;
-extern pthread_mutex_t         g_mutEvent;
+extern pthread_mutex_t         g_spin_lock;
 
 namespace SIEM
 {
@@ -189,17 +189,17 @@ void* CSIEMEventHandle::EventHandle(void *p)
     while(true)
     {
         pthread_testcancel();
-        pthread_mutex_lock(&g_mutEvent);
+        pthread_spin_lock(&g_spin_lock);
         if(g_vctSIEMEventPtr->empty())
         {
-            pthread_mutex_unlock(&g_mutEvent);
+            pthread_spin_unlock(&g_spin_lock);
             sleep(5);
             logger.debug("No event data container");
             continue;
         }
 
         g_vctSIEMEventPtr->swap(*vct_ptr);
-        pthread_mutex_unlock(&g_mutEvent);
+        pthread_spin_unlock(&g_spin_lock);
 
         //for
         BOOST_FOREACH(::SIEM::SIEMEventPtr event, *vct_ptr)
