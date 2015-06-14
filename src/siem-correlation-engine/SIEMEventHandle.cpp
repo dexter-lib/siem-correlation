@@ -28,7 +28,7 @@
 #include <sched.h>
 
 extern ::SIEM::SIEMEventVctPtr g_vctSIEMEventPtr;
-extern pthread_mutex_t         g_spin_lock;
+extern pthread_spinlock_t      g_spin_lock;
 
 namespace SIEM
 {
